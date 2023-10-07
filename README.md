@@ -1,2 +1,2 @@
 # Simple-University-System
-It's SUS
+It's just SUS
