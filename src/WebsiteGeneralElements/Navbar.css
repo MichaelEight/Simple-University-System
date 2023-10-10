@@ -1,0 +1,21 @@
+nav{
+    background-color: #201f1f;
+    color: white;
+}
+
+.navigation-menu ul {
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    position: relative;
+    margin-right: 50px;
+}
+.navigation-menu li {
+  list-style-type: none;
+  /* margin: 0 1rem; */
+}
+.navigation-menu li p {
+  text-decoration: none;
+  display: block;
+  width: 100%;
+}

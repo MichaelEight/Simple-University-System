@@ -1,17 +1,17 @@
-// import logo from './logo.svg';
-import logo from './Images/logoSUS.png';
+import Header from './WebsiteGeneralElements/Header.js'
+import Navbar from './WebsiteGeneralElements/Navbar.js'
+import Main from './WebsiteGeneralElements/Main.js'
+import Footer from './WebsiteGeneralElements/Footer.js'
 import React, { useState } from 'react';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Great things will appear here... hopefully!
-        </p>
-      </header>
+      <Header />
+      <Navbar />
+      <Main />
+      <Footer />
     </div>
   );
 }
