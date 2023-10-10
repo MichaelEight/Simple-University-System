@@ -1,5 +1,5 @@
 import logo from '../Images/logoSUS.png';
-import '../App.css';
+import './Header.css';
 
 export default function Header(){
     return(

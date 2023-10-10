@@ -1,0 +1,11 @@
+header {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.Header-Logo{
+  /* height: 40vmin; */
+  width: 10%;
+}
