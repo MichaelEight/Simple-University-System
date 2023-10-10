@@ -1,0 +1,25 @@
+main {
+    background-color: #666565;
+    color: white;
+
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30vw, 1fr)); /* Changed from 300 pixels to 30vw, for some reason works*/
+    gap: -10rem;
+    overflow: auto; /* Enable scrolling if content overflows */
+    padding: 1rem;
+}
+  
+.container {
+    display: grid;
+    grid-template-columns: 250px 1fr; /* Sidebar takes 250px, rest is for content */
+    gap: 2vw;
+}
+
+aside {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+
+    
+}
