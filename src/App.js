@@ -1,6 +1,6 @@
 import Header from './WebsiteGeneralElements/Header.js'
 import Navbar from './WebsiteGeneralElements/Navbar.js'
-import Main from './WebsiteGeneralElements/Main.js'
+import MainPage from './WebsiteGeneralElements/MainPage.js'
 import Footer from './WebsiteGeneralElements/Footer.js'
 import React, { useState } from 'react';
 import './App.css';

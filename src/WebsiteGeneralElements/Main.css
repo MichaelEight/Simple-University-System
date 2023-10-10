@@ -4,8 +4,8 @@ main {
 
     flex-grow: 1;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(30vw, 1fr)); /* Changed from 300 pixels to 30vw, for some reason works*/
+    gap: -10rem;
     overflow: auto; /* Enable scrolling if content overflows */
     padding: 1rem;
 }
@@ -20,5 +20,5 @@ main {
 aside {
     background-color: #333;
     color: white;
-    padding: 1rem;
+    padding: 1rem;    
 }
