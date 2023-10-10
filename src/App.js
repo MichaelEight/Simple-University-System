@@ -6,11 +6,17 @@ import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [selectedItem, setSelectedItem] = useState(0);
+
+  const handleNavItemChange = (index) => {
+    setSelectedItem(index);
+  };
+
   return (
     <div className="App">
       <Header />
-      <Navbar />
-      <MainPage />
+      <Navbar selectedItem={selectedItem} onNavItemChange={handleNavItemChange}/>
+      <Main selectedItem={selectedItem}/>
       <Footer />
     </div>
   );

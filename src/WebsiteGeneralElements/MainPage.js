@@ -1,6 +1,5 @@
 import './Main.css'
 
-
 function Sidebar() {
     return (
         <aside>
@@ -23,8 +22,6 @@ function Content() {
       };
 
     return (
-        
-        
         <main>
             
         <main style={textStyleCentered}>
@@ -39,11 +36,11 @@ function Content() {
     );
 }
 
-export default function Main(){
+export default function MainPage(){
     return(
-        <div className="container">
+        <>
             <Sidebar />
             <Content />
-        </div>
+        </>
     );
 }
