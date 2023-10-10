@@ -19,3 +19,14 @@ nav{
   display: block;
   width: 100%;
 }
+
+.selected{
+  font-weight: bold;
+  text-decoration: underline green 5px;
+  text-underline-offset: 10px;
+}
+
+li:hover:not(.selected){
+  text-decoration: underline 3px;
+  text-underline-offset: 10px;
+}
