@@ -1,33 +1,28 @@
 import './Main.css'
+import Page0 from'./MainPage.js' 
 
-function Sidebar() {
+export default function Main(props) {
+    const { selectedItem } = props;
+  
+    let componentToRender;
+  
+    switch (selectedItem) {
+      case 0:
+        componentToRender = (
+          <Page0 />
+        );
+        break;
+      // Uncomment the following case if you want to render MyIndex for selectedItem === 1
+      // case 1:
+      //   componentToRender = <MyIndex />;
+      //   break;
+      default:
+        componentToRender = <div>Placeholder for other values</div>;
+    }
+  
     return (
-        <aside>
-        {/* Sidebar content goes here */}
-        <p>Sidebar Content</p>
-        <p>Option 1</p>
-        <p>Option 2</p>
-        <p>Option 3</p>
-        <p>Option 4</p>
-        <p>Option 5</p>
-        </aside>
+      <div className="middle-container">
+        {componentToRender}
+      </div>
     );
-}
-
-function Content() {
-    return (
-        <main>
-        {/* Main content goes here */}
-        <h1>Main Content goes here</h1>
-        </main>
-    );
-}
-
-export default function Main(){
-    return(
-        <div className="container">
-            <Sidebar />
-            <Content />
-        </div>
-    );
-}
+  }
