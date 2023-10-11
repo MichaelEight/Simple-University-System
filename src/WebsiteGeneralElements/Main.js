@@ -1,5 +1,5 @@
 import './Main.css'
-import Page0 from'./MainPage.js' 
+import Page0 from'./Homepage.js' 
 
 export default function Main(props) {
     const { selectedItem } = props;

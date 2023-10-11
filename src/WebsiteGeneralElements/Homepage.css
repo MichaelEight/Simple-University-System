@@ -1,0 +1,16 @@
+.textStyleCentered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+};
+
+aside p .side-selected{
+    font-weight: bold;
+    text-decoration: underline blue 5px;
+    text-underline-offset: 10px;
+}
+  
+aside p:hover:not(.side-selected){
+    text-decoration: underline 3px;
+    text-underline-offset: 10px;
+}
