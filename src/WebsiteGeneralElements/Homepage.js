@@ -8,23 +8,30 @@ function Sidebar({ onSelectedContentChange }) {
       setSelectedOption(index); // Mark option as selected
       onSelectedContentChange(index); // Change content box 
     };
-  
-    
+
+    const sideSelectedStyles = {
+        fontWeight: 'bold',
+        textDecoration: 'underline',
+        textDecorationColor: 'blue', // Specify the color
+        textDecorationThickness: '5px', // Specify the thickness
+        textUnderlineOffset: '10px',
+      };
+
     return (
         <aside>
-        <p onClick={() => handleOptionClick(0)} className={selectedOption === 0 ? 'side-selected' : ''}>
+        <p onClick={() => handleOptionClick(0)} style={selectedOption === 0 ? sideSelectedStyles : {}}>
             Aktualności
         </p>
-        <p onClick={() => handleOptionClick(1)} className={selectedOption === 1 ? 'side-selected' : ''}>
+        <p onClick={() => handleOptionClick(1)} style={selectedOption === 1 ? sideSelectedStyles : {}}>
             Opcja 2
         </p>
-        <p onClick={() => handleOptionClick(2)} className={selectedOption === 2 ? 'side-selected' : ''}>
+        <p onClick={() => handleOptionClick(2)} style={selectedOption === 2 ? sideSelectedStyles : {}}>
             Opcja 3
         </p>
-        <p onClick={() => handleOptionClick(3)} className={selectedOption === 3 ? 'side-selected' : ''}>
+        <p onClick={() => handleOptionClick(3)} style={selectedOption === 3 ? sideSelectedStyles : {}}>
             Opcja 4
         </p>
-        <p onClick={() => handleOptionClick(4)} className={selectedOption === 4 ? 'side-selected' : ''}>
+        <p onClick={() => handleOptionClick(4)} style={selectedOption === 4 ? sideSelectedStyles : {}}>
             Opcja 5
         </p>
       </aside>
