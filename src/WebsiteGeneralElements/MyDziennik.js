@@ -1,7 +1,7 @@
 import './Sidebar.css'
 import React, { useState } from 'react';
 
-function Sidebar({ sideSelectedStyles, onSelectedContentChange }) {
+function Sidebar({ onSelectedContentChange }) {
     const [selectedOption, setSelectedOption] = useState(0); // Initialize with the index of the first option
   
     const handleOptionClick = (index) => {
@@ -11,20 +11,20 @@ function Sidebar({ sideSelectedStyles, onSelectedContentChange }) {
 
     return (
         <aside>
-        <p onClick={() => handleOptionClick(0)} style={selectedOption === 0 ? sideSelectedStyles : {}}>
+        <p onClick={() => handleOptionClick(0)} className={selectedOption === 0 ? 'side-selected' : {}}>
             Placeholder1
         </p>
-        <p onClick={() => handleOptionClick(1)} style={selectedOption === 1 ? sideSelectedStyles : {}}>
+        <p onClick={() => handleOptionClick(1)} className={selectedOption === 1 ? 'side-selected' : {}}>
             Placeholder2
         </p>
-        <p onClick={() => handleOptionClick(2)} style={selectedOption === 2 ? sideSelectedStyles : {}}>
+        <p onClick={() => handleOptionClick(2)} className={selectedOption === 2 ? 'side-selected' : {}}>
             Placeholder3
         </p>
       </aside>
     );
 }
 
-export default function MainPage({sideSelectedStyles}) {
+export default function MainPage() {
     const [selectedContent, setSelectedContent] = useState(0);
   
     const handleSelectedContentChange = (index) => {
@@ -49,7 +49,7 @@ export default function MainPage({sideSelectedStyles}) {
   
     return (
       <>
-        <Sidebar sideSelectedStyles={sideSelectedStyles} onSelectedContentChange={handleSelectedContentChange} />
+        <Sidebar onSelectedContentChange={handleSelectedContentChange} />
         {optionToRender}
       </>
     );

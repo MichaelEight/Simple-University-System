@@ -1,6 +1,5 @@
 import '../App.css';
 import './Navbar.css';
-import React, { useState } from 'react';
 
 export default function Navbar(props){
     const { selectedItem, onNavItemChange } = props;

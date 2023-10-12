@@ -7,30 +7,21 @@ export default function Main(props) {
     const { selectedItem } = props;
   
     let componentToRender;
-  
-    // Debug, because putting it to .css doesn't work
-    const sideSelectedStyles = {
-      fontWeight: 'bold',
-      textDecoration: 'underline',
-      textDecorationColor: 'blue', // Specify the color
-      textDecorationThickness: '5px', // Specify the thickness
-      textUnderlineOffset: '10px',
-    };
 
     switch (selectedItem) {
       case 0:
         componentToRender = (
-          <Homepage sideSelectedStyles={sideSelectedStyles}/>
+          <Homepage />
         );
         break;
       case 1:
         componentToRender = (
-          <MyIndex sideSelectedStyles={sideSelectedStyles}/>
+          <MyIndex />
         );
         break;
       case 2:
         componentToRender = (
-          <MyDziennik sideSelectedStyles={sideSelectedStyles}/>
+          <MyDziennik />
         );
         break;
       default:
