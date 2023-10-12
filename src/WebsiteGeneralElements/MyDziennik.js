@@ -12,10 +12,13 @@ function Sidebar({ sideSelectedStyles, onSelectedContentChange }) {
     return (
         <aside>
         <p onClick={() => handleOptionClick(0)} style={selectedOption === 0 ? sideSelectedStyles : {}}>
-            Aktualności
+            Placeholder1
         </p>
         <p onClick={() => handleOptionClick(1)} style={selectedOption === 1 ? sideSelectedStyles : {}}>
-            Kontakt Techniczny
+            Placeholder2
+        </p>
+        <p onClick={() => handleOptionClick(2)} style={selectedOption === 2 ? sideSelectedStyles : {}}>
+            Placeholder3
         </p>
       </aside>
     );
@@ -32,10 +35,13 @@ export default function MainPage({sideSelectedStyles}) {
   
     switch (selectedContent) {
       case 0:
-        optionToRender = <ContentNews />;
+        optionToRender = <ContentPlaceholder1 />;
         break;
       case 1:
-        optionToRender = <ContentTechContact />;
+        optionToRender = <ContentPlaceholder2 />;
+        break;
+      case 2:
+        optionToRender = <ContentPlaceholder3 />;
         break;
       default:
         optionToRender = <div>Placeholder for other values</div>;
@@ -51,27 +57,31 @@ export default function MainPage({sideSelectedStyles}) {
 
 // Content for each tab
 //
-function ContentNews() {    
+function ContentPlaceholder1() {    
     return (
         <main>
-        <div>
-            <div className='textStyleCentered'>
-                <p>Monotechnika Akademicka</p>
-                <p style={{fontWeight: 'bold', fontSize: '32px'}} >WITAJ W SYSTEMIE SUS</p>
+            <div>
+                <p>Placeholder 1</p>
             </div>
-
-            <p style={{ fontWeight: 'bold', fontSize: '24px', margin: 10, borderBottom: '2px solid #999' }}>UWAGA TECHNICZNA!</p>
-            <p style={{margin: 0}}>Każdego dnia w godzinach zależny od fazy księżyca, pogody i wielu innych czynników niezależnych od nas - system może nie działać. Wszelkie skargi proszę składać do prorektora Politechniki Wrocławskiej Kamila Stańca.</p>
-        </div>
         </main>
     );
 }
 
-function ContentTechContact() {    
+function ContentPlaceholder2() {    
     return (
         <main>
           <div>
-            <p>TEXT</p>
+            <p>Placeholder 2</p>
+          </div>
+        </main>
+    );
+}
+
+function ContentPlaceholder3() {    
+    return (
+        <main>
+          <div>
+            <p>Placeholder 3</p>
           </div>
         </main>
     );
