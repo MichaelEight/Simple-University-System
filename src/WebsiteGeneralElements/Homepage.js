@@ -61,7 +61,7 @@ function ContentNews() {
             </div>
 
             <p style={{ fontWeight: 'bold', fontSize: '24px', margin: 10, borderBottom: '2px solid #999' }}>UWAGA TECHNICZNA!</p>
-            <p style={{margin: 0}}>Każdego dnia w godzinach zależny od fazy księżyca, pogody i wielu innych czynników niezależnych od nas - system może nie działać. Wszelkie skargi proszę składać do prorektora Politechniki Wrocławskiej Kamila Stańca.</p>
+            <p style={{margin: 0}}>Każdego dnia w godzinach zależnych od fazy księżyca, pogody i wielu innych czynników niezależnych od nas - system może nie działać. Wszelkie skargi proszę składać do prorektora naszej Monotechniki, który z radością podejmie się złożonej analizy problemu. W ciągu od 9 do ∞ dni roboczych proszę oczekiwać odpowiedzi negatywnej.</p>
         </div>
         </main>
     );
