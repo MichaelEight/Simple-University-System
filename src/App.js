@@ -2,6 +2,7 @@ import Header from './WebsiteGeneralElements/Header.js'
 import Navbar from './WebsiteGeneralElements/Navbar.js'
 import Main from './WebsiteGeneralElements/Main.js'
 import Footer from './WebsiteGeneralElements/Footer.js'
+import LoginBar from './WebsiteGeneralElements/Loginbar.js'
 import React, { useState } from 'react';
 import './App.css';
 
@@ -14,6 +15,7 @@ function App() {
 
   return (
     <div className="App">
+      <LoginBar />
       <Header />
       <Navbar selectedItem={selectedItem} onNavItemChange={handleNavItemChange}/>
       <Main selectedItem={selectedItem}/>
