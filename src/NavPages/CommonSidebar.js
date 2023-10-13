@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-
 function CommonSidebar({ selectedOption, onOptionClick, options, optionLabels }) {
   return (
     <aside>
