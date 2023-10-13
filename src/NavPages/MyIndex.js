@@ -1,4 +1,4 @@
-import './Sidebar.css'
+import '../NavPagesStyles/Sidebar.css'
 import React, { useState } from 'react';
 
 function Sidebar({ onSelectedContentChange }) {
@@ -12,13 +12,13 @@ function Sidebar({ onSelectedContentChange }) {
     return (
         <aside>
         <p onClick={() => handleOptionClick(0)} className={selectedOption === 0 ? 'side-selected' : {}}>
-            Placeholder1
+            Oceny
         </p>
         <p onClick={() => handleOptionClick(1)} className={selectedOption === 1 ? 'side-selected' : {}}>
-            Placeholder2
+            Statystyki
         </p>
         <p onClick={() => handleOptionClick(2)} className={selectedOption === 2 ? 'side-selected' : {}}>
-            Placeholder3
+            Mój Profil
         </p>
       </aside>
     );
@@ -35,13 +35,13 @@ export default function MainPage() {
   
     switch (selectedContent) {
       case 0:
-        optionToRender = <ContentPlaceholder1 />;
+        optionToRender = <ContentGrades />;
         break;
       case 1:
-        optionToRender = <ContentPlaceholder2 />;
+        optionToRender = <ContentStats />;
         break;
       case 2:
-        optionToRender = <ContentPlaceholder3 />;
+        optionToRender = <ContentMyProfile />;
         break;
       default:
         optionToRender = <div>Placeholder for other values</div>;
@@ -57,31 +57,31 @@ export default function MainPage() {
 
 // Content for each tab
 //
-function ContentPlaceholder1() {    
+function ContentGrades() {    
     return (
         <main>
             <div>
-                <p>Placeholder 1</p>
+                <p>Placeholder Grades</p>
             </div>
         </main>
     );
 }
 
-function ContentPlaceholder2() {    
+function ContentStats() {    
     return (
         <main>
           <div>
-            <p>Placeholder 2</p>
+            <p>Placeholder Stats</p>
           </div>
         </main>
     );
 }
 
-function ContentPlaceholder3() {    
+function ContentMyProfile() {    
     return (
         <main>
           <div>
-            <p>Placeholder 3</p>
+            <p>Placeholder My Profile</p>
           </div>
         </main>
     );

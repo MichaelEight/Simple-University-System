@@ -1,8 +1,8 @@
-import Header from './WebsiteGeneralElements/Header.js'
-import Navbar from './WebsiteGeneralElements/Navbar.js'
-import Main from './WebsiteGeneralElements/Main.js'
-import Footer from './WebsiteGeneralElements/Footer.js'
-import LoginBar from './WebsiteGeneralElements/Loginbar.js'
+import Header from './GeneralElements/Header.js'
+import Navbar from './GeneralElements/Navbar.js'
+import Main from './GeneralElements/Main.js'
+import Footer from './GeneralElements/Footer.js'
+import LoginBar from './GeneralElements/Loginbar.js'
 import React, { useState } from 'react';
 import './App.css';
 

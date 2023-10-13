@@ -1,4 +1,4 @@
-import './GlobalStyles.css';
+import '../GlobalStyles.css';
 
 export default function Loginbar()
 {

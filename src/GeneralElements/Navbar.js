@@ -1,6 +1,6 @@
 import '../App.css';
-import './Navbar.css';
-import './GlobalStyles.css';
+import '../GeneralElementsStyles/Navbar.css';
+import '../GlobalStyles.css';
 
 export default function Navbar(props){
     const { selectedItem, onNavItemChange } = props;

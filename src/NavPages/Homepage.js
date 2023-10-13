@@ -1,24 +1,23 @@
-import './Sidebar.css'
+import '../NavPagesStyles/Sidebar.css'
+import '../GlobalStyles.css';
+import '../NavPagesStyles/Homepage.css'
 import React, { useState } from 'react';
 
 function Sidebar({ onSelectedContentChange }) {
     const [selectedOption, setSelectedOption] = useState(0); // Initialize with the index of the first option
-  
+
     const handleOptionClick = (index) => {
       setSelectedOption(index); // Mark option as selected
       onSelectedContentChange(index); // Change content box 
     };
 
     return (
-        <aside>
+      <aside>
         <p onClick={() => handleOptionClick(0)} className={selectedOption === 0 ? 'side-selected' : {}}>
-            Oceny
+            Aktualności
         </p>
         <p onClick={() => handleOptionClick(1)} className={selectedOption === 1 ? 'side-selected' : {}}>
-            Statystyki
-        </p>
-        <p onClick={() => handleOptionClick(2)} className={selectedOption === 2 ? 'side-selected' : {}}>
-            Mój Profil
+            Kontakt
         </p>
       </aside>
     );
@@ -35,13 +34,10 @@ export default function MainPage() {
   
     switch (selectedContent) {
       case 0:
-        optionToRender = <ContentGrades />;
+        optionToRender = <ContentNews />;
         break;
       case 1:
-        optionToRender = <ContentStats />;
-        break;
-      case 2:
-        optionToRender = <ContentMyProfile />;
+        optionToRender = <ContentTechContact />;
         break;
       default:
         optionToRender = <div>Placeholder for other values</div>;
@@ -57,31 +53,27 @@ export default function MainPage() {
 
 // Content for each tab
 //
-function ContentGrades() {    
-    return (
-        <main>
-            <div>
-                <p>Placeholder Grades</p>
-            </div>
-        </main>
-    );
-}
-
-function ContentStats() {    
+function ContentNews() {    
     return (
         <main>
           <div>
-            <p>Placeholder Stats</p>
+              <div className='main-center-text border-box'>
+                  <p>Monotechnika Akademicka</p>
+                  <p style={{fontWeight: 'bold', fontSize: '32px'}} >WITAJ W SYSTEMIE SUS</p>
+              </div>
+
+              <p style={{ fontWeight: 'bold', fontSize: '24px', margin: 10, borderBottom: '2px solid #999' }}>UWAGA TECHNICZNA!</p>
+              <p style={{margin: 0, textAlign: 'justify'}}>Każdego dnia w godzinach zależnych od fazy księżyca, pogody i wielu innych czynników niezależnych od nas - system może nie działać. Wszelkie skargi proszę składać do prorektora naszej Monotechniki, który z radością podejmie się złożonej analizy problemu. W ciągu od 9 do ∞ dni roboczych proszę oczekiwać odpowiedzi negatywnej.</p>
           </div>
         </main>
     );
 }
 
-function ContentMyProfile() {    
+function ContentTechContact() {    
     return (
         <main>
           <div>
-            <p>Placeholder My Profile</p>
+            <p>TEXT</p>
           </div>
         </main>
     );

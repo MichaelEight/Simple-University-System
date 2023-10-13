@@ -1,7 +1,7 @@
-import './Main.css'
-import Homepage from './Homepage.js' 
-import MyIndex from './MyIndex.js'
-import MyDziennik from './MyDziennik.js'
+import '../GeneralElementsStyles/Main.css'
+import Homepage from '../NavPages/Homepage.js' 
+import MyIndex from '../NavPages/MyIndex.js'
+import MyDziennik from '../NavPages/MyDziennik.js'
 
 export default function Main(props) {
     const { selectedItem } = props;

@@ -1,6 +1,6 @@
 import logo from '../Images/logoSUS.png';
-import './Header.css';
-import './GlobalStyles.css';
+import '../GeneralElementsStyles/Header.css';
+import '../GlobalStyles.css';
 
 export default function Header(){
     return(
