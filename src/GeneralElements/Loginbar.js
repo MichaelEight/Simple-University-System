@@ -27,8 +27,7 @@ export default function LoginBar() {
   
     const handleLogin = () => {
         if (isValidEmail && email === 'user@example.com' && password === 'password') {
-          const studentInfo = { id: 1, name: 'John', lastname: 'Doe' }; // Example user data
-          console.log('Logging in with user data:', studentInfo); // Add this line for debugging
+          const studentInfo = { id: 1, name: 'Johny', lastname: 'Kerfuś' }; // Example user data
           setLoggedIn(true);
           setStudent(studentInfo);
       
@@ -77,18 +76,18 @@ export default function LoginBar() {
         {!loggedIn ? (
           <>
             <div className="login-right login-bar-text">
-              <p>Not logged in</p>
-              <button onClick={() => setShowLoginPopup(true)}>Log in</button>
+              <p>Niezalogowany</p>
+              <button onClick={() => setShowLoginPopup(true)}>Zaloguj</button>
             </div>
           </>
         ) : (
           <div className="login-right login-bar-text">
             {student ? (
-              <p>Logged as {student.id}, {student.name}, {student.lastname}</p>
+              <p>Zalogowany jako ({student.id}) {student.name} {student.lastname}</p>
             ) : (
-              <p>Logged in</p>
+              <p>Zalogowany</p>
             )}
-            <button onClick={handleLogout}>Log out</button>
+            <button onClick={handleLogout}>Wyloguj</button>
           </div>
         )}
         {showLoginPopup && (
@@ -97,33 +96,33 @@ export default function LoginBar() {
               <span className="close" onClick={handleClosePopup}>
                 &times;
               </span>
-              <h2>Login</h2>
+              <h2>Logowanie</h2>
               <div className="login-input">
                 <label htmlFor="email">Email</label>
                 <input
                   type="text"
                   id="email"
-                  placeholder="Enter your email"
+                  placeholder="Wprowadź email"
                   value={email}
                   onChange={handleEmailChange}
                   onBlur={handleEmailBlur}
                   className={isValidEmail ? '' : 'invalid-email'} // Apply 'invalid-email' class for invalid emails
                 />
-                {!isValidEmail && <p className="error-message">Invalid email</p>}
+                {!isValidEmail && <p className="error-message">Niepoprawny email!</p>}
               </div>
               <div className="login-input">
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">Hasło</label>
                 <input
                   type="password"
                   id="password"
-                  placeholder="Enter your password"
+                  placeholder="Wprowadź hasło"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <div className="login-input">
                 <label className="keep-logged-in-label" htmlFor="keepLoggedIn">
-                    Keep me logged in
+                    Nie wylogowuj mnie
                     <input
                     type="checkbox"
                     id="keepLoggedIn"
@@ -132,7 +131,7 @@ export default function LoginBar() {
                     />
                 </label>
                 </div>
-              <button onClick={handleLogin}>Login</button>
+              <button onClick={handleLogin}>Zaloguj</button>
             </div>
           </div>
         )}
