@@ -136,3 +136,33 @@
   margin-top: 0.75rem;
 }
 
+/* Media query for mobile devices (e.g., screens up to 768px wide) */
+@media screen and (max-width: 768px) {
+  .login-bar button,
+  .login-popup button {
+    width: 100%; /* Make the button full width on mobile */
+    margin: 0.5rem 0; /* Add margin for spacing */
+  }
+
+  .login-popup {
+    padding: 1rem; /* Adjust padding for mobile */
+  }
+
+  .close {
+    top: 5px; /* Adjust top position for mobile */
+    right: 5px; /* Adjust right position for mobile */
+  }
+
+  .login-input .keep-logged-in {
+    margin: 1rem 0; /* Add margin for spacing */
+  }
+
+  .login-input .keep-logged-in-label {
+    margin: 1rem 0; /* Add margin for spacing */
+  }
+
+  .popup-login-button {
+    margin: 1rem 0; /* Add margin for spacing */
+  }
+}
+

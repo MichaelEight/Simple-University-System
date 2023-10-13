@@ -6,6 +6,12 @@ header {
 }
 
 .Header-Logo{
-  /* height: 40vmin; */
   width: 10%;
+}
+
+/* Media query for mobile devices (e.g., screens up to 768px wide) */
+@media screen and (max-width: 768px) {
+  .Header-Logo{
+    width: 30%;
+  }
 }

@@ -21,7 +21,7 @@ body {
 /* Mobile Styles */
 @media (max-width: 768px) {
   .App {
-    width: 90%; /* Adjust the width for mobile */
+    width: 100%; /* Adjust the width for mobile */
     height: auto; /* Allow height to adapt to content for mobile */
   }
 }

@@ -74,3 +74,26 @@ li:hover:not(.selected){
   transform: scaleX(1);
   transform-origin: bottom left;
 }
+
+/* Media query for mobile devices (e.g., screens up to 768px wide) */
+@media screen and (max-width: 768px) {
+  .navigation-menu ul {
+    flex-direction: column; /* Stack items vertically on mobile */
+    text-align: center; /* Center align text on mobile */
+    margin-right: 0;
+  }
+
+  .navigation-menu li {
+    padding: 1em; /* Increase spacing for touch-friendly interaction */
+  }
+
+  .selected:after,
+  .hover-underline-animation:after{
+    width: 90%;
+  }
+
+  .navigation-menu li {
+    padding: 1em; /* Increase spacing for touch-friendly interaction */
+    margin: 0; /* Remove margin */
+  }
+}
