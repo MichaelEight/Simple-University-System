@@ -16,7 +16,6 @@ function App() {
   
   const handleLoginStatusChange = (loginStatus) => {
     setIsLoggedIn(loginStatus);
-    console.log("User logged in: ", loginStatus);
   };
 
   return (
