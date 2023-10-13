@@ -14,7 +14,7 @@ main {
     display: grid;
     grid-template-columns: 0.25fr 1fr; /* Sidebar takes 0.25fr, rest is for content */
     gap: 1vw;
-    min-height: 900px; /* Set a fixed min-height */
+    min-height: 900px; /* Set a fixed min-height for desktop */
     flex-grow: 0; /* Prevent the container from growing to content size */
 }
 
@@ -22,4 +22,20 @@ aside {
     background-color: #333;
     color: white;
     padding: 1rem;    
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    main {
+        padding: 0.5rem; /* Adjust padding for mobile */
+    }
+
+    .middle-container {
+        grid-template-columns: 1fr; /* Single column layout for mobile */
+        min-height: 300px; /* Adjust min-height for mobile */
+    }
+
+    aside {
+        padding: 0.5rem; /* Adjust padding for mobile */
+    }
 }

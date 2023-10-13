@@ -11,9 +11,17 @@ body {
 
 .App {
   aspect-ratio: 16 / 9; /* Set a fixed aspect ratio (e.g., 16:9) */
-  width: 1500px; /* Set a default width */
-  height: 1100px;
+  width: 1500px; /* Set a default width for desktop */
+  height: 1100px; /* Set a default height for desktop */
   max-width: 100%; /* Prevent the .App from scaling with window size changes */
   overflow-x: visible;
   overflow-y: visible;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .App {
+    width: 90%; /* Adjust the width for mobile */
+    height: auto; /* Allow height to adapt to content for mobile */
+  }
 }
