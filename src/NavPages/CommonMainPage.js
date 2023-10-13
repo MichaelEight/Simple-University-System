@@ -1,5 +1,4 @@
 import CommonSidebar from './CommonSidebar';
-import React, { useState } from 'react';
 
 function CommonMainPage({ selectedContent, onSelectedContentChange, contentComponents, optionLabels }) {
   let optionToRender;
