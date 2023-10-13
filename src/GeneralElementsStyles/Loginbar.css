@@ -8,35 +8,35 @@
   border-bottom: 1px solid #ccc;
 }
 
-.login-bar-text p{
+.login-bar-text p {
   color: white;
   font-size: 1.2rem;
+  margin-right: 1rem;
 }
 
-/* Style for the "Log in" button in the LoginBar */
-.login-bar button {
+/* Shared button style for the "Log in" button and other buttons in the popup */
+.login-bar button,
+.login-popup button {
   background-color: #007bff;
   color: #fff;
-  padding: 10px 20px; /* Add padding to the button */
+  padding: 10px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
   transition: background-color 0.3s;
-
-  /* Add some box-shadow for a sharper appearance */
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
 
-  /* Hover effect */
-  &:hover {
-    background-color: #0056b3;
-  }
+.login-bar button:hover,
+.login-popup button:hover {
+  background-color: #0056b3;
+}
 
-  /* Focus effect (when the button is clicked) */
-  &:focus {
-    outline: none;
-  }
+.login-bar button:focus,
+.login-popup button:focus {
+  outline: none;
 }
 
 /* Style for the login popup overlay */
@@ -46,11 +46,11 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7); /* Darkened background with some transparency */
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999; /* Ensure it's on top of everything */
+  z-index: 999;
 }
 
 /* Style for the login popup */
@@ -73,101 +73,66 @@
   cursor: pointer;
 }
 
-/* Style for the login form elements (input fields, button, etc.) */
+/* Style for the login form elements (input fields, etc.) */
 .login-popup input {
-  width: 100%; /* Full width within the popup */
+  width: 100%;
   margin: 10px 0;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  box-sizing: border-box; /* Include padding and border in the width calculation */
-}
-
-.login-popup button {
-  margin-top: 0.5rem;
-  display: block;
-  width: 100%;
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.7);
-  }
+  box-sizing: border-box;
 }
 
 /* Apply a max-width to the popup content */
 .login-popup .popup-content {
-  max-width: 300px; /* Adjust this value based on your design */
-  margin: 0 auto; /* Center-align the content within the popup */
-  overflow-y: auto; /* Add vertical scrollbar if needed */
+  max-width: 300px;
+  margin: 0 auto;
+  overflow-y: auto;
 }
 
 /* Style for the container that aligns "Not logged in" and "Log in" to the right */
 .login-right {
   display: flex;
-  justify-content: flex-end; /* Align items to the right */
-  align-items: center; /* Vertically center items */
-}
-
-/* Style for "Not logged in" text */
-.login-right p {
-  margin-right: 10px; /* Add some spacing between the text and button */
+  justify-content: flex-end;
+  align-items: center;
 }
 
 /* Style for the error message */
 .error-message {
-  color: #ff0000; /* Set text color to red */
-  font-size: 1rem; /* Adjust font size */
-  margin-top: 1rem; /* Add spacing above the error message */
+  color: #ff0000;
+  font-size: 1rem;
+  margin-top: 1rem;
 }
 
 /* Apply styling for the "invalid-email" class on the email input */
 .login-popup input.invalid-email {
-  border: 0.15rem solid #ff0000; /* Add a red border for invalid input */
-}
-
-/* Apply styling for the "invalid-password" class on the password input */
-.login-popup input.invalid-password {
-  border: 0.15rem solid #ff0000; /* Add a red border for invalid password input */
+  border: 0.15rem solid #ff0000;
 }
 
 /* Position the error message right below the input box */
-.login-popup input.invalid-email + .error-message {
-  margin-top: -10px; /* Adjust to position the error message closer to the input */
-}
-
-/* Position the password error message right below the password input box */
-.login-popup input.invalid-password + .error-message {
-  margin-top: -10px; /* Adjust to position the error message closer to the input */
+.login-popup input.invalid-email + .error-message{
+  margin-top: -0.5rem;
 }
 
 /* Style for the "Keep me logged in" container */
 .login-input .keep-logged-in {
   display: flex;
   align-items: center;
-}
-
-/* Adjust the margin to control spacing between the checkbox and label */
-.login-input .keep-logged-in input[type="checkbox"] {
-  margin-right: 10px;
+  margin-right: 25px; /* Reduce the margin to align the text and checkbox */
 }
 
 /* Style for the "Keep me logged in" label */
 .login-input .keep-logged-in-label {
   display: flex;
   align-items: center;
-  white-space: nowrap; /* Prevent text from wrapping to the next line */
-  margin-right: 10px; /* Adjust the margin to control spacing between the checkbox and label */
+  white-space: nowrap;
+  margin-right: 13rem; /* Adjust the margin to control spacing between the checkbox and label */
 }
+
+/* Center the "Log in" button in the login bar */
+.popup-login-button {
+  display: block;
+  margin: 0 auto;
+  margin-top: 0.75rem;
+}
+

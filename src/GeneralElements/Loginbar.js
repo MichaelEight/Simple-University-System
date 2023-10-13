@@ -43,7 +43,7 @@ export default function LoginBar() {
   
     const handleLogin = () => {
         if (isValidEmail && email === 'user@example.com' && password === 'password') {
-          const studentInfo = { id: 1, name: 'Johny', lastname: 'Kerfuś' }; // Example user data
+          const studentInfo = { id: 69420, name: 'Johny', lastname: 'Kerfuś' }; // Example user data
           setLoggedIn(true);
           setStudent(studentInfo);
       
@@ -85,6 +85,7 @@ export default function LoginBar() {
       setPassword('');
       setIsValidEmail(true);
       setShowLoginPopup(false);
+      setKeepLoggedIn(false);
     };
   
     return (
@@ -147,7 +148,7 @@ export default function LoginBar() {
                     />
                 </label>
                 </div>
-              <button onClick={handleLogin}>Zaloguj</button>
+              <button className='popup-login-button' onClick={handleLogin}>Zaloguj</button>
             </div>
           </div>
         )}
