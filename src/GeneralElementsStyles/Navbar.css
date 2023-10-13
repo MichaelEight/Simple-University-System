@@ -52,11 +52,13 @@ li:hover:not(.selected){
   cursor: pointer;
 }
 
+.locked-hover-underline-animation,
 .hover-underline-animation {
   display: inline-block;
   position: relative;
 }
 
+.locked-hover-underline-animation:after,
 .hover-underline-animation:after {
   content: '';
   position: absolute;
@@ -70,10 +72,16 @@ li:hover:not(.selected){
   transition: transform 0.25s ease-out;
 }
 
+.locked-hover-underline-animation:hover:after,
 .hover-underline-animation:hover:after {
   transform: scaleX(1);
   transform-origin: bottom left;
 }
+
+.locked-hover-underline-animation:after{
+  background-color: red;
+}
+
 
 /* Media query for mobile devices (e.g., screens up to 768px wide) */
 @media screen and (max-width: 768px) {
