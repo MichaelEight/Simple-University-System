@@ -2,10 +2,9 @@
 main {
     background-color: #666565;
     color: white;
-
     flex-grow: 1;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(30vw, 1fr)); /* Changed from 300 pixels to 30vw, for some reason works*/
+    grid-template-columns: repeat(auto-fit, minmax(30vw, 1fr)); /* Changed from 300 pixels to 30vw, for some reason works */
     gap: 0rem;
     overflow: auto; /* Enable scrolling if content overflows */
     padding: 1rem;
@@ -15,7 +14,8 @@ main {
     display: grid;
     grid-template-columns: 0.25fr 1fr; /* Sidebar takes 0.25fr, rest is for content */
     gap: 1vw;
-    min-height: 35vw;
+    min-height: 900px; /* Set a fixed min-height */
+    flex-grow: 0; /* Prevent the container from growing to content size */
 }
 
 aside {

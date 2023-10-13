@@ -3,8 +3,8 @@ import Navbar from './GeneralElements/Navbar.js'
 import Main from './GeneralElements/Main.js'
 import Footer from './GeneralElements/Footer.js'
 import LoginBar from './GeneralElements/Loginbar.js'
-import React, { useState } from 'react';
 import './App.css';
+import React, { useState } from 'react';
 
 function App() {
   const [selectedItem, setSelectedItem] = useState(0);
@@ -17,8 +17,8 @@ function App() {
     <div className="App">
       <LoginBar />
       <Header />
-      <Navbar selectedItem={selectedItem} onNavItemChange={handleNavItemChange}/>
-      <Main selectedItem={selectedItem}/>
+      <Navbar selectedItem={selectedItem} onNavItemChange={handleNavItemChange} />
+      <Main selectedItem={selectedItem} />
       <Footer />
     </div>
   );
