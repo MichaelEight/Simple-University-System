@@ -24,6 +24,22 @@ export default function LoginBar() {
         }
       }
     }, []); // Run this effect once on component mount
+
+    useEffect(() => {
+      // Add event listener for the Escape key
+      const handleEscapeKeyPress = (event) => {
+        if (event.key === 'Escape' && showLoginPopup) {
+          handleClosePopup();
+        }
+      };
+  
+      document.addEventListener('keydown', handleEscapeKeyPress);
+  
+      // Clean up the event listener when the component unmounts
+      return () => {
+        document.removeEventListener('keydown', handleEscapeKeyPress);
+      };
+    }, [showLoginPopup]);
   
     const handleLogin = () => {
         if (isValidEmail && email === 'user@example.com' && password === 'password') {
