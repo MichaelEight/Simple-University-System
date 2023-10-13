@@ -9,10 +9,20 @@ nav{
     list-style-type: none;
     position: relative;
     margin-right: 50px;
+
+    font-size: 1.25rem;
 }
 .navigation-menu li {
   list-style-type: none;
-  /* margin: 0 1rem; */
+
+  /* Increase clickable area */
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  padding-left: 2em;
+  padding-right: 2em;
+  margin-left: -2em;
+  margin-right: -2em;
 }
 .navigation-menu li p {
   text-decoration: none;
@@ -21,12 +31,46 @@ nav{
 }
 
 .selected{
+  cursor: default;
   font-weight: bold;
-  text-decoration: underline green 5px;
-  text-underline-offset: 10px;
+}
+
+.selected:after{
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(1);
+  height: 0.4rem;
+  bottom: 0;
+  left: 0;
+  background-color: rgb(254, 153, 0);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
 }
 
 li:hover:not(.selected){
-  text-decoration: underline 3px;
-  text-underline-offset: 10px;
+  cursor: pointer;
+}
+
+.hover-underline-animation {
+  display: inline-block;
+  position: relative;
+}
+
+.hover-underline-animation:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 0.4rem;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.hover-underline-animation:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }

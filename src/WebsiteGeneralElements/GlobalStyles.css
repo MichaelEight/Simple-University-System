@@ -1,0 +1,4 @@
+.global-shadow, header, nav, aside, main {
+    /* offset_X, offset_Y, blur, spread, color */
+    box-shadow: 0 0 0.3rem 0.15rem rgba(0, 0, 0, 0.3);
+}
