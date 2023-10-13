@@ -122,14 +122,16 @@ export default function LoginBar() {
                 />
               </div>
               <div className="login-input">
-                <label htmlFor="keepLoggedIn">Keep me logged in</label>
-                <input
-                  type="checkbox"
-                  id="keepLoggedIn"
-                  checked={keepLoggedIn}
-                  onChange={() => setKeepLoggedIn(!keepLoggedIn)}
-                />
-              </div>
+                <label className="keep-logged-in-label" htmlFor="keepLoggedIn">
+                    Keep me logged in
+                    <input
+                    type="checkbox"
+                    id="keepLoggedIn"
+                    checked={keepLoggedIn}
+                    onChange={() => setKeepLoggedIn(!keepLoggedIn)}
+                    />
+                </label>
+                </div>
               <button onClick={handleLogin}>Login</button>
             </div>
           </div>
