@@ -1,6 +1,8 @@
-import '../NavPagesStyles/MyIndex.css';
-import React, { useState } from 'react';
 import '../NavPagesStyles/Sidebar.css';
+import '../NavPagesStyles/MyIndex.css';
+import '../NavPagesStyles/MyProfile.css';
+import React, { useState } from 'react';
+import placeholderPic from '../Images/placeholderImage.jpeg';
 
 // Import the shared components
 import CommonMainPage from './CommonMainPage';
@@ -105,10 +107,94 @@ function ContentStats() {
 }
 
 function ContentMyProfile() {
+  const personalInfo = {
+    firstName: 'John',
+    lastName: 'Doe',
+    dateOfBirth: '01/01/1990',
+  };
+
+  const studentInfo = {
+    indexNumber: '12345',
+    major: 'Computer Science',
+    gradeLevel: 'Senior',
+    email: 'john.doe@email.com',
+  };
+
+  const additionalInfo = {
+    GPA: '3.7',
+    AcademicAdvisor: 'Dr. Smith',
+    EnrollmentStatus: 'Full-time',
+    GraduationDate: 'May 2023',
+    Clubs: 'Computer Science Club, Chess Club',
+  };
+
   return (
     <main>
-      <div>
-        <p>Placeholder My Profile</p>
+      <div className='style-separator'>
+        <div className="profile-container">
+        <div className="profile-section-image">
+            <div className="profile-picture">
+              <img src={placeholderPic} alt="Profile" />
+            </div>
+            <div className="personal-info">
+              <h2>Personal Info</h2>
+              <p><span className="label">Name:</span> {personalInfo.firstName} {personalInfo.lastName}</p>
+              <p><span className="label">Date of Birth:</span> {personalInfo.dateOfBirth}</p>
+            </div>
+          </div>
+
+          <div className="profile-section">
+            <h2>Student Info</h2>
+            <table className="info-table">
+              <tbody>
+                <tr>
+                  <td>Index Number</td>
+                  <td>{studentInfo.indexNumber}</td>
+                </tr>
+                <tr>
+                  <td>Major</td>
+                  <td>{studentInfo.major}</td>
+                </tr>
+                <tr>
+                  <td>Grade Level</td>
+                  <td>{studentInfo.gradeLevel}</td>
+                </tr>
+                <tr>
+                  <td>Email</td>
+                  <td>{studentInfo.email}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div className="profile-section">
+            <h2>Additional Info</h2>
+            <table className="info-table">
+              <tbody>
+                <tr>
+                  <td>GPA</td>
+                  <td>{additionalInfo.GPA}</td>
+                </tr>
+                <tr>
+                  <td>Academic Advisor</td>
+                  <td>{additionalInfo.AcademicAdvisor}</td>
+                </tr>
+                <tr>
+                  <td>Enrollment Status</td>
+                  <td>{additionalInfo.EnrollmentStatus}</td>
+                </tr>
+                <tr>
+                  <td>Graduation Date</td>
+                  <td>{additionalInfo.GraduationDate}</td>
+                </tr>
+                <tr>
+                  <td>Clubs</td>
+                  <td>{additionalInfo.Clubs}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </main>
   );
