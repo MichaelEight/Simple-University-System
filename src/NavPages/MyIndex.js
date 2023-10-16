@@ -1,6 +1,8 @@
-import '../NavPagesStyles/MyIndex.css';
-import React, { useState } from 'react';
 import '../NavPagesStyles/Sidebar.css';
+import '../NavPagesStyles/MyIndex.css';
+import '../NavPagesStyles/MyProfile.css';
+import React, { useState } from 'react';
+import placeholderPic from '../Images/placeholderImage.jpeg';
 
 // Import the shared components
 import CommonMainPage from './CommonMainPage';
@@ -105,10 +107,57 @@ function ContentStats() {
 }
 
 function ContentMyProfile() {
+  const personalInfo = {
+    firstName: 'John',
+    lastName: 'Doe',
+    dateOfBirth: '01/01/1990',
+  };
+
+  const studentInfo = {
+    indexNumber: '12345',
+    major: 'Computer Science',
+    gradeLevel: 'Senior',
+    email: 'john.doe@email.com',
+  };
+
+  const additionalInfo = {
+    GPA: '3.7',
+    AcademicAdvisor: 'Dr. Smith',
+    EnrollmentStatus: 'Full-time',
+    GraduationDate: 'May 2023',
+    Clubs: 'Computer Science Club, Chess Club',
+  };
+
   return (
     <main>
-      <div>
-        <p>Placeholder My Profile</p>
+      <div className="profile-container">
+        <div className="profile-section-image">
+          <div className="profile-picture">
+            <img src={placeholderPic} alt="Profile" />
+          </div>
+          <div className="personal-info">
+            <h2>Personal Info</h2>
+            <p>Name: {personalInfo.firstName} {personalInfo.lastName}</p>
+            <p>Date of Birth: {personalInfo.dateOfBirth}</p>
+          </div>
+        </div>
+
+        <div className="profile-section">
+          <h2>Student Info</h2>
+          <p>Index Number: {studentInfo.indexNumber}</p>
+          <p>Major: {studentInfo.major}</p>
+          <p>Grade Level: {studentInfo.gradeLevel}</p>
+          <p>Email: {studentInfo.email}</p>
+        </div>
+
+        <div className="profile-section">
+          <h2>Additional Info</h2>
+          <p>GPA: {additionalInfo.GPA}</p>
+          <p>Academic Advisor: {additionalInfo.AcademicAdvisor}</p>
+          <p>Enrollment Status: {additionalInfo.EnrollmentStatus}</p>
+          <p>Graduation Date: {additionalInfo.GraduationDate}</p>
+          <p>Clubs: {additionalInfo.Clubs}</p>
+        </div>
       </div>
     </main>
   );
