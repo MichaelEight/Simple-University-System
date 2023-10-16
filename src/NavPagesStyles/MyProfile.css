@@ -1,49 +1,6 @@
-kaczka
+/* ContentMyProfile.css */
 
 .profile-container {
-  display: flex;
-  align-items: flex-start;
-  padding: 20px;
-  border: 1px solid #007bff;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background-color: #f9f9f9;
-  margin: 20px;
-}
-
-.profile-image img {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 5px solid #fff;
-}
-
-.profile-info {
-  flex: 1;
-  padding-left: 20px;
-}
-
-.profile-section {
-  margin-bottom: 20px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #fff;
-}
-
-main h2 {
-  font-size: 18px;
-  color: #007bff;
-  margin-bottom: 10px;
-}
-
-main p {
-  font-size: 16px;
-  color: #333;
-}
-
-.profile-container-image {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -55,24 +12,77 @@ main p {
   margin: 20px;
 }
 
-.profile-section-image {
-  display: flex;
-  align-items: center;
+.profile-section {
   width: 100%;
   margin-bottom: 20px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #fff;
+  text-align: center;
 }
 
-main h2 {
+.profile-picture img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid #fff;
+}
+
+.info-table {
+  width: 60%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.info-table tr {
+  display: flex;
+  justify-content: center;
+  margin: 5px 0;
+}
+
+.info-table td {
+  flex: 1;
+  color: #000;
+  padding: 5px;
+}
+
+.info-table td:first-child {
+  font-weight: bold; /* Make the label (first column) bold */
+}
+
+.personal-info p .label {
+  font-weight: bold; /* Apply bold font to the labels within the "Personal Info" section */
+}
+
+.style-separator h2 {
   font-size: 18px;
   color: #007bff;
   margin-bottom: 10px;
 }
 
-main p {
+.style-separator p {
   font-size: 16px;
   color: #333;
+}
+
+.profile-picture img {
+  width: 150px;
+  height: 150px;
+  border: 2px solid black; /* Add a border around the image with a slight roundness */
+  border-radius: 10px; /* Adjust the border-radius to control roundness */
+  padding: 10px;
+  object-fit: cover;
+}
+
+.profile-section-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center-align the "Personal Info" section */
+  text-align: center; /* Center-align the text within the section */
+}
+
+.profile-info table {
+  margin: 0 auto; /* Center-align the table within the "Personal Info" section */
 }

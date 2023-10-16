@@ -130,33 +130,70 @@ function ContentMyProfile() {
 
   return (
     <main>
-      <div className="profile-container">
+      <div className='style-separator'>
+        <div className="profile-container">
         <div className="profile-section-image">
-          <div className="profile-picture">
-            <img src={placeholderPic} alt="Profile" />
+            <div className="profile-picture">
+              <img src={placeholderPic} alt="Profile" />
+            </div>
+            <div className="personal-info">
+              <h2>Personal Info</h2>
+              <p><span className="label">Name:</span> {personalInfo.firstName} {personalInfo.lastName}</p>
+              <p><span className="label">Date of Birth:</span> {personalInfo.dateOfBirth}</p>
+            </div>
           </div>
-          <div className="personal-info">
-            <h2>Personal Info</h2>
-            <p>Name: {personalInfo.firstName} {personalInfo.lastName}</p>
-            <p>Date of Birth: {personalInfo.dateOfBirth}</p>
+
+          <div className="profile-section">
+            <h2>Student Info</h2>
+            <table className="info-table">
+              <tbody>
+                <tr>
+                  <td>Index Number</td>
+                  <td>{studentInfo.indexNumber}</td>
+                </tr>
+                <tr>
+                  <td>Major</td>
+                  <td>{studentInfo.major}</td>
+                </tr>
+                <tr>
+                  <td>Grade Level</td>
+                  <td>{studentInfo.gradeLevel}</td>
+                </tr>
+                <tr>
+                  <td>Email</td>
+                  <td>{studentInfo.email}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-        </div>
 
-        <div className="profile-section">
-          <h2>Student Info</h2>
-          <p>Index Number: {studentInfo.indexNumber}</p>
-          <p>Major: {studentInfo.major}</p>
-          <p>Grade Level: {studentInfo.gradeLevel}</p>
-          <p>Email: {studentInfo.email}</p>
-        </div>
-
-        <div className="profile-section">
-          <h2>Additional Info</h2>
-          <p>GPA: {additionalInfo.GPA}</p>
-          <p>Academic Advisor: {additionalInfo.AcademicAdvisor}</p>
-          <p>Enrollment Status: {additionalInfo.EnrollmentStatus}</p>
-          <p>Graduation Date: {additionalInfo.GraduationDate}</p>
-          <p>Clubs: {additionalInfo.Clubs}</p>
+          <div className="profile-section">
+            <h2>Additional Info</h2>
+            <table className="info-table">
+              <tbody>
+                <tr>
+                  <td>GPA</td>
+                  <td>{additionalInfo.GPA}</td>
+                </tr>
+                <tr>
+                  <td>Academic Advisor</td>
+                  <td>{additionalInfo.AcademicAdvisor}</td>
+                </tr>
+                <tr>
+                  <td>Enrollment Status</td>
+                  <td>{additionalInfo.EnrollmentStatus}</td>
+                </tr>
+                <tr>
+                  <td>Graduation Date</td>
+                  <td>{additionalInfo.GraduationDate}</td>
+                </tr>
+                <tr>
+                  <td>Clubs</td>
+                  <td>{additionalInfo.Clubs}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </main>
