@@ -9,9 +9,14 @@ import React, { useState, useEffect } from 'react';
 
 function App() {
   const [selectedItem, setSelectedItem] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleNavItemChange = (index) => {
     setSelectedItem(index);
+  };
+  
+  const handleLoginStatusChange = (loginStatus) => {
+    setIsLoggedIn(loginStatus);
   };
 
   const [data, setData] = useState([]);
@@ -29,9 +34,9 @@ function App() {
 
   return (
     <div className="App">
-      <LoginBar />
+      <LoginBar onLoginStatusChange={handleLoginStatusChange}/>
       <Header />
-      <Navbar selectedItem={selectedItem} onNavItemChange={handleNavItemChange} />
+      <Navbar selectedItem={selectedItem} onNavItemChange={handleNavItemChange} isLoggedIn={isLoggedIn} />
       <Main selectedItem={selectedItem} />
       <Footer />
 

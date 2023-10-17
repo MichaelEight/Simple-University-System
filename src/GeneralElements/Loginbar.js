@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'; // Import the js-cookie library
 import '../GeneralElementsStyles/Loginbar.css';
 import '../GlobalStyles.css';
 
-export default function LoginBar() {
+export default function LoginBar({onLoginStatusChange}) {
     const [loggedIn, setLoggedIn] = useState(false);
     const [showLoginPopup, setShowLoginPopup] = useState(false);
     const [email, setEmail] = useState('');
@@ -19,6 +19,7 @@ export default function LoginBar() {
         // Retrieve user information from cookies and set the session
         const studentInfo = JSON.parse(Cookies.get('studentInfo'));
         setLoggedIn(true);
+        onLoginStatusChange(true);
         if (studentInfo) {
           setStudent(studentInfo);
         }
@@ -45,6 +46,7 @@ export default function LoginBar() {
         if (isValidEmail && email === 'user@example.com' && password === 'password') {
           const studentInfo = { id: 69420, name: 'Johny', lastname: 'Kerfuś' }; // Example user data
           setLoggedIn(true);
+          onLoginStatusChange(true);
           setStudent(studentInfo);
       
           // Save session information in cookies if "Keep me logged in" is checked
@@ -65,6 +67,7 @@ export default function LoginBar() {
       Cookies.remove('studentInfo');
   
       setLoggedIn(false);
+      onLoginStatusChange(false);
       setStudent(null);
     };
   
