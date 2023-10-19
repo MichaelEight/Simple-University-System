@@ -10,6 +10,11 @@
 }
   
 .data-table th {
+    color: white;
+    background-color: #333333; /* Add a background color to header cells */
+}
+
+.rows-colors{
+    background: #c2c2c2;
     color: black;
-    background-color: #f2f2f2; /* Add a background color to header cells */
 }
