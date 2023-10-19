@@ -145,10 +145,11 @@ function ContentMyProfile() {
     <main>
       <div className='style-separator'>
         <div className="profile-container">
-        <div className="profile-section-image">
-            <div className="profile-picture">
-              <img src={placeholderPic} alt="Profile" />
-            </div>
+          <div className="profile-picture">
+            <img src={placeholderPic} alt="Profile" />
+          </div>
+
+          <div className='profile-section'>
             <div className="personal-info">
               <h2>Personal Info</h2>
               <p><span className="label">Name:</span> {personalInfo.firstName} {personalInfo.lastName}</p>
