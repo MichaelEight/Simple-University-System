@@ -52,34 +52,35 @@ li:hover:not(.selected){
   cursor: pointer;
 }
 
-.locked-hover-underline-animation,
 .hover-underline-animation {
   display: inline-block;
   position: relative;
+  width: 150px; /* Set your desired fixed width here */
+  overflow: hidden; /* Hide any overflow */
+  text-align: center; /* Center the text */
 }
 
-.locked-hover-underline-animation:after,
 .hover-underline-animation:after {
   content: '';
   position: absolute;
-  width: 100%;
-  transform: scaleX(0);
+  width: 100%; /* Set it to 100% to cover the fixed width */
+  transform: scaleX(0); /* Initial state: not visible */
   height: 0.4rem;
   bottom: 0;
   left: 0;
   background-color: white;
-  transform-origin: bottom right;
+  transform-origin: bottom left; /* Adjust transform origin */
   transition: transform 0.25s ease-out;
 }
 
-.locked-hover-underline-animation:hover:after,
 .hover-underline-animation:hover:after {
   transform: scaleX(1);
   transform-origin: bottom left;
 }
 
-.locked-hover-underline-animation:after{
-  background-color: red;
+/* Hide hover animation when locked */
+.locked-hover-underline-animation:hover:after{
+  transform: scaleX(0);
 }
 
 

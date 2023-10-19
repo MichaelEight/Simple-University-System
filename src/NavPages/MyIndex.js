@@ -10,6 +10,19 @@ import CommonMainPage from './CommonMainPage';
 // Define your content components for this specific use case
 function ContentGrades() {
 
+  // const [user, setUser] = useState(null);
+
+  // // Function to send a login request
+  // const login = async (email, password) => {
+  //   try {
+  //     const response = await axios.get(`http://simpleuniversitysystem.000webhostapp.com/api.php?action=login&email=${email}&password=${password}`);
+  //     setUser(response.data.user); // Assuming the response includes user data
+  //     console.log(user);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
   // const [gradeData, setGradeData] = useState([]);
 
   // useEffect(() => {

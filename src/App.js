@@ -6,6 +6,7 @@ import LoginBar from './GeneralElements/Loginbar.js'
 import './App.css';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import DBTest from './dbTest.js';
 
 function App() {
   const [selectedItem, setSelectedItem] = useState(0);
@@ -19,19 +20,6 @@ function App() {
     setIsLoggedIn(loginStatus);
   };
 
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    // Update the URL with your server's URL
-    axios.get('http://localhost:3001/api/data')
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
-
   return (
     <div className="App">
       <LoginBar onLoginStatusChange={handleLoginStatusChange}/>
@@ -39,15 +27,7 @@ function App() {
       <Navbar selectedItem={selectedItem} onNavItemChange={handleNavItemChange} isLoggedIn={isLoggedIn} />
       <Main selectedItem={selectedItem} />
       <Footer />
-
-      <div>
-        <h1>Data from Database</h1>
-          <ul>
-            {data.map((item) => (
-              <li key={item.id}>{item.name}</li>
-            ))}
-          </ul>
-      </div>
+      <DBTest />
     </div>
   );
 }
