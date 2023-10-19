@@ -16,7 +16,7 @@ nav{
   list-style-type: none;
 
   /* Increase clickable area */
-  display: inline-block;
+  display: flex;
   position: relative;
   z-index: 1;
   padding-left: 2em;
@@ -30,9 +30,18 @@ nav{
   width: 100%;
 }
 
-.selected{
+.selected {
   cursor: default;
   font-weight: bold;
+  width: 130px; /* Set your desired fixed width here */
+  text-align: center; /* Center the text horizontally */
+  white-space: nowrap; /* Prevent text from wrapping */
+  display: flex;
+  align-items: center; /* Center the text vertically */
+  justify-content: center; /* Center the text horizontally */
+  margin: 0; /* Remove any margin */
+  padding: 0; /* Remove any padding */
+  position: relative; /* Add position: relative */
 }
 
 .selected:after{
@@ -55,7 +64,7 @@ li:hover:not(.selected){
 .hover-underline-animation {
   display: inline-block;
   position: relative;
-  width: 150px; /* Set your desired fixed width here */
+  width: 130px;
   overflow: hidden; /* Hide any overflow */
   text-align: center; /* Center the text */
 }
@@ -69,7 +78,7 @@ li:hover:not(.selected){
   bottom: 0;
   left: 0;
   background-color: white;
-  transform-origin: bottom left; /* Adjust transform origin */
+  transform-origin: bottom right; /* Adjust transform origin */
   transition: transform 0.25s ease-out;
 }
 
