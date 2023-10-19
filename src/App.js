@@ -27,7 +27,7 @@ function App() {
       <Navbar selectedItem={selectedItem} onNavItemChange={handleNavItemChange} isLoggedIn={isLoggedIn} />
       <Main selectedItem={selectedItem} />
       <Footer />
-      {/* <DBTest /> */}
+      <DBTest />
     </div>
   );
 }

@@ -1,20 +1,4 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-
-async function fetchStudents() {
-    try {
-      const response = await fetch('http://simpleuniversitysystem.000webhostapp.com/api.php');
-      
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      
-      const students = await response.json();
-      console.log(students); // Log the list of students to the console
-    } catch (error) {
-      console.error('Error:', error);
-    }
-}
 
 function YourComponent() {
     const [students, setStudents] = useState([]);
@@ -24,19 +8,21 @@ function YourComponent() {
     }, []);
 
     async function fetchStudents() {
-        try {
-        const response = await fetch('http://simpleuniversitysystem.000webhostapp.com/api.php');
-
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-
-        const students = await response.json();
-        setStudents(students);
-        } catch (error) {
-        console.error('Error:', error);
-        }
-    }
+      try {
+          // Replace 'loggedInStudentID' with the actual ID of the logged-in user
+          const loggedInStudentID = 100000; // Example student_id
+          const response = await fetch(`http://simpleuniversitysystem.000webhostapp.com/api/api.php?student_id=${loggedInStudentID}`);
+  
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+  
+          const students = await response.json();
+          setStudents(students);
+      } catch (error) {
+          console.error('Error:', error);
+      }
+  }
   
     return (
         <div>
