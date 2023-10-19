@@ -144,6 +144,7 @@ export default function LoginBar({onLoginStatusChange}) {
                 <label className="keep-logged-in-label" htmlFor="keepLoggedIn">
                     Nie wylogowuj mnie
                     <input
+                    className='keep-logged-in-checkbox'
                     type="checkbox"
                     id="keepLoggedIn"
                     checked={keepLoggedIn}

@@ -132,6 +132,13 @@
   margin-right: 13rem; /* Adjust the margin to control spacing between the checkbox and label */
 }
 
+/* Style for the checkbox */
+.login-input .keep-logged-in-checkbox {
+  /*margin: 0 0.25rem; /* Adjust the margin to vertically center the checkbox with the text */
+  position: relative;
+  top: 2px; /*Correct small misalignment*/
+}
+
 /* Center the "Log in" button in the login bar */
 .popup-login-button {
   display: block;
