@@ -4,7 +4,6 @@ import Main from './GeneralElements/Main.js'
 import Footer from './GeneralElements/Footer.js'
 import LoginBar from './GeneralElements/Loginbar.js'
 import './App.css';
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import DBTest from './dbTest.js';
 
