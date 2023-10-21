@@ -148,10 +148,16 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
       // Clear local storage
       localStorage.removeItem('loggedIn');
       localStorage.removeItem('userInfo');
+
+      // Remove cached data from localStorage
+      localStorage.removeItem('userProfileData');
+      localStorage.removeItem('userProfileDataTimestamp');
   
       setLoggedIn(false);
       onLoginStatusChange(false);
       setUser(null);
+
+      window.location.reload(); // Force refresh
     };
   
     const handleEmailChange = (event) => {
