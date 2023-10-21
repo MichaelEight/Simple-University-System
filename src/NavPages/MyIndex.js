@@ -2,55 +2,14 @@ import '../NavPagesStyles/Sidebar.css';
 import '../NavPagesStyles/MyIndex.css';
 import '../NavPagesStyles/MyProfile.css';
 import '../NavPagesStyles/Stats.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import placeholderPic from '../Images/placeholderImage.jpeg';
 
 // Import the shared components
 import CommonMainPage from './CommonMainPage';
 
 // Define your content components for this specific use case
-function ContentGrades() {
-
-  // const [user, setUser] = useState(null);
-
-  // // Function to send a login request
-  // const login = async (email, password) => {
-  //   try {
-  //     const response = await axios.get(`http://simpleuniversitysystem.000webhostapp.com/api.php?action=login&email=${email}&password=${password}`);
-  //     setUser(response.data.user); // Assuming the response includes user data
-  //     console.log(user);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // const [gradeData, setGradeData] = useState([]);
-
-  // useEffect(() => {
-  //   // Function to fetch data
-  //   const fetchData = () => {
-  //     axios.get('/api/grades') // Replace with your actual API endpoint
-  //       .then(response => {
-  //         setGradeData(response.data);
-  //       })
-  //       .catch(error => {
-  //         console.error('Error fetching data:', error);
-  //       });
-  //   };
-
-  //   // Initial fetch
-  //   fetchData();
-
-  //   // Set up a periodic fetch every 15 seconds
-  //   const refreshInterval = setInterval(() => {
-  //     fetchData();
-  //   }, 15000);
-
-  //   // Cleanup the interval when the component unmounts
-  //   return () => {
-  //     clearInterval(refreshInterval);
-  //   };
-  // }, []);
+function ContentGrades({user}) {
 
   const gradeData = [
     {
@@ -115,7 +74,7 @@ function ContentGrades() {
   );
 }
 
-function ContentStats() {
+function ContentStats({user}) {
   // Placeholder data for the student's stats
   const studentStats = {
     name: 'John Doe',
@@ -148,30 +107,55 @@ function ContentStats() {
   );
 }
 
-function ContentMyProfile() {
-  const personalInfo = {
-    firstName: 'John',
-    lastName: 'Doe',
-    dateOfBirth: '01/01/1990',
-  };
+function ContentMyProfile({user}) {
+  const [validToken, setValidToken] = useState(true);
+  const [userData, setUserData] = useState(null);
+  const [dataLoaded, setDataLoaded] = useState(false); // Track whether data is loaded
 
-  const studentInfo = {
-    indexNumber: '12345',
-    major: 'Computer Science',
-    gradeLevel: 'Senior',
-    email: 'john.doe@email.com',
-  };
+  useEffect(() => {
+    console.log("Effect invoked");
+    if (user) {
+      console.log("User checked")
+      // Validate the token
+      const validateToken = async () => {
+        const response = await fetch(`http://simpleuniversitysystem.000webhostapp.com/api/validateToken.php?token=${user.token}`);
 
-  const additionalInfo = {
-    GPA: '3.7',
-    AcademicAdvisor: 'Dr. Smith',
-    EnrollmentStatus: 'Full-time',
-    GraduationDate: 'May 2023',
-    Clubs: 'Computer Science Club, Chess Club',
-  };
+        if (response.ok) {
+          const data = await response.json();
+
+          if (data.valid) {
+            // Token is valid, continue the session
+            setValidToken(true);
+            console.log("MyIndex - Authentication Successful!");
+            
+            const dataResponse = await fetch(`http://simpleuniversitysystem.000webhostapp.com/api/userProfileData.php?token=${user.token}`);
+
+            if(dataResponse.ok)
+            {
+              const userDataFromDB = await dataResponse.json();
+              setUserData(userDataFromDB);
+              console.log("User data downloaded successfully!");
+              console.log(userDataFromDB);
+              setDataLoaded(true);
+            }else{
+              console.log("User data download failed!");
+            }
+          } else {
+            // Token is invalid or expired
+            setValidToken(false);
+          }
+        } else {
+          console.error('Error when validating the token');
+        }
+      };
+
+      validateToken();
+    }
+  }, []); // Run this effect once on component mount
 
   return (
     <main>
+      {validToken && dataLoaded ?
       <div className='style-separator'>
         <div className="profile-container">
           <div className="profile-picture">
@@ -181,8 +165,8 @@ function ContentMyProfile() {
           <div className='profile-section'>
             <div className="personal-info">
               <h2>Personal Info</h2>
-              <p><span className="label">Name:</span> {personalInfo.firstName} {personalInfo.lastName}</p>
-              <p><span className="label">Date of Birth:</span> {personalInfo.dateOfBirth}</p>
+              <p><span className="label">Name:</span> {userData.first_name} {userData.last_name}</p>
+              <p><span className="label">Date of Birth:</span> {userData.date_of_birth}</p>
             </div>
           </div>
 
@@ -192,19 +176,19 @@ function ContentMyProfile() {
               <tbody>
                 <tr>
                   <td>Index Number</td>
-                  <td>{studentInfo.indexNumber}</td>
+                  <td>{userData.id}</td>
                 </tr>
                 <tr>
                   <td>Major</td>
-                  <td>{studentInfo.major}</td>
+                  <td>{userData.major}</td>
                 </tr>
                 <tr>
                   <td>Grade Level</td>
-                  <td>{studentInfo.gradeLevel}</td>
+                  <td>{userData.degree}</td>
                 </tr>
                 <tr>
                   <td>Email</td>
-                  <td>{studentInfo.email}</td>
+                  <td>{userData.id + "@student.mak.pl"}</td>
                 </tr>
               </tbody>
             </table>
@@ -215,30 +199,25 @@ function ContentMyProfile() {
             <table className="info-table">
               <tbody>
                 <tr>
-                  <td>GPA</td>
-                  <td>{additionalInfo.GPA}</td>
+                  <td>Clubs</td>
+                  <td>{userData.clubs}</td>
                 </tr>
                 <tr>
-                  <td>Academic Advisor</td>
-                  <td>{additionalInfo.AcademicAdvisor}</td>
-                </tr>
-                <tr>
-                  <td>Enrollment Status</td>
-                  <td>{additionalInfo.EnrollmentStatus}</td>
+                  <td>Started On</td>
+                  <td>{userData.date_of_start}</td>
                 </tr>
                 <tr>
                   <td>Graduation Date</td>
-                  <td>{additionalInfo.GraduationDate}</td>
-                </tr>
-                <tr>
-                  <td>Clubs</td>
-                  <td>{additionalInfo.Clubs}</td>
+                  <td>{userData.date_of_graduation}</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
       </div>
+      : (
+        <p>Loading or token not valid...</p>
+      )}
     </main>
   );
 }
@@ -246,7 +225,7 @@ function ContentMyProfile() {
 // Define the labels for the options in the sidebar
 const optionLabels = ["Oceny", "Statystyki", "Mój Profil"];
 
-export default function MainPage() {
+export default function MainPage({user}) {
   const [selectedContent, setSelectedContent] = useState(0);
 
   const handleSelectedContentChange = (index) => {
@@ -254,9 +233,9 @@ export default function MainPage() {
   };
 
   const contentComponents = {
-    0: <ContentGrades />,
-    1: <ContentStats />,
-    2: <ContentMyProfile />,
+    0: <ContentGrades user={user}/>,
+    1: <ContentStats user={user}/>,
+    2: <ContentMyProfile user={user}/>,
   };
 
   return (

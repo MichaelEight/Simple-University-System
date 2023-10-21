@@ -24,7 +24,7 @@ function App() {
       <LoginBar onLoginStatusChange={handleLoginStatusChange} user={userData} setUser={setUserData}/>
       <Header />
       <Navbar selectedItem={selectedItem} onNavItemChange={handleNavItemChange} isLoggedIn={isLoggedIn} user={userData} />
-      <Main selectedItem={selectedItem} />
+      <Main selectedItem={selectedItem} user={userData} />
       <Footer />
     </div>
   );

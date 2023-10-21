@@ -4,7 +4,7 @@ import MyIndex from '../NavPages/MyIndex.js'
 import MyDziennik from '../NavPages/MyDziennik.js'
 
 export default function Main(props) {
-    const { selectedItem } = props;
+    const { selectedItem, user } = props;
   
     let componentToRender;
 
@@ -16,12 +16,12 @@ export default function Main(props) {
         break;
       case 1:
         componentToRender = (
-          <MyIndex />
+          <MyIndex user={user}/>
         );
         break;
       case 2:
         componentToRender = (
-          <MyDziennik />
+          <MyDziennik user={user}/>
         );
         break;
       default:
