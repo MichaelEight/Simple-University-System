@@ -1,4 +1,6 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+
 // Database configuration
 $servername = "localhost";
 $username = "id21392784_pierwszepietro";
