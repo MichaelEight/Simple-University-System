@@ -8,23 +8,36 @@ export default function LoginBar({onLoginStatusChange}) {
     const [showLoginPopup, setShowLoginPopup] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [student, setStudent] = useState(null);
+    const [user, setUser] = useState(null);
     const [isValidEmail, setIsValidEmail] = useState(true);
     const [keepLoggedIn, setKeepLoggedIn] = useState(false); // State for "Keep me logged in" checkbox
   
     useEffect(() => {
       // Check if the user is logged in using cookies
-      const isLoggedIn = Cookies.get('loggedIn') === 'true';
-      if (isLoggedIn) {
+      const isLoggedInCookies = Cookies.get('loggedIn') === 'true';
+    
+      // Check local storage for login
+      const localLoggedIn = localStorage.getItem('loggedIn') === 'true';
+    
+      if (isLoggedInCookies) {
         // Retrieve user information from cookies and set the session
-        const studentInfo = JSON.parse(Cookies.get('studentInfo'));
+        const userInfo = JSON.parse(Cookies.get('userInfo'));
         setLoggedIn(true);
         onLoginStatusChange(true);
-        if (studentInfo) {
-          setStudent(studentInfo);
+        if (userInfo) {
+          setUser(userInfo);
+        }
+      } else if (localLoggedIn) {
+        // Retrieve user information from local storage and set the session
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        setLoggedIn(true);
+        onLoginStatusChange(true);
+        if (userInfo) {
+          setUser(userInfo);
         }
       }
     }, []); // Run this effect once on component mount
+    
 
     useEffect(() => {
       // Add event listener for the Escape key
@@ -47,26 +60,37 @@ export default function LoginBar({onLoginStatusChange}) {
       const isValidEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
     
       if (isValidEmail) {
+        const [user_id, domain] = email.split('@');
+
         // Make an API call to the PHP backend with a GET request
-        const url = `http://simpleuniversitysystem.000webhostapp.com/api/login.php?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
-    
-        const response = await fetch(url);
+        const response = await fetch(`http://simpleuniversitysystem.000webhostapp.com/api/login.php?user_id=${user_id}&domain=${domain}&password=${password}`);
     
         if (response.ok) {
           const data = await response.json();
     
           if (data.message === 'Login successful') {
             // Example user data
-            const studentInfo = { id: data.student_id, name: 'Johny', lastname: 'Kerfuś' };
+            const userInfo = { id: data.id, name: data.first_name, lastname: data.last_name };
     
             setLoggedIn(true);
             onLoginStatusChange(true);
-            setStudent(studentInfo);
+            setUser(userInfo);
     
             // Save session information in cookies if "Keep me logged in" is checked
             if (keepLoggedIn) {
               Cookies.set('loggedIn', 'true', { expires: 7 }); // Store the session for 7 days
-              Cookies.set('studentInfo', JSON.stringify(studentInfo), { expires: 7 });
+              Cookies.set('userInfo', JSON.stringify(userInfo), { expires: 7 });
+            }
+            else {
+              // Store the data locally for 1 hour using localStorage
+              localStorage.setItem('loggedIn', 'true');
+              localStorage.setItem('userInfo', JSON.stringify(userInfo));
+            
+              // Set a timeout to clear the data after 1 hour
+              setTimeout(() => {
+                localStorage.removeItem('loggedIn');
+                localStorage.removeItem('userInfo');
+              }, 3600000); // 1 hour in milliseconds
             }
     
             setShowLoginPopup(false);
@@ -80,16 +104,19 @@ export default function LoginBar({onLoginStatusChange}) {
         alert('Invalid email format');
       }
     };
-    
   
     const handleLogout = () => {
       // Clear cookies and log out the user
       Cookies.remove('loggedIn');
-      Cookies.remove('studentInfo');
+      Cookies.remove('userInfo');
+
+      // Clear local storage
+      localStorage.removeItem('loggedIn');
+      localStorage.removeItem('userInfo');
   
       setLoggedIn(false);
       onLoginStatusChange(false);
-      setStudent(null);
+      setUser(null);
     };
   
     const handleEmailChange = (event) => {
@@ -123,8 +150,8 @@ export default function LoginBar({onLoginStatusChange}) {
           </>
         ) : (
           <div className="login-right login-bar-text">
-            {student ? (
-              <p>Zalogowany jako ({student.id}) {student.name} {student.lastname}</p>
+            {user ? (
+              <p>Zalogowany jako ({user.id}) {user.name} {user.lastname}</p>
             ) : (
               <p>Zalogowany</p>
             )}
