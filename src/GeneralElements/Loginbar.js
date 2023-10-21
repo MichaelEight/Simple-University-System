@@ -101,17 +101,16 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
               Cookies.set('loggedIn', 'true', { expires: 7 }); // Store the session for 7 days
               Cookies.set('userInfo', JSON.stringify(userInfo), { expires: 7 });
             }
-            else {
-              // Store the data locally for 1 hour using localStorage
-              localStorage.setItem('loggedIn', 'true');
-              localStorage.setItem('userInfo', JSON.stringify(userInfo));
             
-              // Set a timeout to clear the data after 1 hour
-              setTimeout(() => {
-                localStorage.removeItem('loggedIn');
-                localStorage.removeItem('userInfo');
-              }, 3600000); // 1 hour in milliseconds
-            }
+            // Store the data locally for 1 hour using localStorage
+            localStorage.setItem('loggedIn', 'true');
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+          
+            // Set a timeout to clear the data after 1 hour
+            setTimeout(() => {
+              localStorage.removeItem('loggedIn');
+              localStorage.removeItem('userInfo');
+            }, 3600000); // 1 hour in milliseconds
     
             setShowLoginPopup(false);
           } else {
@@ -127,7 +126,28 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
   
     const handleLogout = async () => {
       try {
-        const userInfo = JSON.parse(Cookies.get('userInfo'));
+        // Check if the user is logged in using cookies
+        const isLoggedInCookies = Cookies.get('loggedIn') === 'true';
+      
+        // Check local storage for login
+        const localLoggedIn = localStorage.getItem('loggedIn') === 'true';
+
+        var userInfo;
+
+        if (isLoggedInCookies) {
+          // Retrieve user information from cookies and set the session
+          userInfo = JSON.parse(Cookies.get('userInfo'));
+        } else if (localLoggedIn) {
+          // Retrieve user information from local storage and set the session
+          userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        }
+        else
+        {
+          userInfo = null;
+        }
+
+        console.log(userInfo);
+        console.log(userInfo.token);
 
         const response = await fetch(`http://simpleuniversitysystem.000webhostapp.com/api/logout.php?token=${userInfo.token}`);
     

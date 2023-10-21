@@ -19,7 +19,7 @@ try {
         {
             $stmt = $conn->prepare("SELECT * FROM Students WHERE id = :user_id");
             $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-        } elseif ($domain === 'mak.pl') // Teacher
+        } elseif ($domain === 'mak.pl') // Teacher or Admin
         {
             $stmt = $conn->prepare("SELECT * FROM Personnel WHERE id = :user_id");
             $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
@@ -48,7 +48,10 @@ try {
                 if ($domain === 'student.mak.pl')
                     $role = "student";
                 elseif ($domain === 'mak.pl')
-                    $role = "teacher";
+                    if($user['permissions'] !== NULL)
+                        $role = $user['permissions'];
+                    else
+                        $role = "teacher";
                 else
                     $role = "none";
         

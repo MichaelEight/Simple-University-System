@@ -241,8 +241,9 @@ function ContentMyProfile({user}) {
           </div>
         </div>
       </div>
-      : (
-        <p>Loading or token not valid...</p>
+      : ((validToken ?
+         <p>Loading Data...</p> :
+          <p>INVALID TOKEN</p> )
       )}
     </main>
   );
