@@ -36,8 +36,12 @@ try {
 
         if ($user) {
             $storedPassword = $user['password'];
+            $storedSalt = $user['salt'];
 
-            if ($providedPassword === $storedPassword) {
+            $passwordToHash = $storedSalt . $providedPassword;
+            $hashedPassword = password_hash($passwordToHash, PASSWORD_BCRYPT);
+
+            if ($hashedPassword === $storedPassword) {
                 // Create a new token
                 $token = generateToken(); // Implement a function to generate a unique token
 
