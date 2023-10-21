@@ -4,13 +4,12 @@ import Main from './GeneralElements/Main.js'
 import Footer from './GeneralElements/Footer.js'
 import LoginBar from './GeneralElements/Loginbar.js'
 import './App.css';
-import React, { useState, useEffect } from 'react';
-// import DBTest from './dbTest.js';
-// import DBTest2 from './dbTest2.js';
+import React, { useState } from 'react';
 
 function App() {
   const [selectedItem, setSelectedItem] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState(null);
 
   const handleNavItemChange = (index) => {
     setSelectedItem(index);
@@ -22,12 +21,11 @@ function App() {
 
   return (
     <div className="App">
-      <LoginBar onLoginStatusChange={handleLoginStatusChange}/>
+      <LoginBar onLoginStatusChange={handleLoginStatusChange} user={userData} setUser={setUserData}/>
       <Header />
-      <Navbar selectedItem={selectedItem} onNavItemChange={handleNavItemChange} isLoggedIn={isLoggedIn} />
+      <Navbar selectedItem={selectedItem} onNavItemChange={handleNavItemChange} isLoggedIn={isLoggedIn} user={userData} />
       <Main selectedItem={selectedItem} />
       <Footer />
-      {/* <DBTest2 /> */}
     </div>
   );
 }

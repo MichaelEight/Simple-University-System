@@ -3,12 +3,11 @@ import Cookies from 'js-cookie'; // Import the js-cookie library
 import '../GeneralElementsStyles/Loginbar.css';
 import '../GlobalStyles.css';
 
-export default function LoginBar({onLoginStatusChange}) {
+export default function LoginBar({onLoginStatusChange, user, setUser}) {
     const [loggedIn, setLoggedIn] = useState(false);
     const [showLoginPopup, setShowLoginPopup] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [user, setUser] = useState(null);
     const [isValidEmail, setIsValidEmail] = useState(true);
     const [keepLoggedIn, setKeepLoggedIn] = useState(false); // State for "Keep me logged in" checkbox
   
@@ -70,7 +69,7 @@ export default function LoginBar({onLoginStatusChange}) {
     
           if (data.message === 'Login successful') {
             // Example user data
-            const userInfo = { id: data.id, name: data.first_name, lastname: data.last_name };
+            const userInfo = { id: data.id, name: data.first_name, lastname: data.last_name, token: data.token, role: data.role };
     
             setLoggedIn(true);
             onLoginStatusChange(true);
@@ -105,7 +104,21 @@ export default function LoginBar({onLoginStatusChange}) {
       }
     };
   
-    const handleLogout = () => {
+    const handleLogout = async () => {
+      try {
+        const userInfo = JSON.parse(Cookies.get('userInfo'));
+
+        const response = await fetch(`http://simpleuniversitysystem.000webhostapp.com/api/logout.php?token=${userInfo.token}`);
+    
+        if (response.ok) {
+          console.log('Token removed from the database');
+        } else {
+          console.error('Failed to remove the token from the database');
+        }
+      } catch (error) {
+        console.error('Error when removing the token:', error);
+      }
+
       // Clear cookies and log out the user
       Cookies.remove('loggedIn');
       Cookies.remove('userInfo');
