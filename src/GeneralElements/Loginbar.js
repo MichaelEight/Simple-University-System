@@ -17,26 +17,48 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
     
       // Check local storage for login
       const localLoggedIn = localStorage.getItem('loggedIn') === 'true';
-    
+
+      var userInfo;
+
       if (isLoggedInCookies) {
         // Retrieve user information from cookies and set the session
-        const userInfo = JSON.parse(Cookies.get('userInfo'));
-        setLoggedIn(true);
-        onLoginStatusChange(true);
-        if (userInfo) {
-          setUser(userInfo);
-        }
+        userInfo = JSON.parse(Cookies.get('userInfo'));
       } else if (localLoggedIn) {
         // Retrieve user information from local storage and set the session
-        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        setLoggedIn(true);
-        onLoginStatusChange(true);
-        if (userInfo) {
-          setUser(userInfo);
-        }
+        userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      }
+      else
+      {
+        userInfo = null;
+      }
+
+      if (userInfo) {
+        // Validate the token
+        const validateToken = async () => {
+          const response = await fetch(`http://simpleuniversitysystem.000webhostapp.com/api/validateToken.php?token=${userInfo.token}`);
+  
+          if (response.ok) {
+            const data = await response.json();
+  
+            if (data.valid) {
+              // Token is valid, continue the session
+              setUser(userInfo);
+              setLoggedIn(true);
+              onLoginStatusChange(true);
+              console.log("Authentication successful!");
+            } else {
+              // Token is invalid or expired, perform logout
+              console.log("Authentication failed!");
+              handleLogout();
+            }
+          } else {
+            console.error('Error when validating the token');
+          }
+        };
+  
+        validateToken();
       }
     }, []); // Run this effect once on component mount
-    
 
     useEffect(() => {
       // Add event listener for the Escape key
