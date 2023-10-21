@@ -37,6 +37,7 @@ export default function Navbar(props) {
         >
           <p>Strona Główna</p>
         </li>
+
         <li
           onClick={() => handlePrivilegedOptionClick(1)}
           className={(selectedItem === 1 ? 'selected' : 'hover-underline-animation') + " " +
@@ -46,6 +47,7 @@ export default function Navbar(props) {
         >
           <p>Mój Indeks</p>
         </li>
+
         <li
           onClick={() => handlePrivilegedOptionClick(2)}
           className={(selectedItem === 2 ? 'selected' : 'hover-underline-animation') + " " +
@@ -55,12 +57,14 @@ export default function Navbar(props) {
         >
           <p>Mój Dziennik</p>
         </li>
+
         <li
           onClick={() => onNavItemChange(3)}
           className={selectedItem === 3 ? 'selected' : 'hover-underline-animation'}
         >
-          <p>Link 4</p>
+          <p>Admin Panel</p>
         </li>
+
         <li
           onClick={() => onNavItemChange(4)}
           className={selectedItem === 4 ? 'selected' : 'hover-underline-animation'}

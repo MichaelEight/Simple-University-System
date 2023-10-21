@@ -37,28 +37,28 @@ try {
         if ($user) {
             $storedPassword = $user['password'];
             $storedSalt = $user['salt'];
-
-            $passwordToHash = $storedSalt . $providedPassword;
-            $hashedPassword = password_hash($passwordToHash, PASSWORD_BCRYPT);
-
-            if ($hashedPassword === $storedPassword) {
+        
+            $passwordToVerify = $storedSalt . $providedPassword;
+        
+            // Use password_verify to check if the provided password matches the stored password
+            if (password_verify($passwordToVerify, $storedPassword)) {
                 // Create a new token
                 $token = generateToken(); // Implement a function to generate a unique token
-
-                if($domain === 'student.mak.pl')
+        
+                if ($domain === 'student.mak.pl')
                     $role = "student";
-                else if($domain === 'mak.pl')
+                elseif ($domain === 'mak.pl')
                     $role = "teacher";
                 else
                     $role = "none";
-                
+        
                 // Store the token information in the LoginToken table
                 $insertTokenStmt = $conn->prepare("INSERT INTO LoginTokens (user_id, role, valid_since, valid_until, token) VALUES (:user_id, :role, NOW(), NOW() + INTERVAL 7 DAY, :token)");
                 $insertTokenStmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
                 $insertTokenStmt->bindParam(':role', $role, PDO::PARAM_STR);
                 $insertTokenStmt->bindParam(':token', $token, PDO::PARAM_STR);
                 $insertTokenStmt->execute();
-
+        
                 $user['token'] = $token;
                 $user['message'] = 'Login successful';
                 $user['role'] = $role;

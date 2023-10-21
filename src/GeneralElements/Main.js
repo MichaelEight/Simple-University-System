@@ -2,6 +2,7 @@ import '../GeneralElementsStyles/Main.css'
 import Homepage from '../NavPages/Homepage.js' 
 import MyIndex from '../NavPages/MyIndex.js'
 import MyDziennik from '../NavPages/MyDziennik.js'
+import AdminPanel from '../NavPages/AdminPanel';
 
 export default function Main(props) {
     const { selectedItem, user } = props;
@@ -22,6 +23,11 @@ export default function Main(props) {
       case 2:
         componentToRender = (
           <MyDziennik user={user}/>
+        );
+        break;
+      case 3:
+        componentToRender = (
+          <AdminPanel user={user}/>
         );
         break;
       default:
