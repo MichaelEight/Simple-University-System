@@ -5,10 +5,9 @@
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  border: 1px solid #007bff;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background-color: #f9f9f9;
+  background-color: #858484;
   margin: 20px;
 }
 
@@ -16,9 +15,9 @@
   width: 100%;
   margin-bottom: 20px;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #333333;
   border-radius: 5px;
-  background-color: #fff;
+  background-color: #666565;
   text-align: center;
 }
 
@@ -58,21 +57,22 @@
 
 .style-separator h2 {
   font-size: 18px;
-  color: #007bff;
+  /* color: #007bff; */ 
+  color: #3292f9;
   margin-bottom: 10px;
 }
 
 .style-separator p {
   font-size: 16px;
-  color: #333;
+  /* color: #333; */
+  color: white;
 }
 
 .profile-picture img {
   width: 150px;
   height: 150px;
-  border: 2px solid black; /* Add a border around the image with a slight roundness */
+  border: 2px solid #333333; /* Add a border around the image with a slight roundness */
   border-radius: 10px; /* Adjust the border-radius to control roundness */
-  padding: 10px;
   object-fit: cover;
 }
 
@@ -85,4 +85,8 @@
 
 .profile-info table {
   margin: 0 auto; /* Center-align the table within the "Personal Info" section */
+}
+
+.profile-section td{
+  color: white;
 }

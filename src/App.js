@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 function App() {
   const [selectedItem, setSelectedItem] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState(null);
 
   const handleNavItemChange = (index) => {
     setSelectedItem(index);
@@ -20,10 +21,10 @@ function App() {
 
   return (
     <div className="App">
-      <LoginBar onLoginStatusChange={handleLoginStatusChange}/>
+      <LoginBar onLoginStatusChange={handleLoginStatusChange} user={userData} setUser={setUserData}/>
       <Header />
-      <Navbar selectedItem={selectedItem} onNavItemChange={handleNavItemChange} isLoggedIn={isLoggedIn} />
-      <Main selectedItem={selectedItem} />
+      <Navbar selectedItem={selectedItem} onNavItemChange={handleNavItemChange} isLoggedIn={isLoggedIn} user={userData} />
+      <Main selectedItem={selectedItem} user={userData} />
       <Footer />
     </div>
   );

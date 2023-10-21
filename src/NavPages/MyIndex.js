@@ -1,42 +1,15 @@
 import '../NavPagesStyles/Sidebar.css';
 import '../NavPagesStyles/MyIndex.css';
 import '../NavPagesStyles/MyProfile.css';
-import React, { useState } from 'react';
+import '../NavPagesStyles/Stats.css';
+import React, { useEffect, useState } from 'react';
 import placeholderPic from '../Images/placeholderImage.jpeg';
 
 // Import the shared components
 import CommonMainPage from './CommonMainPage';
 
 // Define your content components for this specific use case
-function ContentGrades() {
-
-  // const [gradeData, setGradeData] = useState([]);
-
-  // useEffect(() => {
-  //   // Function to fetch data
-  //   const fetchData = () => {
-  //     axios.get('/api/grades') // Replace with your actual API endpoint
-  //       .then(response => {
-  //         setGradeData(response.data);
-  //       })
-  //       .catch(error => {
-  //         console.error('Error fetching data:', error);
-  //       });
-  //   };
-
-  //   // Initial fetch
-  //   fetchData();
-
-  //   // Set up a periodic fetch every 15 seconds
-  //   const refreshInterval = setInterval(() => {
-  //     fetchData();
-  //   }, 15000);
-
-  //   // Cleanup the interval when the component unmounts
-  //   return () => {
-  //     clearInterval(refreshInterval);
-  //   };
-  // }, []);
+function ContentGrades({user}) {
 
   const gradeData = [
     {
@@ -77,16 +50,21 @@ function ContentGrades() {
               <th>Prowadzący</th>
               <th>Ocena</th>
               <th>ECTS</th>
+              <th>Akcja</th>
             </tr>
           </thead>
           <tbody>
             {gradeData.map((item, index) => (
-              <tr key={index}>
+              <tr key={index} className='rows-colors'>
                 <td>{item.subjectCode}</td>
                 <td>{item.subjectName}</td>
                 <td>{item.instructorName}</td>
                 <td>{item.grade}</td>
                 <td>{item.ects}</td>
+                <td>
+                  <button>Zaakceptuj</button>
+                  <button>Reklamuj</button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -96,106 +74,177 @@ function ContentGrades() {
   );
 }
 
-function ContentStats() {
+function ContentStats({user}) {
+  // Placeholder data for the student's stats
+  const studentStats = {
+    name: 'John Doe',
+    grades: [85, 92, 78, 96, 89],
+    totalStudents: 50, // Total number of students
+  };
+
+  // Calculate the student's position and percentile
+  const position = 5; // Student's rank
+  const percentile = ((studentStats.totalStudents - position) / studentStats.totalStudents) * 100;
+
   return (
     <main>
-      <div>
-        <p>Placeholder Stats</p>
+      <div className="content-stats">
+        <h2>{studentStats.name}'s Statistics</h2>
+        <div className="grade-summary">
+          <p>Your grades:</p>
+          <ul>
+            {studentStats.grades.map((grade, index) => (
+              <li key={index}>Exam {index + 1}: {grade}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="position-percentile">
+          <p>You are in the top {position} students based on grades.</p>
+          <p>Your grades are better than {percentile.toFixed(2)}% of other students.</p>
+        </div>
       </div>
     </main>
   );
 }
 
-function ContentMyProfile() {
-  const personalInfo = {
-    firstName: 'John',
-    lastName: 'Doe',
-    dateOfBirth: '01/01/1990',
-  };
+function ContentMyProfile({user}) {
+  const [validToken, setValidToken] = useState(true);
+  const [userData, setUserData] = useState(null);
+  const [dataLoaded, setDataLoaded] = useState(false); // Track whether data is loaded
 
-  const studentInfo = {
-    indexNumber: '12345',
-    major: 'Computer Science',
-    gradeLevel: 'Senior',
-    email: 'john.doe@email.com',
-  };
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        // Check if there is cached data in localStorage
+        const cachedData = localStorage.getItem('userProfileData');
+        const cachedTimestamp = localStorage.getItem('userProfileDataTimestamp');
+        const currentTimestamp = new Date().getTime();
 
-  const additionalInfo = {
-    GPA: '3.7',
-    AcademicAdvisor: 'Dr. Smith',
-    EnrollmentStatus: 'Full-time',
-    GraduationDate: 'May 2023',
-    Clubs: 'Computer Science Club, Chess Club',
-  };
+        // If cached data exists and is less than 30 seconds old, use it
+        if (cachedData && cachedTimestamp && currentTimestamp - cachedTimestamp < 30000) {
+          setUserData(JSON.parse(cachedData));
+          setDataLoaded(true);
+          console.log("Data loaded from local storage!");
+        } else {
+          const response = await fetch(`http://simpleuniversitysystem.000webhostapp.com/api/validateToken.php?token=${user.token}`);
+          if (response.ok) {
+            const data = await response.json();
+            if (data.valid) {
+              setValidToken(true);
+
+              const dataResponse = await fetch(`http://simpleuniversitysystem.000webhostapp.com/api/userProfileData.php?token=${user.token}`);
+              if (dataResponse.ok) {
+                const userDataFromDB = await dataResponse.json();
+                setUserData(userDataFromDB);
+                setDataLoaded(true);
+                console.log("Data downloaded successfully!");
+
+                // Cache the data in localStorage
+                localStorage.setItem('userProfileData', JSON.stringify(userDataFromDB));
+                localStorage.setItem('userProfileDataTimestamp', currentTimestamp.toString());
+              } else {
+                console.log("User data download failed!");
+              }
+            } else {
+              setValidToken(false);
+            }
+          } else {
+            console.error('Error when validating the token');
+          }
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    if (user) {
+      loadUserData();
+    }
+  }, [user]);
 
   return (
     <main>
+      {validToken && dataLoaded ?
       <div className='style-separator'>
         <div className="profile-container">
-        <div className="profile-section-image">
-            <div className="profile-picture">
-              <img src={placeholderPic} alt="Profile" />
-            </div>
+          <div className="profile-picture">
+            <img src={placeholderPic} alt="Profile" />
+          </div>
+
+          <div className='profile-section'>
             <div className="personal-info">
-              <h2>Personal Info</h2>
-              <p><span className="label">Name:</span> {personalInfo.firstName} {personalInfo.lastName}</p>
-              <p><span className="label">Date of Birth:</span> {personalInfo.dateOfBirth}</p>
+              <h2>Informacje Osobiste</h2>
+              <p><span className="label">Imię i nazwisko:</span> {userData.first_name} {userData.last_name}</p>
+              <p><span className="label">Data Urodzenia:</span> {userData.date_of_birth}</p>
             </div>
           </div>
 
           <div className="profile-section">
-            <h2>Student Info</h2>
+            <h2>Informacje Studenckie</h2>
             <table className="info-table">
               <tbody>
                 <tr>
-                  <td>Index Number</td>
-                  <td>{studentInfo.indexNumber}</td>
-                </tr>
-                <tr>
-                  <td>Major</td>
-                  <td>{studentInfo.major}</td>
-                </tr>
-                <tr>
-                  <td>Grade Level</td>
-                  <td>{studentInfo.gradeLevel}</td>
+                  <td>Number Indeksu</td>
+                  <td>{userData.id}</td>
                 </tr>
                 <tr>
                   <td>Email</td>
-                  <td>{studentInfo.email}</td>
+                  <td>{userData.id + "@student.mak.pl"}</td>
+                </tr>
+                <tr>
+                  <td>Kierunek</td>
+                  <td>{userData.major}</td>
+                </tr>
+                <tr>
+                  <td>Stopień Studiów</td>
+                  <td>{userData.degree}</td>
+                </tr>
+                <tr>
+                  <td>Tryb Studiów</td>
+                  <td>{userData.study_mode}</td>
+                </tr>
+                <tr>
+                  <td>Obecny Semestr</td>
+                  <td>{userData.current_semester}</td>
+                </tr>
+                <tr>
+                  <td>Uzyskane ECTS</td>
+                  <td>{userData.ECTS_gained}</td>
+                </tr>
+                <tr>
+                  <td>Deficyt ECTS</td>
+                  <td>{userData.ECTS_missing}</td>
+                </tr>
+                <tr>
+                  <td>Początek Studiów</td>
+                  <td>{userData.date_of_start}</td>
+                </tr>
+                <tr>
+                  <td>Przewidywane Ukończenie Studiów</td>
+                  <td>{userData.date_of_graduation}</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
           <div className="profile-section">
-            <h2>Additional Info</h2>
+            <h2>Informacje Dodatkowe</h2>
             <table className="info-table">
               <tbody>
                 <tr>
-                  <td>GPA</td>
-                  <td>{additionalInfo.GPA}</td>
+                  <td>Kluby</td>
+                  <td>{userData.clubs}</td>
                 </tr>
-                <tr>
-                  <td>Academic Advisor</td>
-                  <td>{additionalInfo.AcademicAdvisor}</td>
-                </tr>
-                <tr>
-                  <td>Enrollment Status</td>
-                  <td>{additionalInfo.EnrollmentStatus}</td>
-                </tr>
-                <tr>
-                  <td>Graduation Date</td>
-                  <td>{additionalInfo.GraduationDate}</td>
-                </tr>
-                <tr>
-                  <td>Clubs</td>
-                  <td>{additionalInfo.Clubs}</td>
-                </tr>
+                
               </tbody>
             </table>
           </div>
         </div>
       </div>
+      : ((validToken ?
+         <p>Loading Data...</p> :
+          <p>INVALID TOKEN</p> )
+      )}
     </main>
   );
 }
@@ -203,7 +252,7 @@ function ContentMyProfile() {
 // Define the labels for the options in the sidebar
 const optionLabels = ["Oceny", "Statystyki", "Mój Profil"];
 
-export default function MainPage() {
+export default function MainPage({user}) {
   const [selectedContent, setSelectedContent] = useState(0);
 
   const handleSelectedContentChange = (index) => {
@@ -211,9 +260,9 @@ export default function MainPage() {
   };
 
   const contentComponents = {
-    0: <ContentGrades />,
-    1: <ContentStats />,
-    2: <ContentMyProfile />,
+    0: <ContentGrades user={user}/>,
+    1: <ContentStats user={user}/>,
+    2: <ContentMyProfile user={user}/>,
   };
 
   return (

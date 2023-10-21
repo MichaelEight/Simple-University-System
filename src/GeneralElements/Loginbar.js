@@ -3,26 +3,60 @@ import Cookies from 'js-cookie'; // Import the js-cookie library
 import '../GeneralElementsStyles/Loginbar.css';
 import '../GlobalStyles.css';
 
-export default function LoginBar({onLoginStatusChange}) {
+export default function LoginBar({onLoginStatusChange, user, setUser}) {
     const [loggedIn, setLoggedIn] = useState(false);
     const [showLoginPopup, setShowLoginPopup] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [student, setStudent] = useState(null);
     const [isValidEmail, setIsValidEmail] = useState(true);
     const [keepLoggedIn, setKeepLoggedIn] = useState(false); // State for "Keep me logged in" checkbox
   
     useEffect(() => {
       // Check if the user is logged in using cookies
-      const isLoggedIn = Cookies.get('loggedIn') === 'true';
-      if (isLoggedIn) {
+      const isLoggedInCookies = Cookies.get('loggedIn') === 'true';
+    
+      // Check local storage for login
+      const localLoggedIn = localStorage.getItem('loggedIn') === 'true';
+
+      var userInfo;
+
+      if (isLoggedInCookies) {
         // Retrieve user information from cookies and set the session
-        const studentInfo = JSON.parse(Cookies.get('studentInfo'));
-        setLoggedIn(true);
-        onLoginStatusChange(true);
-        if (studentInfo) {
-          setStudent(studentInfo);
-        }
+        userInfo = JSON.parse(Cookies.get('userInfo'));
+      } else if (localLoggedIn) {
+        // Retrieve user information from local storage and set the session
+        userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      }
+      else
+      {
+        userInfo = null;
+      }
+
+      if (userInfo) {
+        // Validate the token
+        const validateToken = async () => {
+          const response = await fetch(`http://simpleuniversitysystem.000webhostapp.com/api/validateToken.php?token=${userInfo.token}`);
+  
+          if (response.ok) {
+            const data = await response.json();
+  
+            if (data.valid) {
+              // Token is valid, continue the session
+              setUser(userInfo);
+              setLoggedIn(true);
+              onLoginStatusChange(true);
+              console.log("Authentication successful!");
+            } else {
+              // Token is invalid or expired, perform logout
+              console.log("Authentication failed!");
+              handleLogout();
+            }
+          } else {
+            console.error('Error when validating the token');
+          }
+        };
+  
+        validateToken();
       }
     }, []); // Run this effect once on component mount
 
@@ -42,33 +76,107 @@ export default function LoginBar({onLoginStatusChange}) {
       };
     }, [showLoginPopup]);
   
-    const handleLogin = () => {
-        if (isValidEmail && email === 'user@example.com' && password === 'password') {
-          const studentInfo = { id: 69420, name: 'Johny', lastname: 'Kerfuś' }; // Example user data
-          setLoggedIn(true);
-          onLoginStatusChange(true);
-          setStudent(studentInfo);
-      
-          // Save session information in cookies if "Keep me logged in" is checked
-          if (keepLoggedIn) {
-            Cookies.set('loggedIn', 'true', { expires: 7 }); // Store the session for 7 days
-            Cookies.set('studentInfo', JSON.stringify(studentInfo), { expires: 7 });
+    const handleLogin = async () => {
+      // Check if the email is valid
+      const isValidEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
+    
+      if (isValidEmail) {
+        const [user_id, domain] = email.split('@');
+
+        // Make an API call to the PHP backend with a GET request
+        const response = await fetch(`http://simpleuniversitysystem.000webhostapp.com/api/login.php?user_id=${user_id}&domain=${domain}&password=${password}`);
+    
+        if (response.ok) {
+          const data = await response.json();
+    
+          if (data.message === 'Login successful') {
+            const userInfo = { id: data.id, name: data.first_name, lastname: data.last_name, token: data.token, role: data.role };
+    
+            setLoggedIn(true);
+            onLoginStatusChange(true);
+            setUser(userInfo);
+    
+            // Save session information in cookies if "Keep me logged in" is checked
+            if (keepLoggedIn) {
+              Cookies.set('loggedIn', 'true', { expires: 7 }); // Store the session for 7 days
+              Cookies.set('userInfo', JSON.stringify(userInfo), { expires: 7 });
+            }
+            
+            // Store the data locally for 1 hour using localStorage
+            localStorage.setItem('loggedIn', 'true');
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+          
+            // Set a timeout to clear the data after 1 hour
+            setTimeout(() => {
+              localStorage.removeItem('loggedIn');
+              localStorage.removeItem('userInfo');
+            }, 3600000); // 1 hour in milliseconds
+    
+            setShowLoginPopup(false);
+          } else {
+            alert('Invalid email or password');
           }
-      
-          setShowLoginPopup(false);
         } else {
-          alert('Invalid email or password');
+          alert('Login failed');
         }
-      };
+      } else {
+        alert('Invalid email format');
+      }
+    };
   
-    const handleLogout = () => {
+    const handleLogout = async () => {
+      try {
+        // Check if the user is logged in using cookies
+        const isLoggedInCookies = Cookies.get('loggedIn') === 'true';
+      
+        // Check local storage for login
+        const localLoggedIn = localStorage.getItem('loggedIn') === 'true';
+
+        var userInfo;
+
+        if (isLoggedInCookies) {
+          // Retrieve user information from cookies and set the session
+          userInfo = JSON.parse(Cookies.get('userInfo'));
+        } else if (localLoggedIn) {
+          // Retrieve user information from local storage and set the session
+          userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        }
+        else
+        {
+          userInfo = null;
+        }
+
+        console.log(userInfo);
+        console.log(userInfo.token);
+
+        const response = await fetch(`http://simpleuniversitysystem.000webhostapp.com/api/logout.php?token=${userInfo.token}`);
+    
+        if (response.ok) {
+          console.log('Token removed from the database');
+        } else {
+          console.error('Failed to remove the token from the database');
+        }
+      } catch (error) {
+        console.error('Error when removing the token:', error);
+      }
+
       // Clear cookies and log out the user
       Cookies.remove('loggedIn');
-      Cookies.remove('studentInfo');
+      Cookies.remove('userInfo');
+
+      // Clear local storage
+      localStorage.removeItem('loggedIn');
+      localStorage.removeItem('userInfo');
+
+      // Remove cached data from localStorage
+      localStorage.removeItem('userProfileData');
+      localStorage.removeItem('userProfileDataTimestamp');
   
       setLoggedIn(false);
       onLoginStatusChange(false);
-      setStudent(null);
+      setUser(null);
+
+      window.location.reload(); // Force refresh
     };
   
     const handleEmailChange = (event) => {
@@ -102,8 +210,8 @@ export default function LoginBar({onLoginStatusChange}) {
           </>
         ) : (
           <div className="login-right login-bar-text">
-            {student ? (
-              <p>Zalogowany jako ({student.id}) {student.name} {student.lastname}</p>
+            {user ? (
+              <p>Zalogowany jako ({user.id}) {user.name} {user.lastname}</p>
             ) : (
               <p>Zalogowany</p>
             )}
@@ -144,6 +252,7 @@ export default function LoginBar({onLoginStatusChange}) {
                 <label className="keep-logged-in-label" htmlFor="keepLoggedIn">
                     Nie wylogowuj mnie
                     <input
+                    className='keep-logged-in-checkbox'
                     type="checkbox"
                     id="keepLoggedIn"
                     checked={keepLoggedIn}

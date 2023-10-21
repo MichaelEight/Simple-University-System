@@ -1,4 +1,3 @@
-// Import necessary dependencies
 import React, { useState } from 'react';
 import '../NavPagesStyles/Sidebar.css';
 
@@ -6,7 +5,7 @@ import '../NavPagesStyles/Sidebar.css';
 import CommonMainPage from './CommonMainPage';
 
 // Define your content components for this specific use case
-function ContentPlaceholder1() {
+function ContentMyPlan() {
   return (
     <main>
       <div>
@@ -16,7 +15,7 @@ function ContentPlaceholder1() {
   );
 }
 
-function ContentPlaceholder2() {
+function ContentListOfStudents() {
   return (
     <main>
       <div>
@@ -26,7 +25,7 @@ function ContentPlaceholder2() {
   );
 }
 
-function ContentPlaceholder3() {
+function ContentQuickGrade() {
   return (
     <main>
       <div>
@@ -36,8 +35,18 @@ function ContentPlaceholder3() {
   );
 }
 
+function ContentSubjectInfo() {
+  return (
+    <main>
+      <div>
+        <p>Placeholder 4</p>
+      </div>
+    </main>
+  );
+}
+
 // Define the labels for the options in the sidebar
-const optionLabels = ["Placeholder1", "Placeholder2", "Placeholder3"];
+const optionLabels = ["Mój Plan Zajęć", "Lista Studentów", "Szybkie Wprowadzenie Oceny", "Info o Twoich Przedmiotach"];
 
 export default function MainPage() {
   const [selectedContent, setSelectedContent] = useState(0);
@@ -47,9 +56,10 @@ export default function MainPage() {
   };
 
   const contentComponents = {
-    0: <ContentPlaceholder1 />,
-    1: <ContentPlaceholder2 />,
-    2: <ContentPlaceholder3 />,
+    0: <ContentMyPlan />,
+    1: <ContentListOfStudents />,
+    2: <ContentQuickGrade />,
+    3: <ContentSubjectInfo />,
   };
 
   return (
