@@ -90,7 +90,6 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
           const data = await response.json();
     
           if (data.message === 'Login successful') {
-            // Example user data
             const userInfo = { id: data.id, name: data.first_name, lastname: data.last_name, token: data.token, role: data.role };
     
             setLoggedIn(true);
