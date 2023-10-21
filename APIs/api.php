@@ -2,15 +2,9 @@
 // Allow requests from any origin (not recommended for production)
 header("Access-Control-Allow-Origin: *");
 
-$servername = "localhost";
-$username = "id21392784_pierwszepietro";
-$password = "KochamPierogi69!";
-$database = "id21392784_susbase";
+include 'config.php';
 
 try {
-    $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Retrieve the student_id from the query parameters
     $student_id = $_GET['student_id'];
 

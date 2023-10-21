@@ -42,24 +42,45 @@ export default function LoginBar({onLoginStatusChange}) {
       };
     }, [showLoginPopup]);
   
-    const handleLogin = () => {
-        if (isValidEmail && email === 'user@example.com' && password === 'password') {
-          const studentInfo = { id: 69420, name: 'Johny', lastname: 'Kerfuś' }; // Example user data
-          setLoggedIn(true);
-          onLoginStatusChange(true);
-          setStudent(studentInfo);
-      
-          // Save session information in cookies if "Keep me logged in" is checked
-          if (keepLoggedIn) {
-            Cookies.set('loggedIn', 'true', { expires: 7 }); // Store the session for 7 days
-            Cookies.set('studentInfo', JSON.stringify(studentInfo), { expires: 7 });
+    const handleLogin = async () => {
+      // Check if the email is valid
+      const isValidEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
+    
+      if (isValidEmail) {
+        // Make an API call to the PHP backend with a GET request
+        const url = `http://simpleuniversitysystem.000webhostapp.com/api/login.php?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+    
+        const response = await fetch(url);
+    
+        if (response.ok) {
+          const data = await response.json();
+    
+          if (data.message === 'Login successful') {
+            // Example user data
+            const studentInfo = { id: data.student_id, name: 'Johny', lastname: 'Kerfuś' };
+    
+            setLoggedIn(true);
+            onLoginStatusChange(true);
+            setStudent(studentInfo);
+    
+            // Save session information in cookies if "Keep me logged in" is checked
+            if (keepLoggedIn) {
+              Cookies.set('loggedIn', 'true', { expires: 7 }); // Store the session for 7 days
+              Cookies.set('studentInfo', JSON.stringify(studentInfo), { expires: 7 });
+            }
+    
+            setShowLoginPopup(false);
+          } else {
+            alert('Invalid email or password');
           }
-      
-          setShowLoginPopup(false);
         } else {
-          alert('Invalid email or password');
+          alert('Login failed');
         }
-      };
+      } else {
+        alert('Invalid email format');
+      }
+    };
+    
   
     const handleLogout = () => {
       // Clear cookies and log out the user
