@@ -2,6 +2,7 @@ import '../GeneralElementsStyles/Main.css'
 import Homepage from '../NavPages/Homepage.js' 
 import MyIndex from '../NavPages/MyIndex.js'
 import MyDziennik from '../NavPages/MyDziennik.js'
+import MyDziekanat from '../NavPages/MyDziekanat.js'
 import Recruitment from '../NavPages/Recruitment.js'
 import AdminPanel from '../NavPages/AdminPanel';
 
@@ -34,6 +35,11 @@ export default function Main(props) {
         );
         break;
       case 3:
+        componentToRender = (
+          <MyDziekanat />
+        );
+        break;
+      case 4:
         componentToRender = (
           <Recruitment />
         );
