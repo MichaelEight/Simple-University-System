@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Cookies from 'js-cookie'; // Import the js-cookie library
 import '../GeneralElementsStyles/Loginbar.css';
 import '../GlobalStyles.css';
@@ -9,8 +9,32 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isValidEmail, setIsValidEmail] = useState(true);
-    const [keepLoggedIn, setKeepLoggedIn] = useState(false); // State for "Keep me logged in" checkbox
+    const [keepLoggedIn, setKeepLoggedIn] = useState(true); // State for "Keep me logged in" checkbox
   
+    const emailInputRef = useRef(null);
+    const passwordInputRef = useRef(null);
+    const loginButtonRef = useRef(null);
+
+    useEffect(() => {
+      const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+          if (document.activeElement === emailInputRef.current) {
+            // Email input is in focus, move focus to the password input
+            passwordInputRef.current.focus();
+          } else if (document.activeElement === passwordInputRef.current) {
+            // Password input is in focus, apply the login button action
+            loginButtonRef.current.click();
+          }
+        }
+      };
+  
+      document.addEventListener('keydown', handleKeyPress);
+  
+      return () => {
+        document.removeEventListener('keydown', handleKeyPress);
+      };
+    }, []); // Run this effect once on component mount
+
     useEffect(() => {
       // Check if the user is logged in using cookies
       const isLoggedInCookies = Cookies.get('loggedIn') === 'true';
@@ -230,6 +254,7 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
                 <input
                   type="text"
                   id="email"
+                  ref={emailInputRef}
                   placeholder="Wprowadź email"
                   value={email}
                   onChange={handleEmailChange}
@@ -243,6 +268,7 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
                 <input
                   type="password"
                   id="password"
+                  ref={passwordInputRef}
                   placeholder="Wprowadź hasło"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -260,7 +286,11 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
                     />
                 </label>
                 </div>
-              <button className='popup-login-button' onClick={handleLogin}>Zaloguj</button>
+              <button
+                className='popup-login-button'
+                ref={loginButtonRef}
+                onClick={handleLogin}
+                >Zaloguj</button>
             </div>
           </div>
         )}

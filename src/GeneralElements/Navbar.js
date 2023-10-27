@@ -21,17 +21,29 @@ export default function Navbar(props) {
           onNavItemChange(index); // Allow the click event if logged in as teacher
         }
       }
-      else if(index === 3) // if AdminPanel
+      else if(index === 3) // if MyDziennik
+      {
+        if(user.role === "dziekan" || user.role === "admin")
+        {
+          onNavItemChange(index); // Allow the click event if logged in as dziekan
+        }
+      }
+      else if(index === 5) // if AdminPanel
       {
         if(user.role === "admin")
         {
-          onNavItemChange(index); // Allow the click event if logged in as teacher
+          onNavItemChange(index); // Allow the click event if logged in as admin
         }
       }
       else
       {
         onNavItemChange(index); // Allow the click event if logged in
       }
+    }
+
+    if(index === 4) // Special permission for "Rekrutacja" page
+    {
+      onNavItemChange(index);
     }
   };
 
@@ -64,22 +76,39 @@ export default function Navbar(props) {
         >
           <p>Mój Dziennik</p>
         </li>
+
         <li
           onClick={() => handlePrivilegedOptionClick(3)}
           className={(selectedItem === 3 ? 'selected' : 'hover-underline-animation') + " " +
+                      (isLoggedIn && (user.role === "dziekan" || user.role === "admin") ? '' : 'locked-hover-underline-animation')}
+          // Disable and apply a different style if not logged in
+          style={{ cursor: isLoggedIn && (user.role === "dziekan" || user.role === "admin") ? 'pointer' : 'not-allowed', color: isLoggedIn && (user.role === "dziekan" || user.role === "admin") ? 'inherit' : 'gray' }}
+        >
+          <p>Mój Dziekanat</p>
+        </li>
+        
+        <li
+          onClick={() => handlePrivilegedOptionClick(4)}
+          className={(selectedItem === 4 ? 'selected' : 'hover-underline-animation') + " " +
+                      (!isLoggedIn ? '' : 'locked-hover-underline-animation')}
+          // Disable and apply a different style if not logged in
+          style={{ cursor: !isLoggedIn ? 'pointer' : 'not-allowed', color: !isLoggedIn ? 'inherit' : 'gray' }}
+        >
+          <p>Rekrutacja</p>
+        </li>
+
+        {isLoggedIn && user.role === "admin" ? 
+        
+        <li
+          onClick={() => handlePrivilegedOptionClick(5)}
+          className={(selectedItem === 5 ? 'selected' : 'hover-underline-animation') + " " +
                       (isLoggedIn && user.role === "admin" ? '' : 'locked-hover-underline-animation')}
           // Disable and apply a different style if not logged in
           style={{ cursor: isLoggedIn && user.role === "admin" ? 'pointer' : 'not-allowed', color: isLoggedIn && user.role === "admin" ? 'inherit' : 'gray' }}
         >
           <p>Admin Panel</p>
         </li>
-
-        <li
-          onClick={() => onNavItemChange(4)}
-          className={selectedItem === 4 ? 'selected' : 'hover-underline-animation'}
-        >
-          <p>Link 5</p>
-        </li>
+        :''}
       </ul>
     </nav>
   );

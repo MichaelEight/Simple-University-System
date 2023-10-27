@@ -2,6 +2,7 @@ import '../GeneralElementsStyles/Main.css'
 import Homepage from '../NavPages/Homepage.js' 
 import MyIndex from '../NavPages/MyIndex.js'
 import MyDziennik from '../NavPages/MyDziennik.js'
+import Recruitment from '../NavPages/Recruitment.js'
 import AdminPanel from '../NavPages/AdminPanel';
 
 export default function Main(props) {
@@ -9,6 +10,13 @@ export default function Main(props) {
   
     let componentToRender;
 
+    // 0 Homepage
+    // 1 MyIndex
+    // 2 MyDziennik
+    // 3 MyDziekanat
+    // 4 Recruitment
+    // 5 AdminPanel (hidden for non-admin)
+    
     switch (selectedItem) {
       case 0:
         componentToRender = (
@@ -26,6 +34,11 @@ export default function Main(props) {
         );
         break;
       case 3:
+        componentToRender = (
+          <Recruitment />
+        );
+        break;
+      case 4:
         componentToRender = (
           <AdminPanel user={user}/>
         );
