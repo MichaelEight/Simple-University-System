@@ -44,7 +44,7 @@ export default function Main(props) {
           <Recruitment />
         );
         break;
-      case 4:
+      case 5:
         componentToRender = (
           <AdminPanel user={user}/>
         );
