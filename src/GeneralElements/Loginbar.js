@@ -211,7 +211,7 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
         ) : (
           <div className="login-right login-bar-text">
             {user ? (
-              <p>Zalogowany jako ({user.id}) {user.name} {user.lastname}</p>
+              <p>{user.name} {user.lastname} ({user.id})</p>
             ) : (
               <p>Zalogowany</p>
             )}
