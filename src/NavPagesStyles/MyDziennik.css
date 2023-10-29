@@ -1,0 +1,19 @@
+/* studentTable.css */
+.student-table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  .student-table th, .student-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .student-table input[type="text"] {
+    text-align: center;
+  }
+  
+  /* Optional: Add more styling as needed */
+  
