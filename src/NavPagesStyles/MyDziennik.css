@@ -1,19 +1,63 @@
-/* studentTable.css */
-.student-table {
-    border-collapse: collapse;
-    width: 100%;
-    border: 1px solid #ddd;
-    text-align: center;
-  }
-  
-  .student-table th, .student-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-  }
-  
-  .student-table input[type="text"] {
-    text-align: center;
-  }
-  
-  /* Optional: Add more styling as needed */
-  
+/* Style the container as a table */
+.select-container {
+  display: table;
+  width: 100%; /* Make the table expand to the full width of its container */
+  table-layout: fixed; /* Fix the table layout to ensure equal column width */
+  border-collapse: collapse; /* Remove borders between table cells */
+  margin: 0; /* Remove any default margin */
+  padding: 0; /* Remove any default padding */
+  height: 100px; /* Set the fixed height as needed */
+}
+
+/* Style each row in the table */
+.select-container div {
+  display: table-row; /* Treat the div elements as table rows */
+}
+
+/* Style the "Wybierz [...]" text as table cells */
+.select-container p {
+  display: table-cell; /* Treat the p elements as table cells */
+  text-align: right; /* Align the text to the right */
+  padding-right: 10px; /* Add some spacing between the text and the dropdown */
+  font-size: 20px;
+}
+
+/* Style the dropdowns as table cells with reduced width */
+.select-container select {
+  display: table-cell; /* Treat the select elements as table cells */
+  text-align: left; /* Align the dropdowns to the left */
+  font-size: 16px;
+  width: 50%; /* Reduce the width to 50% of their cell */
+}
+
+/* Style the button */
+.apply-grades-button,
+.load-button {
+  font-size: 18px; /* Adjust the font size as needed */
+  margin-top: 30px; /* Add spacing on top of the button */
+  margin-bottom: 10px; /* Add spacing on the bottom of the button */
+  display: block; /* Make the button a block element for centering */
+  margin: 0 auto; /* Center the button horizontally */
+  text-align: center; /* Center the text within the button */
+  height: 40px;
+  width: 125px;
+}
+
+/* Set a fixed height for the .table-container */
+.table-container {
+  height: calc(100% - 120px); /* Set the fixed height as needed (subtract the height of .select-container and other elements) */
+  overflow-y: auto; /* Add a vertical scrollbar if content overflows the container */
+}
+
+.table-spacing {
+  height: 20px; /* Adjust the height as needed for the desired spacing */
+}
+
+.button-spacing {
+  height: 5px; /* Adjust the height as needed for the desired spacing */
+}
+
+.apply-grades-button{
+  height: 40px;
+  width: 270px;
+}

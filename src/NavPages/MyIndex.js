@@ -1,5 +1,6 @@
 import '../NavPagesStyles/Sidebar.css';
 import '../NavPagesStyles/MyIndex.css';
+import '../NavPagesStyles/defaultTable.css';
 import '../NavPagesStyles/MyProfile.css';
 import '../NavPagesStyles/Stats.css';
 import React, { useEffect, useState } from 'react';
