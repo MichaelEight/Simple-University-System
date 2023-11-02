@@ -1,0 +1,78 @@
+/* ContentMyPlan.css */
+
+/* Style the entire calendar container */
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Style the calendar header with a background color and white text */
+.rbc-calendar {
+    width: 100%;
+    background-color: #c2c2c2; /* Example background color for the header */
+    color: black;
+    border-radius: 5px;
+    padding: 10px;
+  }
+  
+  /* Style the day and date labels */
+  .rbc-row-bg {
+    background-color: #c2c2c2; /* Example background color for the day and date labels */
+  }
+  
+  /* Style the time slot labels on the left */
+  .rbc-time-header-content {
+    font-weight: bold;
+    background-color: #c2c2c2; /* Example background color for the time slot labels */
+  }
+  
+  /* Style the events (lesson blocks) */
+.rbc-event {
+    background-color: #52c41a; /* Example background color for the event blocks */
+    border: 1px solid #52c41a;
+    border-radius: 5px;
+    padding: 5px;
+    color: black;
+    font-weight: bold;
+    text-overflow: clip; /* Allow text to wrap instead of ellipsis */
+    overflow: visible; /* Allow the text to overflow the event block */
+    white-space: normal; /* Allow text to wrap within the event block */
+    width: 80%; /* Set the width of the event blocks (adjust as needed) */
+    margin: 0 auto; /* Center the event blocks on the time slot */
+  }
+  
+  /* Style the events when hovered */
+  .rbc-event:hover {
+    background-color: #1890ff; /* Example background color on hover */
+    border-color: #1890ff;
+  }
+  
+  /* Style the timeslot cells */
+  .rbc-timeslot-group {
+    border-bottom: 1px solid black; /* Example border color */
+  }
+  
+  /* Style the current time indicator */
+  .rbc-current-time-indicator {
+    background-color: red; /* Example background color for current time */
+  }
+  
+  /* Style the event tooltip (when an event is clicked) */
+  .rbc-tooltip {
+    background-color: #1890ff; /* Example background color for tooltip */
+    color: white;
+    border: 1px solid #1890ff;
+    border-radius: 5px;
+    padding: 5px;
+    font-weight: normal;
+    font-size: 14px;
+  }
+  
+
+/* Set all borders to black */
+.rbc-timeslot-group,
+.rbc-time-header-cell {
+  border: 1px solid black; /* Set the border color to black for all elements */
+}
+
