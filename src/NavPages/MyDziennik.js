@@ -144,13 +144,13 @@ function ContentListOfStudents() {
   // Render checkboxes for the top row with click handlers
   const renderTopRowCheckboxes = () => (
     <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Last Name</th>
-      <th>Index Number</th>
-      <th>State</th>
-      <th>Grade</th>
-      <th>Comments</th>
+      <th>lp</th>
+      <th>Imię</th>
+      <th>Nazwisko</th>
+      <th>Numer Indeksu</th>
+      <th>Status</th>
+      <th>Ocena</th>
+      <th>Komentarz</th>
       <th>
         <input
           type="checkbox"
