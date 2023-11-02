@@ -32,6 +32,11 @@ export default function ContentMyPlan() {
     },
   ];
 
+  // Use 24-hour format for time labels
+  moment.locale('en-GB');
+  const formats = {
+    timeGutterFormat: 'HH:mm', 
+  };
   const localizer = momentLocalizer(moment);
   
   const events = exampleLessons.map(lesson => {
@@ -66,6 +71,7 @@ export default function ContentMyPlan() {
           min={moment().set('hour', 7).set('minute', 30).toDate()}
           max={moment().set('hour', 21).set('minute', 0).toDate()}
           defaultDate={moment().set('hour', 7).set('minute', 30).toDate()}
+          formats={formats} // Apply the custom time format
         />
       </div>
     </main>

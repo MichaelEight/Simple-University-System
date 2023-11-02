@@ -13,7 +13,7 @@ import CommonMainPage from './CommonMainPage';
 // Define your content components for this specific use case
 
 // Define the labels for the options in the sidebar
-const optionLabels = ["Oceny", "Statystyki", "Mój Plan", "Mój Profil"];
+const optionLabels = ["Mój Plan", "Oceny", "Statystyki", "Mój Profil"];
 
 export default function MainPage({user}) {
   const [selectedContent, setSelectedContent] = useState(0);
@@ -23,9 +23,9 @@ export default function MainPage({user}) {
   };
 
   const contentComponents = {
-    0: <ContentGrades user={user}/>,
-    1: <ContentStats user={user}/>,
-    2: <ContentMyPlan user={user}/>,
+    0: <ContentMyPlan user={user}/>,
+    1: <ContentGrades user={user}/>,
+    2: <ContentStats user={user}/>,
     3: <ContentMyProfile user={user}/>,
   };
 

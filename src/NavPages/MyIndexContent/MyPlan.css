@@ -76,3 +76,6 @@
   border: 1px solid black; /* Set the border color to black for all elements */
 }
 
+.rbc-timeslot-group{
+    min-width: 78px; /*magic fix, cuz "rbc-label rbc-time-header-gutter" cannot be changed*/
+}
