@@ -1,6 +1,6 @@
 aside .side-selected{
     font-weight: bold;
-    text-decoration: underline rgb(105, 105, 225) 0.2rem;
+    text-decoration: underline #8f00ff 0.2rem;
     text-underline-offset: 0.6rem;
 
     cursor: default;
@@ -15,4 +15,8 @@ aside p:hover:not(.side-selected){
 aside p{
     font-size: 1.25rem;
     line-height: 1.6;
+}
+
+aside{
+    background-color: #2f2f2f;
 }

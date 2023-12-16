@@ -6,7 +6,8 @@ body {
   flex-direction: column;
   justify-content: center; /* Vertically center the .App */
   align-items: center; /* Horizontally center the .App */
-  background-color: rgb(220, 220, 220);
+  /* background-color: rgb(220, 220, 220); */
+  background-color: #121212; /* Dark background color */
 }
 
 .App {

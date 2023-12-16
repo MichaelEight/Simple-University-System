@@ -3,7 +3,7 @@ export default function ContentNews() {
     <main>
       <div>
         <div className='main-center-text border-box'>
-          <p>Monotechnika Akademicka</p>
+          <p><b>Monotechnika Akademicka</b></p>
           <p style={{ fontWeight: 'bold', fontSize: '32px' }}>WITAJ W SYSTEMIE SUS</p>
         </div>
 

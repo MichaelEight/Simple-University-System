@@ -1,17 +1,29 @@
+/* Header.css */
 header {
-  background-color: #333;
-  color: white;
-  padding: 1rem;
-  text-align: center;
+  /* Ensure the header takes up the full width */
+  width: 100%;
+  /* Set a fixed height if you want a specific height for your header */
+  height: auto; /* Adjust height as needed, or use 'auto' to scale with the content */
+  /* Remove padding and margin to ensure the image can cover the full header area */
+  padding: 0;
+  margin: 0;
+  /* Remove text-align or set to default if not needed */
+  text-align: left;
+  position: relative; /* This will help position the logo absolute to the header if needed */
 }
 
-.Header-Logo{
-  width: 10%;
+.Header-Banner {
+  width: 100%;
+  height: auto; /* This will maintain the aspect ratio of the image */
+  display: block; /* This ensures there is no extra space below the image */
 }
 
-/* Media query for mobile devices (e.g., screens up to 768px wide) */
-@media screen and (max-width: 768px) {
-  .Header-Logo{
-    width: 30%;
-  }
+/* If you want to add the logo on top of the banner */
+.Header-Logo {
+  position: absolute; /* Position the logo absolutely within the relative header */
+  top: 50%; /* Center vertically */
+  left: 1rem; /* Spacing from the left side */
+  transform: translateY(-50%); /* Center vertically with translate */
+  width: auto; /* Adjust width as needed */
+  height: 80%; /* Adjust height as needed, e.g., 80% of the header's height */
 }

@@ -1,5 +1,6 @@
 nav{
-    background-color: #201f1f;
+    /* background-color: #201f1f; */
+    background-color: #191919; /* Darker background for navbar to match the new theme */
     color: white;
 }
 
@@ -25,6 +26,7 @@ nav{
   margin-right: -2em;
 }
 .navigation-menu li p {
+  color: #FFFFFF; /* Text color for better readability on dark bg */
   text-decoration: none;
   display: block;
   width: 100%;
@@ -52,7 +54,8 @@ nav{
   height: 0.4rem;
   bottom: 0;
   left: 0;
-  background-color: rgb(254, 153, 0);
+  /* background-color: rgb(254, 153, 0); */
+  background-color: #FE9900; /* Update to match the highlight color in the new design */
   transform-origin: bottom right;
   transition: transform 0.25s ease-out;
 }
@@ -77,7 +80,8 @@ li:hover:not(.selected){
   height: 0.4rem;
   bottom: 0;
   left: 0;
-  background-color: white;
+  /* background-color: white; */
+  background-color: #FFFFFF; /* Update to white for the underline animation */
   transform-origin: bottom right; /* Adjust transform origin */
   transition: transform 0.25s ease-out;
 }
