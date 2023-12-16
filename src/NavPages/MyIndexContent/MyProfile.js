@@ -21,13 +21,13 @@ export default function ContentMyProfile({user}) {
             setDataLoaded(true);
             console.log("Data loaded from local storage!");
           } else {
-            const response = await fetch(`http://simpleuniversitysystem.000webhostapp.com/api/validateToken.php?token=${user.token}`);
+            const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/validateToken.php?token=${user.token}`);
             if (response.ok) {
               const data = await response.json();
               if (data.valid) {
                 setValidToken(true);
   
-                const dataResponse = await fetch(`http://simpleuniversitysystem.000webhostapp.com/api/userProfileData.php?token=${user.token}`);
+                const dataResponse = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/userProfileData.php?token=${user.token}`);
                 if (dataResponse.ok) {
                   const userDataFromDB = await dataResponse.json();
                   setUserData(userDataFromDB);

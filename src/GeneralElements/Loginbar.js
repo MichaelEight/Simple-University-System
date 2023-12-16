@@ -173,7 +173,7 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
         console.log(userInfo);
         console.log(userInfo.token);
 
-        const response = await fetch(`http://simpleuniversitysystem.000webhostapp.com/api/logout.php?token=${userInfo.token}`);
+        const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/logout.php?token=${userInfo.token}`);
     
         if (response.ok) {
           console.log('Token removed from the database');

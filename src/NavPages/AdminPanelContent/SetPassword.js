@@ -23,7 +23,7 @@ export default function ResetPasswordTab() {
         try {
         const [user_id, domain] = email.split('@');
 
-        const response = await fetch(`http://simpleuniversitysystem.000webhostapp.com/api/createPasswordForUser.php?user_id=${user_id}&domain=${domain}&password=${password}`);
+        const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/createPasswordForUser.php?user_id=${user_id}&domain=${domain}&password=${password}`);
     
         if (response.ok) {
             const answer = await response.json();
