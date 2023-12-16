@@ -59,7 +59,7 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
       if (userInfo) {
         // Validate the token
         const validateToken = async () => {
-          const response = await fetch(`http://simpleuniversitysystem.000webhostapp.com/api/validateToken.php?token=${userInfo.token}`);
+          const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/validateToken.php?token=${userInfo.token}`);
   
           if (response.ok) {
             const data = await response.json();
@@ -108,7 +108,7 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
         const [user_id, domain] = email.split('@');
 
         // Make an API call to the PHP backend with a GET request
-        const response = await fetch(`http://simpleuniversitysystem.000webhostapp.com/api/login.php?user_id=${user_id}&domain=${domain}&password=${password}`);
+        const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/login.php?user_id=${user_id}&domain=${domain}&password=${password}`);
     
         if (response.ok) {
           const data = await response.json();
