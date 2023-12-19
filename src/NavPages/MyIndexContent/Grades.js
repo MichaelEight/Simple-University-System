@@ -60,18 +60,14 @@ export default function ContentGrades({user}) {
 
   const fetchSubjectDetails = async (subjectIds) => {
     try {
-        console.log("Fetch subjects call :: before");
         const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/getSubjects.php?subjectIds=${subjectIds.join(',')}`);
-        console.log("Fetch subjects call :: after");
         if (response.ok) {
             const subjects = await response.json();
-            console.log("subjects: ", subjects);
             // Convert array to object for easy access
             const subjectsMap = subjects.reduce((map, subject) => {
                 map[subject.subject_id] = subject;
                 return map;
             }, {});
-            console.log("subjectsMap: ", subjectsMap);
             setSubjectsDetails(subjectsMap);
         } else {
           console.error('Error while trying to fetch subjects');
@@ -86,13 +82,11 @@ export default function ContentGrades({user}) {
       const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/getTeachers.php?teacherIds=${teacherIds.join(',')}`);
       if (response.ok) {
           const teachers = await response.json();
-          console.log("teachers: ", teachers);
           // Convert array to object for easy access
           const teachersMap = teachers.reduce((map, teacher) => {
               map[teacher.id] = `${teacher.title} ${teacher.first_name} ${teacher.last_name}`;
               return map;
           }, {});
-          console.log("teachersMap: ", teachersMap);
           setTeachersDetails(teachersMap);
       } else {
         console.error('Error while trying to fetch teachers');
@@ -101,6 +95,30 @@ export default function ContentGrades({user}) {
       console.error('Error fetching teachers:', error);
     }
   };
+
+  const handleAcceptGrade = async (gradeId) => {
+    try {
+      const url = `https://simpleuniversitysystem.000webhostapp.com/api/acceptGrade.php?gradeId=${gradeId}&token=${encodeURIComponent(user.token)}`;
+      const response = await fetch(url);
+  
+      if (response.ok) {
+        // Update the local state to reflect the change
+        const updatedGrades = gradesData.map(grade => {
+          if (grade.grade_id === gradeId) {
+            return { ...grade, acceptance_state: 'accepted' };
+          }
+          return grade;
+        });
+        setGradesData(updatedGrades);
+      } else {
+        console.error('Error while trying to accept grade');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  
+  
 
     return (
       <main>
@@ -126,8 +144,16 @@ export default function ContentGrades({user}) {
                   <td>{item.grade}</td>
                   <td>{subjectsDetails[item.subject_id]?.ects}</td>
                   <td>
-                    <button>Zaakceptuj</button>
-                    <button>Reklamuj</button>
+                    {item.acceptance_state === 'not_accepted' ? (
+                      <>
+                        <button onClick={() => handleAcceptGrade(item.grade_id)}>Zaakceptuj</button>
+                        <button>Reklamuj</button>
+                      </>
+                    ) : item.acceptance_state === 'accepted' ? (
+                      <span>Zaakceptowano!</span>
+                    ) : item.acceptance_state === 'challenged' ? (
+                      <span>Zareklamowano!</span>
+                    ) : null}
                   </td>
                 </tr>
               ))}
