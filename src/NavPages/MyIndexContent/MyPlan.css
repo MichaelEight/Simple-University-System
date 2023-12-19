@@ -2,101 +2,67 @@
 
 /* Style the entire calendar container */
 .main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  /* Style the calendar header with a background color and white text */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Style the calendar, header, day, and date labels with a consistent background color */
+.rbc-calendar,
+.rbc-row-bg,
+.rbc-time-header-content {
+  background-color: #c2c2c2; /* Consistent background color */
+  color: black;
+}
+
+/* Style for the calendar with rounded borders and padding */
 .rbc-calendar {
-    width: 100%;
-    background-color: #c2c2c2; /* Example background color for the header */
-    color: black;
-    border-radius: 5px;
-    padding: 10px;
-  }
-  
-  /* Style the day and date labels */
-  .rbc-row-bg {
-    background-color: #c2c2c2; /* Example background color for the day and date labels */
-  }
-  
-  /* Style the time slot labels on the left */
-  .rbc-time-header-content {
-    font-weight: bold;
-    background-color: #c2c2c2; /* Example background color for the time slot labels */
-  }
-  
-  /* Style the events (lesson blocks) */
+  width: 100%;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+/* Style the events (lesson blocks) */
 .rbc-event {
-    background-color: #52c41a; /* Example background color for the event blocks */
-    border: 1px solid #52c41a;
-    border-radius: 5px;
-    padding: 5px;
-    color: black;
-    font-weight: bold;
-    text-overflow: clip; /* Allow text to wrap instead of ellipsis */
-    overflow: visible; /* Allow the text to overflow the event block */
-    white-space: normal; /* Allow text to wrap within the event block */
-    width: 80%; /* Set the width of the event blocks (adjust as needed) */
-    margin: 0 auto; /* Center the event blocks on the time slot */
-  }
-  
-  /* Style the events when hovered */
-  .rbc-event:hover {
-    background-color: #1890ff; /* Example background color on hover */
-    border-color: #1890ff;
-  }
-  
-  /* Style the timeslot cells */
-  .rbc-timeslot-group {
-    border-bottom: 1px solid black; /* Example border color */
-  }
-  
-  /* Style the current time indicator */
-  .rbc-current-time-indicator {
-    background-color: red; /* Example background color for current time */
-  }
-  
-  /* Style the event tooltip (when an event is clicked) */
-  .rbc-tooltip {
-    background-color: #1890ff; /* Example background color for tooltip */
-    color: white;
-    border: 1px solid #1890ff;
-    border-radius: 5px;
-    padding: 5px;
-    font-weight: normal;
-    font-size: 14px;
-  }
-  
-
-/* Set all borders to black */
-.rbc-timeslot-group,
-.rbc-time-header-cell {
-  border: 1px solid black; /* Set the border color to black for all elements */
+  background-color: #52c41a; /* Default event block color */
+  border: 1px solid #52c41a;
+  border-radius: 5px;
+  padding: 5px;
+  color: black;
+  font-weight: bold;
+  overflow: visible; /* Allow the text to overflow the event block */
+  white-space: normal; /* Allow text to wrap within the event block */
 }
 
-.rbc-timeslot-group{
-    min-width: 78px; /*magic fix, cuz "rbc-label rbc-time-header-gutter" cannot be changed*/
-}
-
-
-
-.rbc-calendar {
-  background-color: #333; /* Darker background */
-  color: white; /* Lighter text */
-}
-.rbc-btn {
-  background-color: #007bff; /* Bright blue */
-  color: white;
-}
-.rbc-event {
-  background-color: #ff5722; /* Bright orange */
-  color: white;
-}
+/* Style the events when hovered */
 .rbc-event:hover {
   background-color: #e91e63; /* Pink on hover */
+  border-color: #e91e63;
 }
+
+/* Style the timeslot cells */
+.rbc-timeslot-group {
+  border-bottom: 1px solid black; /* Border color for timeslot cells */
+  min-width: 78px; /* Minimum width for "rbc-label rbc-time-header-gutter" */
+}
+
+/* Style the current time indicator */
 .rbc-current-time-indicator {
-  background-color: #f44336; /* Bright red */
+  background-color: #f44336; /* Bright red color for the current time indicator */
+}
+
+/* Style the event tooltip (when an event is clicked) */
+.rbc-tooltip {
+  background-color: #1890ff; /* Background color for tooltip */
+  color: white;
+  border: 1px solid #1890ff;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 14px;
+}
+
+/* Set border color for timeslot group and header cell */
+.rbc-timeslot-group,
+.rbc-time-header-cell {
+  border-color: black; /* Border color for timeslot group and header cell */
 }

@@ -14,6 +14,7 @@
 
 # private
 /APIs/config.php
+/Backups
 
 # misc
 .DS_Store
