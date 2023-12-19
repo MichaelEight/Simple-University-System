@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './GradesModal.css'
 
 export default function ContentGrades({user}) {
   const [gradesData, setGradesData] = useState([]);
@@ -6,6 +7,9 @@ export default function ContentGrades({user}) {
   const [errorWhileLoadingData, setErrorWhileLoadingData] = useState(false);
   const [subjectsDetails, setSubjectsDetails] = useState({});
   const [teachersDetails, setTeachersDetails] = useState({});
+  const [showChallengeModal, setShowChallengeModal] = useState(false);
+  const [selectedGrade, setSelectedGrade] = useState('2.0');
+  const [currentGradeId, setCurrentGradeId] = useState(null);
 
   useEffect(() => {
     const loadGradesData = async () => {
@@ -118,12 +122,63 @@ export default function ContentGrades({user}) {
     }
   };
   
-  
+  const handleChallengeClick = (gradeId) => {
+    setCurrentGradeId(gradeId);
+    setShowChallengeModal(true);
+  };
 
+  const handleConfirmChallenge = async () => {
+    try {
+      const url = `https://simpleuniversitysystem.000webhostapp.com/api/challengeGrade.php?gradeId=${currentGradeId}&challengedGrade=${encodeURIComponent(selectedGrade)}&token=${encodeURIComponent(user.token)}`;
+      const response = await fetch(url);
+  
+      if (response.ok) {
+        // Update the local state to reflect the change
+        const updatedGrades = gradesData.map(grade => {
+          if (grade.grade_id === currentGradeId) {
+            return { ...grade, acceptance_state: 'challenged', challenged_grade: selectedGrade };
+          }
+          return grade;
+        });
+        setGradesData(updatedGrades);
+      } else {
+        console.error('Error while trying to challenge grade');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  
+    // Close the modal
+    setShowChallengeModal(false);
+  };
+  
     return (
       <main>
         {dataLoaded ? (
         <div>
+          {showChallengeModal && (
+            <div>
+              <div className="modal-backdrop" onClick={() => setShowChallengeModal(false)}></div>
+              <div className="modal">
+                <p className="modal-content">Wybierz sugerowaną ocenę</p>
+                <select className="modal-select" value={selectedGrade} onChange={(e) => setSelectedGrade(e.target.value)}>
+                  <option value="2.0">2.0</option>
+                  <option value="3.0">3.0</option>
+                  <option value="3.5">3.5</option>
+                  <option value="4.0">4.0</option>
+                  <option value="4.5">4.5</option>
+                  <option value="5.0">5.0</option>
+                  <option value="5.5">5.5</option>
+                </select>
+                <div className="modal-buttons-container">
+                  <button className="modal-button" style={{marginRight:'10px'}} onClick={handleConfirmChallenge}>Zatwierdź</button>
+                  <button className="modal-button cancel" onClick={() => setShowChallengeModal(false)}>Anuluj</button>
+                </div>
+              </div>
+            </div>
+          )}
+
+
           <table className="data-table">
             <thead>
               <tr>
@@ -147,7 +202,7 @@ export default function ContentGrades({user}) {
                     {item.acceptance_state === 'not_accepted' ? (
                       <>
                         <button onClick={() => handleAcceptGrade(item.grade_id)}>Zaakceptuj</button>
-                        <button>Reklamuj</button>
+                        <button onClick={() => handleChallengeClick(item.grade_id)}>Reklamuj</button>
                       </>
                     ) : item.acceptance_state === 'accepted' ? (
                       <span>Zaakceptowano!</span>
