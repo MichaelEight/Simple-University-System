@@ -5,8 +5,15 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './MyPlan.css';
 
 function findDates(weekday, startWeeksAgo, endWeeksInFuture) {
-  const weekdays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-  const weekdayIndex = weekdays.indexOf(weekday.toLowerCase());
+  const polishToMomentDayMap = {
+    'poniedziałek': 0, // Monday
+    'wtorek': 1,       // Tuesday
+    'środa': 2,        // Wednesday
+    'czwartek': 3,     // Thursday
+    'piątek': 4,       // Friday
+  };
+
+  const weekdayIndex = polishToMomentDayMap[weekday];
   const dates = [];
 
   // Starting date, weeks ago
@@ -20,15 +27,18 @@ function findDates(weekday, startWeeksAgo, endWeeksInFuture) {
   return dates;
 }
 
-
 export default function ContentMyPlan({user}) {
   const [validToken, setValidToken] = useState(true);
   const [timetableData, setTimetableData] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false); // Track whether data is loaded
   const [errorWhileLoadingData, setErrorWhileLoadingData] = useState(false);
 
-  // Use 24-hour format for time labels
-  moment.locale('en-GB');
+  // Use 24-hour format for time labels, start week on Monday
+  moment.locale('en-GB', {
+    week: {
+      dow: 1, // Monday is the first day of the week.
+    },
+  });
   const formats = {
     timeGutterFormat: 'HH:mm', 
   };
@@ -90,11 +100,8 @@ export default function ContentMyPlan({user}) {
   const events = [];
 
   timetableData.forEach(lesson => {
-    console.log("Processing lesson:", lesson);
-
     const startHour = moment(lesson.starts_at, 'HH:mm');
     const endHour = moment(lesson.ends_at, 'HH:mm');
-    console.log(`Start and End times: ${startHour.format('HH:mm')} - ${endHour.format('HH:mm')}`);
 
     const lessonDates = findDates(lesson.weekday, 4, 4);
     lessonDates.forEach(date => {
@@ -103,8 +110,6 @@ export default function ContentMyPlan({user}) {
       const isRelevantWeek = (lesson.which_weeks === 'wszystkie') || 
                             (lesson.which_weeks === 'parzyste' && isEvenWeek) || 
                             (lesson.which_weeks === 'nieparzyste' && isOddWeek);
-
-      console.log(`Date: ${date.format('YYYY-MM-DD')}, Even: ${isEvenWeek}, Odd: ${isOddWeek}, Relevant: ${isRelevantWeek}`);
 
       if (isRelevantWeek) {
         const start = moment(date).set({
@@ -119,12 +124,9 @@ export default function ContentMyPlan({user}) {
         const eventTitle = `[${lesson.subject_code}] ${lesson.teacher_name}, Room: ${lesson.place}, ${startHour.format('HH:mm')} - ${endHour.format('HH:mm')}`;
         
         events.push({ title: eventTitle, start, end });
-        console.log("Event added:", { title: eventTitle, start, end });
       }
     });
   });
-
-  console.log("Final events array:", events);
 
   return (
     <main>
