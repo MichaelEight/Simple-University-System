@@ -6,7 +6,8 @@ export default function ContentMyProfile({user}) {
     const [validToken, setValidToken] = useState(true);
     const [userData, setUserData] = useState(null);
     const [dataLoaded, setDataLoaded] = useState(false); // Track whether data is loaded
-  
+    const [errorWhileLoadingData, setErrorWhileLoadingData] = useState(false);
+
     useEffect(() => {
       const loadUserData = async () => {
         try {
@@ -39,6 +40,7 @@ export default function ContentMyProfile({user}) {
                   localStorage.setItem('userProfileDataTimestamp', currentTimestamp.toString());
                 } else {
                   console.log("User data download failed!");
+                  setErrorWhileLoadingData(true);
                 }
               } else {
                 setValidToken(false);
@@ -137,8 +139,8 @@ export default function ContentMyProfile({user}) {
           </div>
         </div>
         : ((validToken ?
-           <p>Loading Data...</p> :
-            <p>INVALID TOKEN</p> )
+          (errorWhileLoadingData ? <p>Database error! Failed to load data!</p> : <p>Loading Data...</p>) :
+           <p>INVALID TOKEN</p> )
         )}
       </main>
     );
