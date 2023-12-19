@@ -17,7 +17,7 @@ try {
 
             if($storedRole == "student")
             {
-                $stmt = $conn->prepare("SELECT * FROM Registrations WHERE student_id = :student_id");
+                $stmt = $conn->prepare("SELECT * FROM Registrations WHERE student_id = :storedUserId");
                 $stmt->bindParam(':storedUserId', $storedUserId, PDO::PARAM_INT);
                 $stmt->execute();
 
@@ -26,7 +26,7 @@ try {
             }
             else if($storedRole == "teacher")
             {
-                $stmt = $conn->prepare("SELECT * FROM Registrations WHERE teacher_id = :teacher_id");
+                $stmt = $conn->prepare("SELECT * FROM Registrations WHERE teacher_id = :storedUserId");
                 $stmt->bindParam(':storedUserId', $storedUserId, PDO::PARAM_INT);
                 $stmt->execute();
 

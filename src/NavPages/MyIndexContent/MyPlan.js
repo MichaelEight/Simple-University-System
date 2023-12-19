@@ -38,11 +38,8 @@ export default function ContentMyPlan({user}) {
               setValidToken(true);
 
               const dataResponse = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/timetableData.php?token=${user.token}`);
-              console.log(dataResponse);
               if (dataResponse.ok) {
                 const userPlanDataFromDB = await dataResponse.json();
-
-                console.log(userPlanDataFromDB);
 
                 setTimetableData(userPlanDataFromDB);
                 setDataLoaded(true);
