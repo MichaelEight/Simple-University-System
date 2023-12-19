@@ -9,7 +9,7 @@ if (!empty($subjectIdsParam)) {
     $placeholders = implode(',', array_fill(0, count($subjectIds), '?'));
 
     try {
-        $stmt = $conn->prepare("SELECT subject_id, subject_name, subject_code FROM Subjects WHERE subject_id IN ($placeholders)");
+        $stmt = $conn->prepare("SELECT subject_id, subject_name, subject_code, ects FROM Subjects WHERE subject_id IN ($placeholders)");
         $stmt->execute($subjectIds);
         $subjects = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
