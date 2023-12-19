@@ -4,6 +4,23 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './MyPlan.css';
 
+function findDates(weekday, startWeeksAgo, endWeeksInFuture) {
+  const weekdays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+  const weekdayIndex = weekdays.indexOf(weekday.toLowerCase());
+  const dates = [];
+
+  // Starting date, weeks ago
+  let date = moment().subtract(startWeeksAgo, 'weeks').startOf('isoWeek').add(weekdayIndex, 'days');
+
+  for (let week = -startWeeksAgo; week <= endWeeksInFuture; week++) {
+    dates.push(moment(date));
+    date.add(1, 'weeks');
+  }
+
+  return dates;
+}
+
+
 export default function ContentMyPlan({user}) {
   const [validToken, setValidToken] = useState(true);
   const [timetableData, setTimetableData] = useState([]);
@@ -70,23 +87,44 @@ export default function ContentMyPlan({user}) {
   }, [user]);
 
   // Transform fetched data to fit the calendar's event format
-  const events = timetableData.map(lesson => {
-    const start = new Date(lesson.starts_at);
-    const end = new Date(lesson.ends_at);
-  
-    // Format times using moment.js for consistency
-    const startTime = moment(start).format('HH:mm');
-    const endTime = moment(end).format('HH:mm');
-  
-    // Construct the event title
-    const eventTitle = `[${lesson.subject_code}] ${lesson.teacher_name}, Sala: ${lesson.place}, ${startTime} - ${endTime}`;
-  
-    return {
-      title: eventTitle,
-      start,
-      end,
-    };
+  const events = [];
+
+  timetableData.forEach(lesson => {
+    console.log("Processing lesson:", lesson);
+
+    const startHour = moment(lesson.starts_at, 'HH:mm');
+    const endHour = moment(lesson.ends_at, 'HH:mm');
+    console.log(`Start and End times: ${startHour.format('HH:mm')} - ${endHour.format('HH:mm')}`);
+
+    const lessonDates = findDates(lesson.weekday, 4, 4);
+    lessonDates.forEach(date => {
+      const isEvenWeek = date.isoWeek() % 2 === 0;
+      const isOddWeek = !isEvenWeek;
+      const isRelevantWeek = (lesson.which_weeks === 'wszystkie') || 
+                            (lesson.which_weeks === 'parzyste' && isEvenWeek) || 
+                            (lesson.which_weeks === 'nieparzyste' && isOddWeek);
+
+      console.log(`Date: ${date.format('YYYY-MM-DD')}, Even: ${isEvenWeek}, Odd: ${isOddWeek}, Relevant: ${isRelevantWeek}`);
+
+      if (isRelevantWeek) {
+        const start = moment(date).set({
+          hour: startHour.hour(),
+          minute: startHour.minute()
+        }).toDate();
+        const end = moment(date).set({
+          hour: endHour.hour(),
+          minute: endHour.minute()
+        }).toDate();
+
+        const eventTitle = `[${lesson.subject_code}] ${lesson.teacher_name}, Room: ${lesson.place}, ${startHour.format('HH:mm')} - ${endHour.format('HH:mm')}`;
+        
+        events.push({ title: eventTitle, start, end });
+        console.log("Event added:", { title: eventTitle, start, end });
+      }
+    });
   });
+
+  console.log("Final events array:", events);
 
   return (
     <main>
