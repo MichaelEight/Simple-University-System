@@ -89,7 +89,6 @@ export default function ContentMyPlan({user}) {
       });
     })
 
-    console.log("PrepEvents before update:", prepEvents);
     setEvents(prepEvents);
   };
 
@@ -120,7 +119,6 @@ export default function ContentMyPlan({user}) {
             setDataLoaded(true);
           }, 0);
 
-          console.log("Data (user plan) loaded from local storage!");
           }catch (e) {
             console.error('Error parsing cached data:', e);
             // Handle error or load data from server as fallback
@@ -140,7 +138,6 @@ export default function ContentMyPlan({user}) {
 
                 setTimetableData(userPlanDataFromDB);
                 setDataLoaded(true);
-                console.log("Data (user plan) downloaded successfully!");
 
                 //
                 // LOAD TEACHER IDS
@@ -183,8 +180,6 @@ export default function ContentMyPlan({user}) {
                 
                   // Update the timetable data state with teacher names included
                   setTimetableData(updatedTimetableData);
-                
-                  console.log("Data (user plan) with teacher names downloaded successfully!");
                 
                 } else {
                   console.error('Failed to fetch teachers');
@@ -231,13 +226,11 @@ export default function ContentMyPlan({user}) {
                 
                   // Update the timetable data state with enriched information
                   setTimetableData(updatedTimetableData);
-                
-                  console.log("Data (user plan) with subject names downloaded successfully!");
                 }
 
                 setDataLoaded(true);
               } else {
-                console.log("User plan data download failed!");
+                console.error("User plan data download failed!");
                 setErrorWhileLoadingData(true);
               }
             } else {
@@ -261,21 +254,18 @@ export default function ContentMyPlan({user}) {
     if (dataLoaded && timetableData.length > 0) {
       localStorage.setItem('userTimetableData', JSON.stringify(timetableData));
       localStorage.setItem('userTimetableDataTimestamp', new Date().getTime().toString());
-      console.log("Timetable data saved to local storage!");
     }
   }, [timetableData, dataLoaded]);
   
   useEffect(() => {
     if (dataLoaded && Object.keys(teachersDetails).length > 0) {
       localStorage.setItem('userTimetableTeachersData', JSON.stringify(teachersDetails));
-      console.log("Teacher data saved to local storage!");
     }
   }, [teachersDetails, dataLoaded]);
   
   useEffect(() => {
     if (dataLoaded && Object.keys(subjectsDetails).length > 0) {
       localStorage.setItem('userTimetableSubjectsData', JSON.stringify(subjectsDetails));
-      console.log("Subject data saved to local storage!");
     }
   }, [subjectsDetails, dataLoaded]);
 
