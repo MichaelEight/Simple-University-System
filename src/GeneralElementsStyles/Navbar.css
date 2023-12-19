@@ -26,7 +26,6 @@ nav{
   margin-right: -2em;
 }
 .navigation-menu li p {
-  color: #FFFFFF; /* Text color for better readability on dark bg */
   text-decoration: none;
   display: block;
   width: 100%;
