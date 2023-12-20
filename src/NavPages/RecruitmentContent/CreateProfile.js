@@ -15,6 +15,12 @@ export default function ContentTechForm() {
     
       const [errors, setErrors] = useState({});
     
+      // Custom style for the disabled button
+        const disabledButtonStyle = {
+            cursor: 'not-allowed',
+            opacity: 0.5
+        };
+
       const validateField = (name, value) => {
         let error = '';
         const now = new Date();
@@ -60,26 +66,62 @@ export default function ContentTechForm() {
         setErrors({ ...errors, [name]: error });
       };
     
-      const handleSubmit = (e) => {
+      const [isSubmitting, setIsSubmitting] = useState(false);
+
+    useEffect(() => {
+        // Check if a cooldown is already in progress
+        const cooldown = localStorage.getItem('formCooldown');
+        if (cooldown && new Date() < new Date(cooldown)) {
+            setIsSubmitting(true);
+            const timeLeft = new Date(cooldown) - new Date();
+
+            setTimeout(() => {
+                setIsSubmitting(false);
+                localStorage.removeItem('formCooldown');
+            }, timeLeft);
+        }
+    }, []);
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-      
+
+        // Check if we are in cooldown
+        if (isSubmitting) {
+            alert("Odczekaj zanim zarejestrujesz kolejne konto!");
+            return;
+        }
+
         const queryString = new URLSearchParams(formData).toString();
-      
+
+        setIsSubmitting(true); // Start cooldown
+
         fetch(`https://simpleuniversitysystem.000webhostapp.com/api/registerStudent.php?${queryString}`)
-          .then(response => response.json())
-          .then(data => {
+        .then(response => response.json())
+        .then(data => {
             if (data.message) {
-              alert("Rekrutacja pomyślna! Oczekuj na zatwierdzenie konta");
+                alert("Rekrutacja pomyślna! Oczekuj na zatwierdzenie konta");
+                setTimeout(() => setIsSubmitting(false), 60000); // 60 seconds cooldown
             } else if (data.error) {
-              alert("Rekrutacja nieudana! Coś poszło nie tak...");
+                alert("Rekrutacja nieudana! Coś poszło nie tak...");
+                setIsSubmitting(false); // Reset cooldown in case of error
             }
-          })
-          .catch((error) => {
+        })
+        .catch((error) => {
             console.error('Error:', error);
             alert("Rekrutacja nieudana! Coś poszło nie tak...");
+            setIsSubmitting(false); // Reset cooldown in case of fetch error
         });
 
-        };
+        // Set cooldown
+        const cooldownTime = new Date(new Date().getTime() + 60000); // 60 seconds from now
+        localStorage.setItem('formCooldown', cooldownTime);
+        setIsSubmitting(true);
+
+        setTimeout(() => {
+            setIsSubmitting(false);
+            localStorage.removeItem('formCooldown');
+        }, 60000); // 60 seconds cooldown
+    };
       
 
       return (
@@ -229,7 +271,18 @@ export default function ContentTechForm() {
                 {/* Submit Button */}
                 <tr>
                   <td colSpan="2" style={{ textAlign: 'center' }}>
-                    <button type="submit">Zapisz</button>
+                  <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            style={isSubmitting ? disabledButtonStyle : {}}
+                        >
+                            Zatwierdź
+                        </button>
+                        {isSubmitting && (
+                            <div style={{ color: 'red', fontSize: '12px', marginTop: '10px' }}>
+                                Zaczekaj, zanim zarejestrujesz kolejne konto!
+                            </div>
+                        )}
                   </td>
                 </tr>
               </tbody>
