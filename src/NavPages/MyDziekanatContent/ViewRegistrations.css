@@ -1,0 +1,62 @@
+.data-table {
+    width: 100%;
+    max-width: 100%; /* Limit the maximum width */
+    border-collapse: collapse;
+    background-color: #f8f8f8;
+    color: #333;
+    table-layout: fixed; /* Use a fixed table layout */
+    word-wrap: break-word; /* Break words to the next line */
+}
+
+.data-table th,
+.data-table td {
+    padding: 5px;
+    border: 1px solid #ddd;
+    text-align: left;
+    word-break: break-all; /* Break words to prevent overflow */
+}
+
+.data-table th {
+    background-color: #007bff; /* A distinct color for header */
+    color: white;
+}
+
+.data-table tr:nth-child(even) {
+    background-color: #f2f2f2; /* Zebra-striping for rows */
+}
+
+.data-table button {
+    padding: 5px 15px; /* Increase horizontal padding */
+    font-size: 0.9em; /* Adjust font size if necessary */
+    min-width: 100px; /* Set a minimum width */
+    text-overflow: ellipsis; /* Add ellipsis to overflowing text */
+}
+
+/* Optional: Additional styles for hover effect */
+.data-table button:hover {
+    background-color: #218838; /* Slightly darker green for accept button on hover */
+    color: white;
+}
+
+.data-table button:nth-child(2):hover {
+    background-color: #c82333; /* Slightly darker red for reject button on hover */
+}
+
+.data-table button:nth-child(2) {
+    background-color: #dc3545; /* Red color for reject button */
+}
+
+.data-table button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.success-message, .error-message {
+    color: #28a745; /* Green color for success message */
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.error-message {
+    color: #dc3545; /* Red color for error messages */
+}

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import '../NavPagesStyles/Sidebar.css';
 import '../GlobalStyles.css';
-import ContentViewRegistrations from './MyDziekanatContent/ContentViewRegistrations';
+import ContentViewRegistrations from './MyDziekanatContent/ViewRegistrations';
 
 // Import the shared components
 import CommonMainPage from './CommonMainPage';
