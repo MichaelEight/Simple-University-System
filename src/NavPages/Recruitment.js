@@ -2,38 +2,17 @@
 import React, { useState } from 'react';
 import '../NavPagesStyles/Sidebar.css';
 import '../GlobalStyles.css';
+import ContentCreateProfile from './RecruitmentContent/CreateProfile'
 
 // Import the shared components
 import CommonMainPage from './CommonMainPage';
 
-// Define your content components for this specific use case
-function ContentPlaceholder1() {
-  return (
-    <main>
-      <div>
-        <p>Content will be here soon!</p>
-      </div>
-    </main>
-  );
-}
-
-function ContentPlaceholder2() {
-  return (
-    <main>
-      <div>
-        <p>TEXT</p>
-      </div>
-    </main>
-  );
-}
-
 // Define option labels
-const optionLabels = ["Placeholder 1", "Placeholder 2"]; 
+const optionLabels = ["Stwórz nowe konto"];
 
 // Define the content components and pass them to CommonMainPage
 const contentComponents = {
-  0: <ContentPlaceholder1 />,
-  1: <ContentPlaceholder2 />,
+  0: <ContentCreateProfile />,
 };
 
 export default function MainPage() {
