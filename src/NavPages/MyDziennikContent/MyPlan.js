@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import './MyPlan.css';
+import '../MyIndexContent/MyPlan.css';
 
 
 function findDates(weekday, startWeeksAgo, endWeeksInFuture) {
@@ -230,6 +230,15 @@ export default function ContentMyPlanTeacher({user}) {
   }, [timetableData, subjectsDetails]);
   
 
+  const CustomEvent = ({ event }) => {
+    return (
+      <span>
+        <strong>{event.title}</strong>
+        {event.desc && ':  ' + event.desc}
+      </span>
+    );
+  };
+
   return (
     <main>
       {validToken && dataLoaded ?
@@ -239,6 +248,9 @@ export default function ContentMyPlanTeacher({user}) {
           events={events}
           startAccessor="start"
           endAccessor="end"
+          components={{
+            event: CustomEvent, // Use the custom event component
+          }}
           views={['week']}
           defaultView="week"
           step={15}

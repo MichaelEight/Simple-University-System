@@ -66,3 +66,20 @@
 .rbc-time-header-cell {
   border-color: black; /* Border color for timeslot group and header cell */
 }
+
+.rbc-toolbar-label {
+  display: none;
+}
+
+.rbc-btn-group button{
+  color: white;
+  background-color: #7a7978;
+}
+
+.rbc-events-container{
+  width: 106px;
+}
+
+.rbc-event-label{
+  display: none;
+}
