@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './ListOfStudents.css';
 
 export default function ContentListOfStudents() {
     const [students, setStudents] = useState([
@@ -213,9 +214,8 @@ export default function ContentListOfStudents() {
   
     return (
       <main>
-        <div>
           <div>
-            <div className="select-container">
+            <div className="select-container-studentslist">
               <div>
                 <p>Wybierz przedmiot</p>
                 <select
@@ -260,20 +260,20 @@ export default function ContentListOfStudents() {
               </div>
             </div>
             
-            <div className="button-spacing"></div>
-  
-            <button className="load-button">Załaduj listę</button>
+            <div className="button-spacing-studentslist">
+              <button className="loadButton-studentslist">Załaduj listę</button>
+            </div>
           </div>
           
-          <div className="table-spacing"></div>
+          <div className="table-spacing-studentslist"></div>
   
-          <table className="data-table">
+          <table className="data-table-studentslist">
             <thead>
               {renderTopRowCheckboxes()}
             </thead>
             <tbody>
               {students.map(student => (
-                <tr key={student.id} className='rows-colors'>
+                <tr key={student.id} className='rows-colors-studentslist'>
                   <td>{student.id}</td>
                   <td>{student.name}</td>
                   <td>{student.lastName}</td>
@@ -283,7 +283,7 @@ export default function ContentListOfStudents() {
                     <select
                       value={student.grade}
                       onChange={e => handleGradeChange(student.id, e.target.value)}
-                      style={{ width: '50px', textAlign: 'center', verticalAlign: 'middle' }}
+                      style={{ width: '80px', textAlign: 'center', verticalAlign: 'middle' }}
                     >
                       <option value="">-</option>
                       <option value="2.0">2.0</option>
@@ -300,7 +300,7 @@ export default function ContentListOfStudents() {
                     type="text"
                     value={student.comments} // Assuming you have a 'comments' property in your student object
                     onChange={(e) => handleCommentsChange(student.id, e.target.value)} // Create a similar function for comments
-                    style={{ textAlign: 'center', verticalAlign: 'middle' }}
+                    style={{ width:'250px', textAlign: 'center', verticalAlign: 'middle' }}
                   />
                   </td>
                   <td>
@@ -336,10 +336,10 @@ export default function ContentListOfStudents() {
             </tbody>
           </table>
   
-          <div className="table-spacing"></div>
+          <div className="button-spacing-studentslist">
+            <button className="applyGradesButton-studentslist">Zatwierdź wprowadzone oceny</button>
+          </div>
   
-          <button className="apply-grades-button">Zatwierdź wprowadzone oceny</button>
-        </div>
       </main>
     );
   }

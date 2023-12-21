@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import './ViewRegistrations.css'
 
 export default function ContentViewRegistrations() {
-    const [students, setStudents] = useState([]);
+    const [waitingStudents, setWaitingStudents] = useState([]);
 
     useEffect(() => {
         fetch('https://simpleuniversitysystem.000webhostapp.com/api/getPendingStudents.php')
             .then(response => response.json())
-            .then(data => setStudents(data.map(student => ({ ...student, updatedStatus: null }))))
+            .then(data => setWaitingStudents(data.map(student => ({ ...student, updatedStatus: null }))))
             .catch(error => console.error('Error fetching students:', error));
     }, []);
 
@@ -15,7 +15,7 @@ export default function ContentViewRegistrations() {
         fetch(`https://simpleuniversitysystem.000webhostapp.com/api/updateStudentStatus.php?studentId=${studentId}&status=${newStatus}`)
             .then(response => {
                 if (response.ok) {
-                    setStudents(students.map(student => 
+                    setWaitingStudents(waitingStudents.map(student => 
                         student.id === studentId ? { ...student, updatedStatus: newStatus } : student
                     ));
                 } else {
@@ -42,7 +42,7 @@ export default function ContentViewRegistrations() {
                         </tr>
                     </thead>
                     <tbody>
-                        {students.map(student => (
+                        {waitingStudents.map(student => (
                             <tr key={student.id}>
                                 <td style={{ maxWidth: '50px' }}>{student.id}</td>
                                 <td>{student.first_name}</td>

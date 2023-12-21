@@ -22,9 +22,9 @@ export default function MainPage({user}) {
 
   const contentComponents = {
     0: <ContentMyPlan user={user}/>,
-    1: <ContentListOfStudents />,
-    2: <ContentQuickGrade />,
-    3: <ContentSubjectInfo />,
+    1: <ContentListOfStudents user={user}/>,
+    2: <ContentQuickGrade user={user}/>,
+    3: <ContentSubjectInfo user={user}/>,
   };
 
   return (
