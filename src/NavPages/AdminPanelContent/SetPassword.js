@@ -15,11 +15,6 @@ export default function ResetPasswordTab() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // You can handle form submission logic here, such as making an API request.
-
-        // For demonstration purposes, we'll log the email and password to the console.
-        console.log('Email:', email);
-        console.log('Password:', password);
 
         try {
         const [user_id, domain] = email.split('@');

@@ -93,7 +93,6 @@ export default function ContentMyPlanTeacher({user}) {
       });
     })
 
-    console.log("PrepEvents before update:", prepEvents);
     setEvents(prepEvents);
   };
 

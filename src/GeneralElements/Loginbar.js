@@ -92,24 +92,29 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
       if (userInfo) {
         // Validate the token
         const validateToken = async () => {
-          const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/validateToken.php?token=${userInfo.token}`);
-  
-          if (response.ok) {
-            const data = await response.json();
-  
-            if (data.valid) {
-              // Token is valid, continue the session
-              setUser(userInfo);
-              setLoggedIn(true);
-              onLoginStatusChange(true);
-              console.log("Authentication successful!");
+          try {
+            const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/validateToken.php?token=${userInfo.token}`);
+    
+            if (response.ok) {
+              const data = await response.json();
+    
+              if (data.valid) {
+                // Token is valid, continue the session
+                setUser(userInfo);
+                setLoggedIn(true);
+                onLoginStatusChange(true);
+                console.log("Authentication successful!");
+              } else {
+                // Token is invalid or expired, perform logout
+                console.log("Authentication failed!");
+                handleLogout();
+              }
             } else {
-              // Token is invalid or expired, perform logout
-              console.log("Authentication failed!");
-              handleLogout();
+              throw new Error('Server response not OK');
             }
-          } else {
-            console.error('Error when validating the token');
+          } catch (error) {
+            console.error('Error when validating the token:', error);
+            alert("Utracono połączenie z serwerem! Spróbuj ponownie za chwilę!");
           }
         };
   
@@ -203,9 +208,6 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
           userInfo = null;
         }
 
-        console.log(userInfo);
-        console.log(userInfo.token);
-
         const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/logout.php?token=${userInfo.token}`);
     
         if (response.ok) {
@@ -274,15 +276,6 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
 
         if (data.valid) {
           setValidToken(true);
-
-          // const dataResponse = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/changePassword.php?token=${user.token}&newpassword=${newPassword}`)
-          // .then(response => response.json())
-          // .then(data => {
-          //   console.log(data); // Log the received data
-          // })
-          // .catch((error) => {
-          //   console.error('Error:', error);
-          // });
 
           const dataResponse = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/changePassword.php?token=${user.token}&currentpassword=${currentPassword}&newpassword=${newPassword}`);
           dataResponse.json().then(data => {
