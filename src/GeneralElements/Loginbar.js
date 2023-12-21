@@ -4,6 +4,8 @@ import '../GeneralElementsStyles/Loginbar.css';
 import '../GlobalStyles.css';
 
 export default function LoginBar({onLoginStatusChange, user, setUser}) {
+    const [validToken, setValidToken] = useState(true);
+
     const [loggedIn, setLoggedIn] = useState(false);
     const [showLoginPopup, setShowLoginPopup] = useState(false);
     const [email, setEmail] = useState('');
@@ -11,6 +13,16 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
     const [isValidEmail, setIsValidEmail] = useState(true);
     const [keepLoggedIn, setKeepLoggedIn] = useState(true); // State for "Keep me logged in" checkbox
   
+    const [showChangePasswordPopup, setShowChangePasswordPopup] = useState(false);
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [repeatNewPassword, setRepeatNewPassword] = useState('');
+    const changePasswordButtonRef = useRef(null);
+    const currentPasswordRef = useRef(null);
+    const newPasswordRef = useRef(null);
+    const repeatNewPasswordRef = useRef(null);
+
+
     const emailInputRef = useRef(null);
     const passwordInputRef = useRef(null);
     const loginButtonRef = useRef(null);
@@ -25,6 +37,7 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
             // Password input is in focus, apply the login button action
             loginButtonRef.current.click();
           }
+
         }
       };
   
@@ -34,6 +47,26 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
         document.removeEventListener('keydown', handleKeyPress);
       };
     }, []); // Run this effect once on component mount
+
+    useEffect(() => {
+      // Function to handle key press events
+      const handleKeyPress = (event) => {
+          if (event.key === 'Escape' && showChangePasswordPopup) {
+              setShowChangePasswordPopup(false);
+              setCurrentPassword("");
+              setNewPassword("");
+              setRepeatNewPassword("");
+          }
+      };
+
+      // Add event listener for key presses
+      document.addEventListener('keydown', handleKeyPress);
+
+      // Clean up event listener
+      return () => {
+          document.removeEventListener('keydown', handleKeyPress);
+      };
+    }, [showChangePasswordPopup]);
 
     useEffect(() => {
       // Check if the user is logged in using cookies
@@ -223,6 +256,61 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
       setKeepLoggedIn(false);
     };
   
+
+    const handleChangePassword = async () => {
+      if (!newPassword || !repeatNewPassword || !currentPassword) {
+          alert('Wszystkie pola są wymagane.');
+          return;
+      }
+      if (newPassword !== repeatNewPassword) {
+          alert('Nowe hasła nie są takie same.');
+          return;
+      }
+
+      const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/validateToken.php?token=${user.token}`);
+
+      if (response.ok) {
+        const data = await response.json();
+
+        if (data.valid) {
+          setValidToken(true);
+
+          // const dataResponse = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/changePassword.php?token=${user.token}&newpassword=${newPassword}`)
+          // .then(response => response.json())
+          // .then(data => {
+          //   console.log(data); // Log the received data
+          // })
+          // .catch((error) => {
+          //   console.error('Error:', error);
+          // });
+
+          const dataResponse = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/changePassword.php?token=${user.token}&currentpassword=${currentPassword}&newpassword=${newPassword}`);
+          dataResponse.json().then(data => {
+            if (data.success) {
+              alert('Hasło zostało zmienione!');
+              setShowChangePasswordPopup(false);
+              setCurrentPassword("");
+              setNewPassword("");
+              setRepeatNewPassword("");
+          } else {
+              // Wyświetlanie błędu o nieprawidłowym obecnym haśle
+              if (data.error === 'Current password is incorrect') {
+                  alert('Błędne obecne hasło');
+              } else {
+                  alert('Nie udało się zmienić hasła.');
+              }
+          }
+          }).catch(error => {
+              console.error('Error:', error);
+              alert('Wystąpił błąd podczas zmiany hasła.');
+          });
+        } else {
+          setValidToken(false);
+        }
+      }
+    };
+
+
     return (
       <div className="login-bar login-right global-shadow">
         {!loggedIn ? (
@@ -293,6 +381,69 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
                 >Zaloguj</button>
             </div>
           </div>
+        )}
+
+        {loggedIn && (
+            <div className="change-password-link" onClick={() => setShowChangePasswordPopup(true)}>
+                Zmień hasło
+            </div>
+        )}
+
+        {showChangePasswordPopup && (
+            <div className="password-popup-overlay">
+                <div className="password-popup">
+                    <span className="close-button" onClick={() =>
+                      {setShowChangePasswordPopup(false);
+                      setCurrentPassword("");
+                      setNewPassword("");
+                      setRepeatNewPassword("");}
+                      }>&times;</span>
+                    <h2 style={{marginLeft:'125px'}}>Zmień Hasło</h2>
+                    <div className="password-input">
+                        <label>Obecne hasło</label>
+                        <input
+                          type="password"
+                          value={currentPassword}
+                          onChange={(e) => setCurrentPassword(e.target.value)}
+                          ref={currentPasswordRef}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              e.preventDefault();
+                              newPasswordRef.current.focus();
+                            }
+                          }}/>
+                    </div>
+                    <div className="password-input">
+                        <label>Nowe hasło</label>
+                        <input
+                          type="password"
+                          value={newPassword}
+                          onChange={(e) => setNewPassword(e.target.value)}
+                          ref={newPasswordRef}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              e.preventDefault();
+                              repeatNewPasswordRef.current.focus();
+                            }
+                          }}
+                          />
+                    </div>
+                    <div className="password-input">
+                        <label>Powtórz nowe hasło</label>
+                        <input
+                          type="password"
+                          value={repeatNewPassword}
+                          onChange={(e) => setRepeatNewPassword(e.target.value)}
+                          ref={repeatNewPasswordRef}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              changePasswordButtonRef.current.click();
+                            }
+                          }}/>
+                    </div>
+                    <button style={{marginLeft:'100px'}} onClick={handleChangePassword} ref={changePasswordButtonRef}>Zmień</button>
+                </div>
+            </div>
         )}
       </div>
     );
