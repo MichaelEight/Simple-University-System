@@ -4,9 +4,6 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './MyPlan.css';
 
-// TODO
-// Remove any data about teacher - because the teacher is loading the plan
-
 
 function findDates(weekday, startWeeksAgo, endWeeksInFuture) {
   const polishToMomentDayMap = {
@@ -35,7 +32,6 @@ export default function ContentMyPlanTeacher({user}) {
   const [validToken, setValidToken] = useState(true);
   const [timetableData, setTimetableData] = useState([]);
   const [events, setEvents] = useState([]);
-  const [teachersDetails, setTeachersDetails] = useState({});
   const [subjectsDetails, setSubjectsDetails] = useState({});
   const [dataLoaded, setDataLoaded] = useState(false); // Track whether data is loaded
   const [errorWhileLoadingData, setErrorWhileLoadingData] = useState(false);
@@ -52,12 +48,22 @@ export default function ContentMyPlanTeacher({user}) {
   const localizer = momentLocalizer(moment);
 
   const updateEvents = () => {
-    const prepEvents = [];
-    
+    const uniqueLessons = new Map(); // Map to store unique lessons
+  
+    // Iterate over timetableData to populate uniqueLessons
     timetableData.forEach(lesson => {
+      const identifier = `${lesson.subject_id}-${lesson.starts_at}-${lesson.place}`;
+      if (!uniqueLessons.has(identifier)) {
+        uniqueLessons.set(identifier, lesson);
+      }
+    });
+  
+    const prepEvents = [];
+  
+    uniqueLessons.forEach(lesson => {
       const startHour = moment(lesson.starts_at, 'HH:mm');
       const endHour = moment(lesson.ends_at, 'HH:mm');
-
+  
       const lessonDates = findDates(lesson.weekday, 4, 4);
       lessonDates.forEach(date => {
         const isEvenWeek = date.isoWeek() % 2 === 0;
@@ -65,7 +71,7 @@ export default function ContentMyPlanTeacher({user}) {
         const isRelevantWeek = (lesson.which_weeks === 'wszystkie') || 
                               (lesson.which_weeks === 'parzyste' && isEvenWeek) || 
                               (lesson.which_weeks === 'nieparzyste' && isOddWeek);
-
+  
         if (isRelevantWeek) {
           const start = moment(date).set({
             hour: startHour.hour(),
@@ -75,47 +81,39 @@ export default function ContentMyPlanTeacher({user}) {
             hour: endHour.hour(),
             minute: endHour.minute()
           }).toDate();
-
-          // Use teacher_id to get the teacher's full name from the teachersDetails state
-          const teacherDetail = teachersDetails[lesson.teacher_id];
-          const teacherName = teacherDetail ? teacherDetail.fullName : 'Unknown Teacher';
-          
+  
           const subjectDetail = subjectsDetails[lesson.subject_id];
           const subjectName = subjectDetail ? subjectDetail.name : 'Unknown Subject';
           const subjectCode = subjectDetail ? subjectDetail.code : 'Unknown Code';
-
-          // Construct the event title with the teacher's full name
-          const eventTitle = `[${subjectCode}] ${subjectName}, ${teacherName}, Room: ${lesson.place}, ${startHour.format('HH:mm')} - ${endHour.format('HH:mm')}`;
-
-          // Push the event into the events array
+  
+          const eventTitle = `[${subjectCode}] ${subjectName}, Room: ${lesson.place}, ${startHour.format('HH:mm')} - ${endHour.format('HH:mm')}`;
           prepEvents.push({ title: eventTitle, start, end, resource: lesson });
-          }
+        }
       });
-    })
-
+    });
+  
     setEvents(prepEvents);
   };
+  
+  
 
 
   useEffect(() => {
     const loadUserPlanData = async () => {
       try {
         // Check if there is cached data in localStorage
-        const cachedData = localStorage.getItem('userTimetableData');
-        const cachedDataTeachers = localStorage.getItem('userTimetableTeachersData');
-        const cachedDataSubjects = localStorage.getItem('userTimetableSubjectsData');
-        const cachedTimestamp = localStorage.getItem('userTimetableDataTimestamp');
+        const cachedData = localStorage.getItem('userDziennikTimetableData');
+        const cachedDataSubjects = localStorage.getItem('userDziennikTimetableSubjectsData');
+        const cachedTimestamp = localStorage.getItem('userDziennikTimetableDataTimestamp');
         const currentTimestamp = new Date().getTime();
 
         // If cached data exists and is less than 30 seconds old, use it
-        if (cachedData && cachedDataTeachers && cachedDataSubjects && cachedTimestamp && currentTimestamp - cachedTimestamp < 30000) {
+        if (cachedData && cachedDataSubjects && cachedTimestamp && currentTimestamp - cachedTimestamp < 30000) {
           try{
           const cachedTimetableData = JSON.parse(cachedData);
-          const cachedTeachers = JSON.parse(cachedDataTeachers || '{}');
           const cachedSubjects = JSON.parse(cachedDataSubjects || '{}');
 
           setTimetableData(cachedTimetableData);
-          setTeachersDetails(cachedTeachers);
           setSubjectsDetails(cachedSubjects);
 
           // Ensure states are updated before calling updateEvents
@@ -126,7 +124,6 @@ export default function ContentMyPlanTeacher({user}) {
           console.log("Data (user plan) loaded from local storage!");
           }catch (e) {
             console.error('Error parsing cached data:', e);
-            // Handle error or load data from server as fallback
           }
         }
         else 
@@ -142,57 +139,7 @@ export default function ContentMyPlanTeacher({user}) {
                 const userPlanDataFromDB = await dataResponse.json();
 
                 setTimetableData(userPlanDataFromDB);
-                setDataLoaded(true);
                 console.log("Data (user plan) downloaded successfully!");
-
-                //
-                // LOAD TEACHER IDS
-                //
-
-                // Extract unique teacher IDs from the timetable data
-                const teacherIds = [...new Set(userPlanDataFromDB.map(lesson => lesson.teacher_id))];
-
-                // Create a comma-separated string of teacher IDs
-                const teacherIdsParam = teacherIds.join(',');
-
-                // Make an API request to fetch teacher names using GET method
-                const teachersResponse = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/getTeachers.php?teacherIds=${teacherIdsParam}`);
-
-                if (teachersResponse.ok) {
-                  const teachersData = await teachersResponse.json();
-                  
-                  // Create an object with teacher_id as keys and the full teacher details as values
-                  const teachersById = teachersData.reduce((details, teacher) => {
-                    details[teacher.id] = {
-                      title: teacher.title,
-                      firstName: teacher.first_name,
-                      lastName: teacher.last_name,
-                      fullName: `${teacher.title} ${teacher.first_name} ${teacher.last_name}`,
-                    };
-                    return details;
-                  }, {});
-                
-                  // Update the state with the new object
-                  setTeachersDetails(teachersById);
-                
-                  // Now, let's integrate the teacher's full name into the timetable data
-                  const updatedTimetableData = userPlanDataFromDB.map(lesson => {
-                    const teacher = teachersById[lesson.teacher_id];
-                    return {
-                      ...lesson,
-                      teacherName: teacher ? teacher.fullName : 'Unknown'
-                    };
-                  });
-                
-                  // Update the timetable data state with teacher names included
-                  setTimetableData(updatedTimetableData);
-                
-                  console.log("Data (user plan) with teacher names downloaded successfully!");
-                
-                } else {
-                  console.error('Failed to fetch teachers');
-                  // Handle the error as needed
-                }
 
                 //
                 // LOAD SUBJECT IDS
@@ -262,32 +209,25 @@ export default function ContentMyPlanTeacher({user}) {
 
   useEffect(() => {
     if (dataLoaded && timetableData.length > 0) {
-      localStorage.setItem('userTimetableData', JSON.stringify(timetableData));
-      localStorage.setItem('userTimetableDataTimestamp', new Date().getTime().toString());
+      localStorage.setItem('userDziennikTimetableData', JSON.stringify(timetableData));
+      localStorage.setItem('userDziennikTimetableDataTimestamp', new Date().getTime().toString());
       console.log("Timetable data saved to local storage!");
     }
   }, [timetableData, dataLoaded]);
   
   useEffect(() => {
-    if (dataLoaded && Object.keys(teachersDetails).length > 0) {
-      localStorage.setItem('userTimetableTeachersData', JSON.stringify(teachersDetails));
-      console.log("Teacher data saved to local storage!");
-    }
-  }, [teachersDetails, dataLoaded]);
-  
-  useEffect(() => {
     if (dataLoaded && Object.keys(subjectsDetails).length > 0) {
-      localStorage.setItem('userTimetableSubjectsData', JSON.stringify(subjectsDetails));
+      localStorage.setItem('userDziennikTimetableSubjectsData', JSON.stringify(subjectsDetails));
       console.log("Subject data saved to local storage!");
     }
   }, [subjectsDetails, dataLoaded]);
 
   useEffect(() => {
-    // This useEffect is triggered when timetableData, teachersDetails, or subjectsDetails change.
-    if (timetableData.length > 0 && Object.keys(teachersDetails).length > 0 && Object.keys(subjectsDetails).length > 0) {
+    // This useEffect is triggered when timetableData or subjectsDetails change.
+    if (timetableData.length > 0 && Object.keys(subjectsDetails).length > 0) {
       updateEvents();
     }
-  }, [timetableData, teachersDetails, subjectsDetails]);
+  }, [timetableData, subjectsDetails]);
   
 
   return (

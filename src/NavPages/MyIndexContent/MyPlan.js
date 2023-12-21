@@ -49,11 +49,12 @@ export default function ContentMyPlan({user}) {
 
   const updateEvents = () => {
     const prepEvents = [];
-    
+    const uniqueEventIdentifiers = new Set(); // Set to track unique event identifiers
+  
     timetableData.forEach(lesson => {
       const startHour = moment(lesson.starts_at, 'HH:mm');
       const endHour = moment(lesson.ends_at, 'HH:mm');
-
+  
       const lessonDates = findDates(lesson.weekday, 4, 4);
       lessonDates.forEach(date => {
         const isEvenWeek = date.isoWeek() % 2 === 0;
@@ -61,7 +62,7 @@ export default function ContentMyPlan({user}) {
         const isRelevantWeek = (lesson.which_weeks === 'wszystkie') || 
                               (lesson.which_weeks === 'parzyste' && isEvenWeek) || 
                               (lesson.which_weeks === 'nieparzyste' && isOddWeek);
-
+  
         if (isRelevantWeek) {
           const start = moment(date).set({
             hour: startHour.hour(),
@@ -71,26 +72,31 @@ export default function ContentMyPlan({user}) {
             hour: endHour.hour(),
             minute: endHour.minute()
           }).toDate();
-
-          // Use teacher_id to get the teacher's full name from the teachersDetails state
-          const teacherDetail = teachersDetails[lesson.teacher_id];
-          const teacherName = teacherDetail ? teacherDetail.fullName : 'Unknown Teacher';
-          
-          const subjectDetail = subjectsDetails[lesson.subject_id];
-          const subjectName = subjectDetail ? subjectDetail.name : 'Unknown Subject';
-          const subjectCode = subjectDetail ? subjectDetail.code : 'Unknown Code';
-
-          // Construct the event title with the teacher's full name
-          const eventTitle = `[${subjectCode}] ${subjectName}, ${teacherName}, Room: ${lesson.place}, ${startHour.format('HH:mm')} - ${endHour.format('HH:mm')}`;
-
-          // Push the event into the events array
-          prepEvents.push({ title: eventTitle, start, end, resource: lesson });
+  
+          // Construct a unique identifier for the event including the date
+          const eventIdentifier = `${lesson.subject_id}-${lesson.place}-${startHour.format('HH:mm')}-${date.format('YYYY-MM-DD')}`;
+  
+          // Only add the event if it's not already in the set
+          if (!uniqueEventIdentifiers.has(eventIdentifier)) {
+            const teacherDetail = teachersDetails[lesson.teacher_id];
+            const teacherName = teacherDetail ? teacherDetail.fullName : 'Unknown Teacher';
+            
+            const subjectDetail = subjectsDetails[lesson.subject_id];
+            const subjectName = subjectDetail ? subjectDetail.name : 'Unknown Subject';
+            const subjectCode = subjectDetail ? subjectDetail.code : 'Unknown Code';
+  
+            const eventTitle = `[${subjectCode}] ${subjectName}, ${teacherName}, Room: ${lesson.place}, ${startHour.format('HH:mm')} - ${endHour.format('HH:mm')}`;
+            prepEvents.push({ title: eventTitle, start, end, resource: lesson });
+  
+            uniqueEventIdentifiers.add(eventIdentifier); // Add the identifier to the set
           }
+        }
       });
     })
-
+  
     setEvents(prepEvents);
   };
+  
 
 
   useEffect(() => {
@@ -137,7 +143,6 @@ export default function ContentMyPlan({user}) {
                 const userPlanDataFromDB = await dataResponse.json();
 
                 setTimetableData(userPlanDataFromDB);
-                setDataLoaded(true);
 
                 //
                 // LOAD TEACHER IDS
