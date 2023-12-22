@@ -13,7 +13,7 @@ main {
 }
   
 .middle-container {
-    background-color: #121212; /* Slightly lighter dark shade for the container */
+    background-color: var(--background); /* Slightly lighter dark shade for the container */
     display: grid;
     grid-template-columns: 0.25fr 1fr; /* Sidebar takes 0.25fr, rest is for content */
     gap: 1vw;

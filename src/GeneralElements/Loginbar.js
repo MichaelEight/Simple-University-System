@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'; // Import the js-cookie library
 import '../GeneralElementsStyles/Loginbar.css';
 import '../GlobalStyles.css';
 
-export default function LoginBar({onLoginStatusChange, user, setUser}) {
+export default function LoginBar({onLoginStatusChange, user, setUser, handleToggleTheme, theme}) {
     const [validToken, setValidToken] = useState(true);
 
     const [loggedIn, setLoggedIn] = useState(false);
@@ -381,6 +381,10 @@ export default function LoginBar({onLoginStatusChange, user, setUser}) {
                 Zmień hasło
             </div>
         )}
+        <div className="change-password-link" onClick={handleToggleTheme}>
+            Tryb jasny/ciemny
+        </div>
+        
 
         {showChangePasswordPopup && (
             <div className="password-popup-overlay">

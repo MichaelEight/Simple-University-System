@@ -1,5 +1,5 @@
 footer{
     text-decoration: overline;
     text-align: right;
-    color: white;
+    color: var(--text-color);
 }

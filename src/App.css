@@ -7,7 +7,7 @@ body {
   justify-content: center; /* Vertically center the .App */
   align-items: center; /* Horizontally center the .App */
   /* background-color: rgb(220, 220, 220); */
-  background-color: #121212; /* Dark background color */
+  background-color: var(--background); /* Dark background color */
 }
 
 .App {
@@ -25,4 +25,18 @@ body {
     width: 100%; /* Adjust the width for mobile */
     height: auto; /* Allow height to adapt to content for mobile */
   }
+}
+
+:root {
+  --background: #121212;
+  --nav-background: #191919;
+  --text-color: white;
+  --underline-color: white;
+}
+
+.light-theme {
+  --background: white;
+  --nav-background: rgb(175, 174, 174);
+  --text-color: black;
+  --underline-color: black;
 }
