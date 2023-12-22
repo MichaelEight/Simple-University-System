@@ -4,13 +4,13 @@ import Main from './GeneralElements/Main.js'
 import Footer from './GeneralElements/Footer.js'
 import LoginBar from './GeneralElements/Loginbar.js'
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function App() {
   const [selectedItem, setSelectedItem] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(null);
-  const [theme, setTheme] = useState('dark'); // 'light' or 'dark'
+  const [theme, setTheme] = useState('light'); // It is dark though; it solves double-click-needed bug
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');

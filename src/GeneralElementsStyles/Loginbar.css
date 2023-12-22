@@ -146,15 +146,24 @@
   margin-top: 0.75rem;
 }
 
-.change-password-link {
+.change-password-link,
+.change-darkmode-link {
   color: white;
   cursor: pointer;
   margin-left: 10px;
   text-decoration: none;
+  display: inline-block; /* Change to inline-block */
+  justify-content: flex-end; /* Aligns content to the right */
 }
 
-.change-password-link:hover {
+.change-password-link:hover,
+.change-darkmode-link:hover {
   text-decoration: underline;
+}
+
+.darkmode-icon{
+  cursor: pointer;
+  width: 100%;
 }
 
 .password-popup-overlay {
