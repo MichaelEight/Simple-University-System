@@ -1,101 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ListOfStudents.css';
 
-export default function ContentListOfStudents() {
-    const [students, setStudents] = useState([
-      {
-        id: 1,
-        name: 'John',
-        lastName: 'Doe',
-        indexNumber: '12345',
-        state: 'active',
-        grade: '',
-        comments: '',
-        checkboxes: {
-          W: false,
-          Ć: false,
-          L: false,
-          P: false,
-        },
-      },
-      {
-        id: 2,
-        name: 'Alice',
-        lastName: 'Smith',
-        indexNumber: '54321',
-        state: 'inactive',
-        grade: '',
-        comments: '',
-        checkboxes: {
-          W: false,
-          Ć: false,
-          L: false,
-          P: false,
-        },
-      },
-      {
-        id: 3,
-        name: 'Bob',
-        lastName: 'Johnson',
-        indexNumber: '98765',
-        state: 'active',
-        grade: '',
-        comments: '',
-        checkboxes: {
-          W: false,
-          Ć: false,
-          L: false,
-          P: false,
-        },
-      },
-      {
-        id: 4,
-        name: 'Eve',
-        lastName: 'Brown',
-        indexNumber: '23456',
-        state: 'inactive',
-        grade: '',
-        comments: '',
-        checkboxes: {
-          W: false,
-          Ć: false,
-          L: false,
-          P: false,
-        },
-      },
-      {
-        id: 5,
-        name: 'Eve2',
-        lastName: 'Brown2',
-        indexNumber: '62456',
-        state: 'inactive',
-        grade: '',
-        comments: '',
-        checkboxes: {
-          W: false,
-          Ć: false,
-          L: false,
-          P: false,
-        },
-      },
-      {
-        id: 5,
-        name: 'Eve2',
-        lastName: 'Brown2',
-        indexNumber: '62456',
-        state: 'inactive',
-        grade: '',
-        comments: '',
-        checkboxes: {
-          W: false,
-          Ć: false,
-          L: false,
-          P: false,
-        },
-      },
-      // Add more student data here
-    ]);
+export default function ContentListOfStudents({user}) {
+    const [selectedSubject, setSelectedSubject] = useState("Wybierz przedmiot");
+    const [selectedProgram, setSelectedProgram] = useState("Wybierz grupę kierunkową");
+    const [selectedGroup, setSelectedGroup] = useState("Wybierz grupę");  
+    const [subjects, setSubjects] = useState([]);
+    const [programs, setPrograms] = useState([]);
+    const [groups, setGroups] = useState(["Wszyscy", "1", "2", "3"]);  
   
+    const [submissionStatus, setSubmissionStatus] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [cooldownActive, setCooldownActive] = useState(false);
+
+    const [students, setStudents] = useState([]);
+
     // State to manage the state of column checkboxes in the top row
     const [columnCheckboxes, setColumnCheckboxes] = useState({
       W: false,
@@ -203,15 +122,143 @@ export default function ContentListOfStudents() {
       });
       setStudents(updatedStudents);
     };  
+
+    const fetchDataForDropdowns = async () => {
+      const teacherToken = user.token; // Assuming 'user.token' holds the teacher's token
+    
+      try {
+        // Fetch subjects
+        const subjectsResponse = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/listOfStudentsGetSubjects.php?token=${teacherToken}`);
+        if (subjectsResponse.ok) {
+          const subjectsData = await subjectsResponse.json();
+          setSubjects(subjectsData);
+        } else {
+          console.error("Error fetching subjects:", await subjectsResponse.text());
+        }
+    
+        // Fetch majors
+        const majorsResponse = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/listOfStudentsGetMajors.php`);
+        if (majorsResponse.ok) {
+          const majorsData = await majorsResponse.json();
+          setPrograms(majorsData);
+        } else {
+          console.error("Error fetching majors:", await majorsResponse.text());
+        }
+    
+        // Groups are predefined
+        setGroups(['all', '1', '2', '3']);
+    
+      } catch (error) {
+        console.error('Error fetching data for dropdowns:', error);
+      }
+    };
+    
+    useEffect(() => {
+      fetchDataForDropdowns();
+    }, []); // Call this function when the component mounts
+
+    const isDefaultSelection = (selection) => {
+      return selection.startsWith("Wybierz");
+    };
+
+    const canLoadList = !isDefaultSelection(selectedSubject) && !isDefaultSelection(selectedProgram) && !isDefaultSelection(selectedGroup);
+
+    const handleLoadListClick = async () => {
+      if (!canLoadList) return; // Early exit if any selection is default
+
+      const teacherToken = user.token; // Assuming 'user.token' holds the teacher's token
+      const apiUrl = `https://simpleuniversitysystem.000webhostapp.com/api/loadStudentsList.php`;
+
+      try {
+        const response = await fetch(`${apiUrl}?token=${teacherToken}&subject=${selectedSubject}&program=${selectedProgram}&group=${selectedGroup}`);
+
+        if (response.ok) {
+          const studentsData = await response.json();
+
+          // Add additional properties to each student object
+          const updatedStudentsData = studentsData.map(student => ({
+            ...student,
+            grade: '',
+            comments: '',
+            checkboxes: {
+                W: false,
+                Ć: false,
+                L: false,
+                P: false,
+            }
+          }));
+
+          setStudents(updatedStudentsData);
+        } else {
+          console.error('Response not ok', response);
+        }
+      } catch (error) {
+        console.error('Failed to fetch students list', error);
+      }
+    };
+
+    const handleSubmitGrades = async () => {
+      if (cooldownActive) return; // Prevents button spamming
+    
+      setCooldownActive(true); // Start cooldown
+      setIsSubmitting(true); // Disable the button
+
+      let successCount = 0;
+      let errorCount = 0;
+
+      const gradesToSubmit = students
+          .filter(student => student.grade !== '' && (student.checkboxes.W || student.checkboxes.Ć || student.checkboxes.L || student.checkboxes.P))
+          .flatMap(student => {
+              const types = ['W', 'Ć', 'L', 'P'].filter(type => student.checkboxes[type]);
+              return types.map(type => ({
+                  student_id: student.id,
+                  subject_id: subjects[selectedSubject].id,
+                  type,
+                  grade: student.grade,
+                  description: student.comments
+              }));
+          });
+
+      if (gradesToSubmit.length === 0) {
+          console.log("No grades to submit");
+          return;
+      }
   
-    const subjects = ["Subject 1", "Subject 2", "Subject 3"];
-    const programs = ["Program A", "Program B", "Program C"];
-    const groups = ["Group X", "Group Y", "Group Z"];
+      const apiUrl = `https://simpleuniversitysystem.000webhostapp.com/api/submitMultipleGrades.php?teacher_id=${user.id}`;
   
-    const [selectedSubject, setSelectedSubject] = useState("Wybierz przedmiot");
-    const [selectedProgram, setSelectedProgram] = useState("Wybierz grupę kierunkową");
-    const [selectedGroup, setSelectedGroup] = useState("Wybierz grupę");
+      for (const grade of gradesToSubmit) {
+          const queryParams = new URLSearchParams(grade);
+          try {
+              const response = await fetch(`${apiUrl}&${queryParams.toString()}`);
+              if (response.ok) {
+                successCount++;
+                console.log("Pomyślnie wprowadzono ocenę!");
+              }else{
+                errorCount++;
+                console.error("Failed to submit a grade", response);
+              }
+          } catch (error) {
+              console.error("Error submitting a grade", error);
+          }
+      }
   
+      // Determine the submission status and corresponding class
+      if (successCount === gradesToSubmit.length) {
+        setSubmissionStatus({ message: 'Pomyślnie wprowadzono wszystkie oceny', className: 'success-message' });
+      } else if (successCount > 0) {
+          setSubmissionStatus({ message: 'Pomyślnie wprowadzono część ocen', className: 'warning-message' });
+      } else {
+          setSubmissionStatus({ message: 'Nie udało się wprowadzić ocen', className: 'error-message' });
+      }
+      console.log("Finished submitting grades");
+
+      setIsSubmitting(false); // Re-enable the button after processing
+      // Set a timeout to re-enable the button after 10 seconds
+      setTimeout(() => {
+        setCooldownActive(false);
+      }, 10000); // 10 seconds in milliseconds
+  };
+
     return (
       <main>
           <div>
@@ -224,8 +271,8 @@ export default function ContentListOfStudents() {
                 >
                   <option value="Wybierz przedmiot">Wybierz przedmiot</option>
                   {subjects.map((subject, index) => (
-                    <option key={index} value={subject}>
-                      {subject}
+                    <option key={index} value={subject.id}>
+                      {subject.name}
                     </option>
                   ))}
                 </select>
@@ -261,7 +308,7 @@ export default function ContentListOfStudents() {
             </div>
             
             <div className="button-spacing-studentslist">
-              <button className="loadButton-studentslist">Załaduj listę</button>
+              <button className="loadButton-studentslist" onClick={handleLoadListClick}>Załaduj listę</button>
             </div>
           </div>
           
@@ -272,13 +319,13 @@ export default function ContentListOfStudents() {
               {renderTopRowCheckboxes()}
             </thead>
             <tbody>
-              {students.map(student => (
-                <tr key={student.id} className='rows-colors-studentslist'>
+              {students.map((student, index) => (
+                <tr key={index + 1} className='rows-colors-studentslist'>
+                  <td>{index + 1}</td>
+                  <td>{student.first_name}</td>
+                  <td>{student.last_name}</td>
                   <td>{student.id}</td>
-                  <td>{student.name}</td>
-                  <td>{student.lastName}</td>
-                  <td>{student.indexNumber}</td>
-                  <td>{student.state}</td>
+                  <td>{student.status}</td>
                   <td>
                     <select
                       value={student.grade}
@@ -300,34 +347,34 @@ export default function ContentListOfStudents() {
                     type="text"
                     value={student.comments} // Assuming you have a 'comments' property in your student object
                     onChange={(e) => handleCommentsChange(student.id, e.target.value)} // Create a similar function for comments
-                    style={{ width:'250px', textAlign: 'center', verticalAlign: 'middle' }}
+                    style={{ width:'200px', textAlign: 'center', verticalAlign: 'middle' }}
                   />
                   </td>
                   <td>
                     <input
                       type="checkbox"
-                      checked={student.checkboxes.W}
+                      checked={student.checkboxes.W || false}
                       onChange={() => handleCheckboxChange(student.id, 'W')}
                     />
                   </td>
                   <td>
                     <input
                       type="checkbox"
-                      checked={student.checkboxes.Ć}
+                      checked={student.checkboxes.Ć || false}
                       onChange={() => handleCheckboxChange(student.id, 'Ć')}
                     />
                   </td>
                   <td>
                     <input
                       type="checkbox"
-                      checked={student.checkboxes.L}
+                      checked={student.checkboxes.L || false}
                       onChange={() => handleCheckboxChange(student.id, 'L')}
                     />
                   </td>
                   <td>
                     <input
                       type="checkbox"
-                      checked={student.checkboxes.P}
+                      checked={student.checkboxes.P || false}
                       onChange={() => handleCheckboxChange(student.id, 'P')}
                     />
                   </td>
@@ -337,7 +384,17 @@ export default function ContentListOfStudents() {
           </table>
   
           <div className="button-spacing-studentslist">
-            <button className="applyGradesButton-studentslist">Zatwierdź wprowadzone oceny</button>
+            {submissionStatus.message && (
+                  <p className={submissionStatus.className}>{submissionStatus.message}</p>
+              )}
+            <button
+              className="applyGradesButton-studentslist"
+              onClick={handleSubmitGrades}
+              style={{ cursor: isSubmitting ? 'wait' : (cooldownActive ? 'not-allowed' : 'default') }}
+              disabled={isSubmitting || cooldownActive} // Disable the button based on isSubmitting
+            >
+              Zatwierdź wprowadzone oceny
+            </button>
           </div>
   
       </main>
