@@ -18,12 +18,17 @@ try {
             if($storedRole == "student")
             {
                 $stmt = $conn->prepare("SELECT * FROM Students WHERE id = :storedUserId");
-                $stmt->bindParam(':storedUserId', $storedUserId, PDO::PARAM_INT);
-                $stmt->execute();
-
-                $userData = $stmt->fetch(PDO::FETCH_ASSOC);
-                echo json_encode($userData);
             }
+            else
+            {
+                $stmt = $conn->prepare("SELECT * FROM Personnel WHERE id = :storedUserId");
+            }
+
+            $stmt->bindParam(':storedUserId', $storedUserId, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+            echo json_encode($userData);
         } else {
             // If no token is found, return an empty object.
             echo json_encode([]);

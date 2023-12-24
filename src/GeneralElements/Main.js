@@ -36,7 +36,7 @@ export default function Main(props) {
         break;
       case 3:
         componentToRender = (
-          <MyDziekanat />
+          <MyDziekanat user={user}/>
         );
         break;
       case 4:

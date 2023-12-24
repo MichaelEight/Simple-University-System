@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ViewRegistrations.css'
 
-export default function ContentViewRegistrations() {
+export default function ContentViewRegistrations({user}) {
     const [waitingStudents, setWaitingStudents] = useState([]);
 
     useEffect(() => {
