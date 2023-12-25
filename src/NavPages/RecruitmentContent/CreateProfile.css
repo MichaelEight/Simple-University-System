@@ -8,32 +8,35 @@
     margin-bottom: 20px;
   }
   
-  form {
+  .form-container form {
     display: flex;
     justify-content: center;
   }
   
-  table {
+  .form-container table {
     width: 100%;
     border-collapse: collapse;
   }
   
-  td {
+  .form-container td {
     padding: 8px;
     vertical-align: middle;
   }
   
-  td:first-child {
+  .form-container td:first-child {
     text-align: right;
     width: 40%;
   }
   
-  td:last-child {
+  .form-container td:last-child {
     text-align: left;
     width: 60%;
   }
   
-  input[type="text"], input[type="password"], input[type="date"], select, button {
+  .form-container input[type="text"],
+  .form-container input[type="password"],
+  .form-container input[type="date"], select,
+  .form-container button {
     width: 50%; /* Shorter input fields */
     padding: 8px;
     border: 1px solid #ddd;
@@ -41,7 +44,7 @@
     font-size: 16px;
   }
   
-  button {
+  .form-container button {
     background-color: #007bff;
     color: white;
     padding: 10px 15px;
@@ -52,7 +55,7 @@
     margin: auto; /* Center the button */
   }
   
-  button:hover {
+  .form-container button:hover {
     background-color: #0056b3;
   }
   

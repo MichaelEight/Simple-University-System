@@ -244,11 +244,11 @@ export default function ContentListOfStudents({user}) {
   
       // Determine the submission status and corresponding class
       if (successCount === gradesToSubmit.length) {
-        setSubmissionStatus({ message: 'Pomyślnie wprowadzono wszystkie oceny', className: 'success-message' });
+        setSubmissionStatus({ message: 'Pomyślnie wprowadzono wszystkie oceny', className: 'students-list-success-message' });
       } else if (successCount > 0) {
-          setSubmissionStatus({ message: 'Pomyślnie wprowadzono część ocen', className: 'warning-message' });
+          setSubmissionStatus({ message: 'Pomyślnie wprowadzono część ocen', className: 'students-list-warning-message' });
       } else {
-          setSubmissionStatus({ message: 'Nie udało się wprowadzić ocen', className: 'error-message' });
+          setSubmissionStatus({ message: 'Nie udało się wprowadzić ocen', className: 'students-list-error-message' });
       }
       console.log("Finished submitting grades");
 
@@ -343,16 +343,17 @@ export default function ContentListOfStudents({user}) {
                     </select>
                   </td>
                   <td>
-                  <input
-                    type="text"
-                    value={student.comments} // Assuming you have a 'comments' property in your student object
-                    onChange={(e) => handleCommentsChange(student.id, e.target.value)} // Create a similar function for comments
-                    style={{ width:'200px', textAlign: 'center', verticalAlign: 'middle' }}
-                  />
+                    <input
+                      type="text"
+                      value={student.comments} // Assuming you have a 'comments' property in your student object
+                      onChange={(e) => handleCommentsChange(student.id, e.target.value)} // Create a similar function for comments
+                      style={{ width:'200px', textAlign: 'center', verticalAlign: 'middle' }}
+                    />
                   </td>
                   <td>
                     <input
                       type="checkbox"
+                      className='checkbox-input'
                       checked={student.checkboxes.W || false}
                       onChange={() => handleCheckboxChange(student.id, 'W')}
                     />
@@ -360,6 +361,7 @@ export default function ContentListOfStudents({user}) {
                   <td>
                     <input
                       type="checkbox"
+                      className='checkbox-input'
                       checked={student.checkboxes.Ć || false}
                       onChange={() => handleCheckboxChange(student.id, 'Ć')}
                     />
@@ -367,6 +369,7 @@ export default function ContentListOfStudents({user}) {
                   <td>
                     <input
                       type="checkbox"
+                      className='checkbox-input'
                       checked={student.checkboxes.L || false}
                       onChange={() => handleCheckboxChange(student.id, 'L')}
                     />
@@ -374,6 +377,7 @@ export default function ContentListOfStudents({user}) {
                   <td>
                     <input
                       type="checkbox"
+                      className='checkbox-input'
                       checked={student.checkboxes.P || false}
                       onChange={() => handleCheckboxChange(student.id, 'P')}
                     />

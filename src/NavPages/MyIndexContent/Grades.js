@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import './GradesModal.css'
+import './GradesModal.css';
+import './GradesDatatable.css';
 
 export default function ContentGrades({user}) {
   const [gradesData, setGradesData] = useState([]);
@@ -179,7 +180,7 @@ export default function ContentGrades({user}) {
           )}
 
 
-          <table className="data-table">
+          <table className="grades-data-table">
             <thead>
               <tr>
                 <th>Kod Przedmiotu</th>
@@ -193,8 +194,8 @@ export default function ContentGrades({user}) {
             <tbody>
               {gradesData.map((item, index) => (
                 <tr key={index} className='rows-colors'>
+                  <td>{subjectsDetails[item.subject_id]?.subject_code} ({item.type})</td>
                   <td>{subjectsDetails[item.subject_id]?.subject_name}</td>
-                  <td>{subjectsDetails[item.subject_id]?.subject_code}</td>
                   <td>{teachersDetails[item.posted_by_id]}</td>
                   <td>{item.grade}</td>
                   <td>{subjectsDetails[item.subject_id]?.ects}</td>

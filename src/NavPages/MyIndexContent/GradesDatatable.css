@@ -1,0 +1,83 @@
+.grades-data-table {
+    width: 100%;
+    max-width: 100%; /* Limit the maximum width */
+    border-collapse: collapse;
+    background-color: #f8f8f8;
+    color: #333;
+    table-layout: fixed; /* Use a fixed table layout */
+    word-wrap: break-word; /* Break words to the next line */
+}
+
+.grades-data-table th,
+.grades-data-table td {
+    padding: 5px;
+    border: 1px solid #ddd;
+    text-align: left;
+    word-break: break-all; /* Break words to prevent overflow */
+}
+
+.grades-data-table th {
+    background-color: #007bff; /* A distinct color for header */
+    color: white;
+}
+
+.grades-data-table tr:nth-child(even) {
+    background-color: #f2f2f2; /* Zebra-striping for rows */
+}
+
+.grades-data-table th:nth-child(1),
+.grades-data-table td:nth-child(1) {
+    width: 10%; /* Kod Przedmiotu - space for 8 characters */
+}
+
+.grades-data-table th:nth-child(2),
+.grades-data-table td:nth-child(2),
+.grades-data-table th:nth-child(3),
+.grades-data-table td:nth-child(3) {
+    width: 25%; /* Nazwa Przedmiotu and Prowadzący - most space */
+}
+
+.grades-data-table th:nth-child(4),
+.grades-data-table td:nth-child(4) {
+    width: 10%; /* Ocena - space for 3 digits */
+    text-align: center;
+}
+
+.grades-data-table th:nth-child(5),
+.grades-data-table td:nth-child(5) {
+    width: 10%; /* ECTS - space for 2 digits */
+    text-align: center;
+}
+
+.grades-data-table th:nth-child(6),
+.grades-data-table td:nth-child(6) {
+    width: 20%; /* Akcja - enough space for buttons and short text */
+    text-align: center;
+}
+
+.grades-data-table button {
+    padding: 5px 15px; /* Increase horizontal padding */
+    font-size: 0.9em; /* Adjust font size if necessary */
+    min-width: 110px; /* Set a minimum width */
+    text-overflow: ellipsis; /* Add ellipsis to overflowing text */
+    background-color: #28a745;
+}
+
+/* Optional: Additional styles for hover effect */
+.grades-data-table button:hover {
+    background-color: #218838; /* Slightly darker green for accept button on hover */
+    color: white;
+}
+
+.grades-data-table button:nth-child(2):hover {
+    background-color: #c82333; /* Slightly darker red for reject button on hover */
+}
+
+.grades-data-table button:nth-child(2) {
+    background-color: #dc3545; /* Red color for reject button */
+}
+
+.grades-data-table button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

@@ -59,6 +59,7 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 18px;
 }
 
 .loadButton-studentslist:hover,
@@ -119,15 +120,21 @@
     border: 1px solid #ddd;
   }
 
-  .success-message {
+  .students-list-success-message {
     color: green;
   }
   
-  .warning-message {
+  .students-list-warning-message {
     color: orange;
   }
   
-  .error-message {
+  .students-list-error-message {
     color: red;
   }
+
+/* Style for checkbox inputs */
+.data-table-studentslist .checkbox-input {
+    transform: scale(1.5); /* Adjust the scale value as needed */
+    margin-right: 5px; /* Add some margin if needed */
+}
   

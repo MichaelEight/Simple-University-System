@@ -31,7 +31,7 @@
 
 .login-bar button:hover,
 .login-popup button:hover {
-  background-color: rgb(254, 153, 0);
+  background-color: rgb(177, 107, 1);
 }
 
 .login-bar button:focus,
@@ -162,7 +162,7 @@
 }
 
 .change-darkmode-link{
-  max-width: 5%;
+  max-width: 4%;
 }
 
 .darkmode-icon{

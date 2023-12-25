@@ -48,14 +48,14 @@
 }
 
 .editable-field input {
-    width: calc(100% - 16px); /* Adjusted width to fit inside the container */
+    width: 400px; /* Adjusted width to fit inside the container */
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box; /* Ensures padding is included in total width */
 }
 
-.subjectinfo-button {
+.submit-button-container button{
     background-color: #4CAF50;
     color: white;
     padding: 10px 15px;
@@ -63,9 +63,10 @@
     border-radius: 4px;
     cursor: pointer;
     margin-top: 10px;
+    font-size: 18px;
 }
 
-.subjectinfo-button:hover {
+.submit-button-container button:hover {
     background-color: #45a049;
 }
 
