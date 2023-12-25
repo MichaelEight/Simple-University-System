@@ -3,12 +3,13 @@ import '../NavPagesStyles/Sidebar.css';
 import '../GlobalStyles.css';
 import ContentViewRegistrations from './MyDziekanatContent/ViewRegistrations';
 import ContentMyProfile from './MyDziekanatContent/MyProfile';
+import ContentSubjectInfo from './MyDziekanatContent/SubjectInfo';
 
 // Import the shared components
 import CommonMainPage from './CommonMainPage';
 
 // Define option labels
-const optionLabels = ["Sprawdź Rekrutacje", "Mój Profil"]; 
+const optionLabels = ["Sprawdź Rekrutacje", "Edytuj Przedmioty", "Mój Profil"]; 
 
 export default function MainPage({user}) {
   const [selectedContent, setSelectedContent] = useState(0);
@@ -19,7 +20,8 @@ export default function MainPage({user}) {
 
   const contentComponents = {
     0: <ContentViewRegistrations user={user}/>,
-    1: <ContentMyProfile user={user}/>,
+    1: <ContentSubjectInfo user={user}/>,
+    2: <ContentMyProfile user={user}/>,
   };
 
   return (
