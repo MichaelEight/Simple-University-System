@@ -55,7 +55,7 @@
     box-sizing: border-box; /* Ensures padding is included in total width */
 }
 
-button {
+.subjectinfo-button {
     background-color: #4CAF50;
     color: white;
     padding: 10px 15px;
@@ -65,7 +65,7 @@ button {
     margin-top: 10px;
 }
 
-button:hover {
+.subjectinfo-button:hover {
     background-color: #45a049;
 }
 

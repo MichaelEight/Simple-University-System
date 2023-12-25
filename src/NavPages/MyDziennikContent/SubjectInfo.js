@@ -123,7 +123,7 @@ export default function ContentSubjectInfo({ user }) {
                                     onChange={e => setUpdatedLiterature(e.target.value)} />
                             </div>
                             <div className="submit-button-container">
-                                <button onClick={handleSubmitChanges}>Zatwierdź zmiany</button>
+                                <button className="subjectinfo-button" onClick={handleSubmitChanges}>Zatwierdź zmiany</button>
                             </div>
                             {message && (
                                 <div className={`message ${messageType}`}>
