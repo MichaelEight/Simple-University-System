@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import '../MyIndexContent/GradesModal.css';
 import '../MyIndexContent/GradesDatatable.css';
+import './GradesStudentInfo.css';
 
 export default function ContentGrades({user}) {
   const [gradesData, setGradesData] = useState([]);
+  const [studentInfo, setStudentInfo] = useState(null);
   const [dataLoaded, setDataLoaded] = useState(false);
   const [errorWhileLoadingData, setErrorWhileLoadingData] = useState(false);
+  const [noGradesLoadedFetched, setNoGradesFetched] = useState(false);
+
   const [subjectsDetails, setSubjectsDetails] = useState({});
   const [teachersDetails, setTeachersDetails] = useState({});
   const [targetStudentIdInput, setTargetStudentIdInput] = useState('');
@@ -26,8 +30,19 @@ export default function ContentGrades({user}) {
       const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/getGradesDziekanat.php?token=${user.token}&studentid=${targetStudentIdInput}`);
 
       if (response.ok) {
-        const grades = await response.json();
-        setGradesData(grades);
+        const data = await response.json();
+        const grades = data.grades;
+        
+        setStudentInfo(data.student);
+
+        if(grades.length == 0)
+        {
+          setNoGradesFetched(true);
+        }else{
+          setNoGradesFetched(false);
+        }
+
+        setGradesData(data.grades);
 
         // Extract unique subject and teacher IDs
         const subjectIds = [...new Set(grades.map(grade => grade.subject_id))];
@@ -77,9 +92,26 @@ export default function ContentGrades({user}) {
             style={{ margin: "10px", padding: "10px", width: "200px", borderRadius: "5px", border: "1px solid #ccc", textAlign:"center" }}
           />
           <button onClick={loadGradesDataForStudent} style={{ padding: "10px 15px", backgroundColor: "#007bff", color: "white", border: "none", borderRadius: "5px", cursor: "pointer" }}>
-            Załaduj oceny studenta
+            Załaduj oceny studenta 
           </button>
         </div>
+
+        {tryToDisplay && studentInfo && (
+          <div className="dziekanat-grades-student-info">
+            <p><b>Imię i nazwisko:</b> {studentInfo.first_name} {studentInfo.last_name}</p>
+            <p><b>Email:</b> {studentInfo.id}@student.mak.pl</p>
+            <p><b>Data urodzenia:</b> {studentInfo.date_of_birth}</p>
+            <p><b>Data rozpoczęcia studiów:</b> {studentInfo.date_of_start}</p>
+            <p><b>Status:</b> {studentInfo.status}</p>
+            <p><b>Kierunek:</b> {studentInfo.major}</p>
+            <p><b>Stopień:</b> {studentInfo.degree}</p>
+            <p><b>Tryb studiów:</b> {studentInfo.study_mode}</p>
+            <p><b>Obecny semestr:</b> {studentInfo.current_semester}</p>
+            <p><b>Uzyskane ETCS:</b> {studentInfo.ECTS_gained}</p>
+            <p><b>Deficyt ECTS:</b> {studentInfo.ECTS_missing}</p>
+            <p><b>Należy do klubów:</b> {studentInfo.clubs}</p>
+          </div>
+        )}
 
         {tryToDisplay && dataLoaded && (
         <div>
@@ -117,8 +149,9 @@ export default function ContentGrades({user}) {
           </table>
         </div>
         )}
-        {!dataLoaded && errorWhileLoadingData && tryToDisplay && <p>Database error! Failed to load data!</p>}
-        {!dataLoaded && !errorWhileLoadingData && tryToDisplay && <p>Loading Data...</p>}
+        {!dataLoaded && errorWhileLoadingData && !noGradesLoadedFetched && tryToDisplay && <p>Błąd podczas ładowania danych!</p>}
+        {!dataLoaded && noGradesLoadedFetched && tryToDisplay && <p>Student nie ma wpisanych żadnych ocen!</p>}
+        {!dataLoaded && !errorWhileLoadingData && !noGradesLoadedFetched && tryToDisplay && <p>Ładowanie danych...</p>}
       </main>
     );
   }

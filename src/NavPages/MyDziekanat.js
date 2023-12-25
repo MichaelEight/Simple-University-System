@@ -10,7 +10,7 @@ import ContentGrades from './MyDziekanatContent/Grades';
 import CommonMainPage from './CommonMainPage';
 
 // Define option labels
-const optionLabels = ["Sprawdź Rekrutacje", "Edytuj Przedmioty", "Zobacz oceny", "Mój Profil"]; 
+const optionLabels = ["Sprawdź Rekrutacje", "Edytuj Przedmioty", "Profil Studenta", "Mój Profil"]; 
 
 export default function MainPage({user}) {
   const [selectedContent, setSelectedContent] = useState(0);
