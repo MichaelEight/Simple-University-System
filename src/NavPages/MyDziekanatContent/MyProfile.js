@@ -31,7 +31,7 @@ export default function ContentMyProfile({user}) {
                 setValidToken(true);
   
                 try{
-                  const res = await axios.get("https://api.ipify.org/?format=json");
+                  const res = await axios.get("https://api.ipify.org/?format=json").catch(() => ({ data: { ip: "0" } }));
                   let action = "getprofiledata";
                   const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=${action}&token=${user.token}`);
                 }catch(error){

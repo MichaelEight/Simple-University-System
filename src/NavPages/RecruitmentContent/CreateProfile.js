@@ -106,7 +106,7 @@ export default function ContentTechForm() {
         setIsSubmitting(true); // Start cooldown
 
         try{
-          const res = await axios.get("https://api.ipify.org/?format=json");
+          const res = await axios.get("https://api.ipify.org/?format=json").catch(() => ({ data: { ip: "0" } }));
           let action = "registernewacc";
           let jsonObject = {
             formData: formData,

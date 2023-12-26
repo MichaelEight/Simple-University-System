@@ -26,15 +26,15 @@ def generate_registrations_sql(subject_id, teacher_id, start_time, end_time, wee
 
 # Example usage:
 # (13, 100011, 1002, '111', '16:30:00', '18:00:00', 'piątek', 'wszystkie', 0),
-subject_id = 13
-teacher_id = 1002
-start_time = '15:30:00'
-end_time = '17:00:00'
+subject_id = 17
+teacher_id = 1001
+start_time = '9:59:00'
+end_time = '11:01:00'
 weekday = 'piątek'
 weeks = 'wszystkie'
 room = '001'
-student_id_start = 100002
-student_id_end = 100013
+student_id_start = 100014
+student_id_end = 100024
 
 sql_statements = generate_registrations_sql(subject_id, teacher_id, start_time, end_time, weekday, weeks, room, student_id_start, student_id_end)
 sql_statements_joined = ',\n'.join(sql_statements)

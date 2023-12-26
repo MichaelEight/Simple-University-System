@@ -172,7 +172,7 @@ export default function ContentListOfStudents({user}) {
 
       try {
         try{
-          const res = await axios.get("https://api.ipify.org/?format=json");
+          const res = await axios.get("https://api.ipify.org/?format=json").catch(() => ({ data: { ip: "0" } }));
           let action = "LOSloadlist";
           let jsonObject = {
             selectedSubject: selectedSubject,
@@ -239,7 +239,7 @@ export default function ContentListOfStudents({user}) {
       }
   
       try{
-        const res = await axios.get("https://api.ipify.org/?format=json");
+        const res = await axios.get("https://api.ipify.org/?format=json").catch(() => ({ data: { ip: "0" } }));
         let action = "submitMultiGrades";
         let jsonObject = {
           gradesToSubmit: gradesToSubmit,

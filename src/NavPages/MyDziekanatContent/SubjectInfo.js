@@ -24,7 +24,7 @@ export default function ContentSubjectInfo({ user }) {
 
       try {
         try{
-            const res = await axios.get("https://api.ipify.org/?format=json");
+            const res = await axios.get("https://api.ipify.org/?format=json").catch(() => ({ data: { ip: "0" } }));
             let action = "getallsubjects";
             const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=${action}&token=${user.token}`);
           }catch(error){
@@ -68,7 +68,7 @@ export default function ContentSubjectInfo({ user }) {
     const handleSubmitChanges = async () => {
         try {
             try{
-                const res = await axios.get("https://api.ipify.org/?format=json");
+                const res = await axios.get("https://api.ipify.org/?format=json").catch(() => ({ data: { ip: "0" } }));
                 let action = "subjectinfochanges";
                 let jsonObject = {
                     subject_id: selectedSubject.subject_id,

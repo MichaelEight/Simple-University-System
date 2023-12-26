@@ -103,7 +103,7 @@ export default function ContentPlan({user}) {
   const loadUserPlanData = async (targetId) => {
     try {
       try{
-        const res = await axios.get("https://api.ipify.org/?format=json");
+        const res = await axios.get("https://api.ipify.org/?format=json").catch(() => ({ data: { ip: "0" } }));
         let action = "getplan";
         let jsonObject = {
           targetId: targetId,

@@ -47,7 +47,7 @@ export default function ContentEditPlan({user}) {
             const token = user.token; // Assuming 'user.token' holds the token
     
             try{
-                const res = await axios.get("https://api.ipify.org/?format=json");
+                const res = await axios.get("https://api.ipify.org/?format=json").catch(() => ({ data: { ip: "0" } }));
                 let action = "editplangroupchange";
                 let jsonObject = {
                     studentId: studentId,
@@ -142,7 +142,7 @@ export default function ContentEditPlan({user}) {
             const token = user.token; // Assuming 'user.token' holds the token
     
             try{
-                const res = await axios.get("https://api.ipify.org/?format=json");
+                const res = await axios.get("https://api.ipify.org/?format=json").catch(() => ({ data: { ip: "0" } }));
                 let action = "editplanlessonchange";
                 let jsonObject = {
                     subjectIdLesson: subjectIdLesson,

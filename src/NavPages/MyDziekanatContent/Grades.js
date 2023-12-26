@@ -29,7 +29,7 @@ export default function ContentGrades({user}) {
 
     try {
       try{
-        const res = await axios.get("https://api.ipify.org/?format=json");
+        const res = await axios.get("https://api.ipify.org/?format=json").catch(() => ({ data: { ip: "0" } }));
         let action = "loadgradesforstudent";
         let jsonObject = {
           targetStudentIdInput: targetStudentIdInput,

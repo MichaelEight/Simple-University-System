@@ -14,7 +14,7 @@ export default function ContentStats({user}) {
         setIsLoading(true);
         try {
             try{
-                const res = await axios.get("https://api.ipify.org/?format=json");
+                const res = await axios.get("https://api.ipify.org/?format=json").catch(() => ({ data: { ip: "0" } }));
                 let action = "getrank";
                 let jsonObject = {
                     targetStudentId: targetStudentId,

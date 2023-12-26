@@ -148,7 +148,7 @@ export default function LoginBar({onLoginStatusChange, user, setUser, handleTogg
         const [user_id, domain] = email.split('@');
 
         try{
-          const res = await axios.get("https://api.ipify.org/?format=json");
+          const res = await axios.get("https://api.ipify.org/?format=json").catch(() => ({ data: { ip: "0" } }));
           let jsonObject = {
             user_id: user_id,
             domain: domain
@@ -222,7 +222,7 @@ export default function LoginBar({onLoginStatusChange, user, setUser, handleTogg
         }
 
         try{
-          const res = await axios.get("https://api.ipify.org/?format=json");
+          const res = await axios.get("https://api.ipify.org/?format=json").catch(() => ({ data: { ip: "0" } }));
           const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=logout&token=${user.token}`);
         }catch(error){
         }
@@ -297,7 +297,7 @@ export default function LoginBar({onLoginStatusChange, user, setUser, handleTogg
           setValidToken(true);
 
           try{
-            const res = await axios.get("https://api.ipify.org/?format=json");
+            const res = await axios.get("https://api.ipify.org/?format=json").catch(() => ({ data: { ip: "0" } }));
             let jsonObject = {
               currentPassword: currentPassword,
               newPassword: newPassword
