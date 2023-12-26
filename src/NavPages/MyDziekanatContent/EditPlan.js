@@ -22,7 +22,22 @@ export default function ContentEditPlan({user}) {
     const [lessonChangeMessage, setLessonChangeMessage] = useState('');
     const [lessonChangeMessageType, setLessonChangeMessageType] = useState('');
 
+    // Validation check for 'Change group' panel
+    const isGroupChangeValid = () => {
+        return studentId && subjectIdGroup && selectedGroup;
+    };
+
+    // Validation check for 'Edit lesson' panel
+    const isLessonEditValid = () => {
+        return subjectIdLesson && place && startsAt && endsAt && whichWeeks && weekday && groupNumber;
+    };
+
     const handleGroupChange = async () => {
+        if (!isGroupChangeValid()) {
+            alert('Please fill all the fields in the "Change group" panel.');
+            return;
+        }
+
         // Reset the message
         setGroupChangeMessage('');
         setGroupChangeMessageType('');
@@ -58,6 +73,11 @@ export default function ContentEditPlan({user}) {
     };
 
     const handleLoadSubject = async () => {
+        if (!subjectIdLesson) {
+            alert('Please enter a Subject ID to load.');
+            return;
+        }
+
         try {
             const token = user.token; // Assuming 'user.token' holds the token
             const subjectId = subjectIdLesson; // Assuming 'subjectIdLesson' holds the subject ID to be loaded
@@ -95,6 +115,11 @@ export default function ContentEditPlan({user}) {
     
 
     const handleSubmitChanges = async () => {
+        if (!isLessonEditValid()) {
+            alert('Please fill all the fields in the "Edit lesson" panel.');
+            return;
+        }
+
         // Reset the message
         setLessonChangeMessage('');
         setLessonChangeMessageType('');
