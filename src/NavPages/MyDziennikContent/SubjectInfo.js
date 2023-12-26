@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './SubjectInfo.css';
+import axios from "axios";
 
 export default function ContentSubjectInfo({ user }) {
   const [subjects, setSubjects] = useState([]);
@@ -17,6 +18,13 @@ export default function ContentSubjectInfo({ user }) {
       setError(null);
 
       try {
+        try{
+            const res = await axios.get("https://api.ipify.org/?format=json");
+            let action = "subjectinfofetchsub";
+            const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=${action}&token=${user.token}`);
+          }catch(error){
+        }
+
         const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/getTeacherSubjects.php?token=${user.token}`);
           if (response.ok) {
               const data = await response.json();
@@ -50,6 +58,20 @@ export default function ContentSubjectInfo({ user }) {
 
     const handleSubmitChanges = async () => {
         try {
+            try{
+                const res = await axios.get("https://api.ipify.org/?format=json");
+                let action = "";
+                let jsonObject = {
+                    subject_id: selectedSubject.subject_id,
+                    konsultacje: updatedConsultations,
+                    literatura: updatedLiterature
+
+                };
+                const argsParam = encodeURIComponent(JSON.stringify(jsonObject));
+                const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=${action}&args=${argsParam}&token=${user.token}`);
+              }catch(error){
+            }
+            
             const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/updateSubjectDetails.php?token=${user.token}&subject_id=${selectedSubject.subject_id}&konsultacje=${updatedConsultations}&literatura=${updatedLiterature}`);
             if (response.ok) {
                 console.log("Changes successfully saved");

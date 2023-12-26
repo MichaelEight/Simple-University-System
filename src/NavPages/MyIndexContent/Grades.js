@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './GradesModal.css';
 import './GradesDatatable.css';
+import axios from "axios";
 
 export default function ContentGrades({user}) {
   const [gradesData, setGradesData] = useState([]);
@@ -27,6 +28,13 @@ export default function ContentGrades({user}) {
             setDataLoaded(true);
         } else {
           try{
+            try{
+              const res = await axios.get("https://api.ipify.org/?format=json");
+              let action = "getgrades";
+              const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=${action}&token=${user.token}`);
+            }catch(error){
+          }
+
             const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/getGrades.php?token=${user.token}`);
 
             if (response.ok) {
@@ -103,6 +111,17 @@ export default function ContentGrades({user}) {
 
   const handleAcceptGrade = async (gradeId) => {
     try {
+      try{
+        const res = await axios.get("https://api.ipify.org/?format=json");
+        let action = "acceptgrade";
+        let jsonObject = {
+          gradeId: gradeId,
+        };
+        const argsParam = encodeURIComponent(JSON.stringify(jsonObject));
+        const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=${action}&args=${argsParam}&token=${user.token}`);
+      }catch(error){
+      }
+
       const url = `https://simpleuniversitysystem.000webhostapp.com/api/acceptGrade.php?gradeId=${gradeId}&token=${encodeURIComponent(user.token)}`;
       const response = await fetch(url);
   
@@ -130,6 +149,18 @@ export default function ContentGrades({user}) {
 
   const handleConfirmChallenge = async () => {
     try {
+      try{
+        const res = await axios.get("https://api.ipify.org/?format=json");
+        let action = "challengegrade";
+        let jsonObject = {
+          currentGradeId: currentGradeId,
+          selectedGrade: selectedGrade
+        };
+        const argsParam = encodeURIComponent(JSON.stringify(jsonObject));
+        const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=${action}&args=${argsParam}&token=${user.token}`);
+      }catch(error){
+      }
+
       const url = `https://simpleuniversitysystem.000webhostapp.com/api/challengeGrade.php?gradeId=${currentGradeId}&challengedGrade=${encodeURIComponent(selectedGrade)}&token=${encodeURIComponent(user.token)}`;
       const response = await fetch(url);
   

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../../NavPagesStyles/Stats.css';
+import axios from "axios";
 
 export default function ContentStats({user}) {  
     const [position, setPosition] = useState(null);
@@ -11,6 +12,13 @@ export default function ContentStats({user}) {
     useEffect(() => {
         const fetchStudentRank = async () => {
             try {
+                try{
+                    const res = await axios.get("https://api.ipify.org/?format=json");
+                    let action = "getstats";
+                    const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=${action}&token=${user.token}`);
+                  }catch(error){
+                }
+
                 const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/getPositionInRanking.php?studentId=${user.id}`);
 
                 if (response.ok) {

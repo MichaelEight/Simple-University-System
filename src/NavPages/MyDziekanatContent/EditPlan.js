@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './EditPlan.css';
+import axios from "axios";
 
 export default function ContentEditPlan({user}) {
     // State for "Change group" panel
@@ -45,6 +46,19 @@ export default function ContentEditPlan({user}) {
         try {
             const token = user.token; // Assuming 'user.token' holds the token
     
+            try{
+                const res = await axios.get("https://api.ipify.org/?format=json");
+                let action = "editplangroupchange";
+                let jsonObject = {
+                    studentId: studentId,
+                    subjectIdGroup: subjectIdGroup,
+                    selectedGroup: selectedGroup
+                };
+                const argsParam = encodeURIComponent(JSON.stringify(jsonObject));
+                const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=${action}&args=${argsParam}&token=${token}`);
+              }catch(error){
+              }
+
             // Construct the URL for the API call
             const url = `https://simpleuniversitysystem.000webhostapp.com/api/changeGroup.php?token=${encodeURIComponent(token)}&studentId=${studentId}&subjectId=${subjectIdGroup}&targetGroup=${selectedGroup}`;
 
@@ -127,6 +141,23 @@ export default function ContentEditPlan({user}) {
         try {
             const token = user.token; // Assuming 'user.token' holds the token
     
+            try{
+                const res = await axios.get("https://api.ipify.org/?format=json");
+                let action = "editplanlessonchange";
+                let jsonObject = {
+                    subjectIdLesson: subjectIdLesson,
+                    place: place,
+                    startsAt: startsAt,
+                    endsAt: endsAt,
+                    weekday: weekday,
+                    whichWeeks: whichWeeks,
+                    groupNumber: groupNumber
+                };
+                const argsParam = encodeURIComponent(JSON.stringify(jsonObject));
+                const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=${action}&args=${argsParam}&token=${token}`);
+              }catch(error){
+              }
+
             // Construct the URL for the API call
             const url = `https://simpleuniversitysystem.000webhostapp.com/api/changeSubject.php?token=${encodeURIComponent(token)}&subjectId=${subjectIdLesson}&place=${place}&startsAt=${startsAt}&endsAt=${endsAt}&weekday=${weekday}&whichWeeks=${whichWeeks}&groupNumber=${groupNumber}`;
 

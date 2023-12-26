@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../../NavPagesStyles/Stats.css';
 import './Rank.css';
+import axios from "axios";
 
 export default function ContentStats({user}) {  
     const [targetStudentId, setTargetStudentId] = useState('');
@@ -12,6 +13,17 @@ export default function ContentStats({user}) {
     const fetchStudentRank = async () => {
         setIsLoading(true);
         try {
+            try{
+                const res = await axios.get("https://api.ipify.org/?format=json");
+                let action = "getrank";
+                let jsonObject = {
+                    targetStudentId: targetStudentId,
+                };
+                const argsParam = encodeURIComponent(JSON.stringify(jsonObject));
+                const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=${action}&args=${argsParam}&token=${user.token}`);
+              }catch(error){
+            }
+
             const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/getPositionInRanking.php?studentId=${targetStudentId}`);
 
             if (response.ok) {

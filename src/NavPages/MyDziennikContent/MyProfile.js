@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../../NavPagesStyles/MyProfile.css';
 import placeholderPic from '../../Images/placeholderImage.jpeg';
+import axios from "axios";
 
 export default function ContentMyProfile({user}) {
     const [validToken, setValidToken] = useState(true);
@@ -28,6 +29,13 @@ export default function ContentMyProfile({user}) {
               if (data.valid) {
                 setValidToken(true);
   
+                try{
+                  const res = await axios.get("https://api.ipify.org/?format=json");
+                  let action = "getprofiledata";
+                  const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=${action}&token=${user.token}`);
+                }catch(error){
+                }
+
                 const dataResponse = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/userProfileData.php?token=${user.token}`);
                 if (dataResponse.ok) {
                   const userDataFromDB = await dataResponse.json();

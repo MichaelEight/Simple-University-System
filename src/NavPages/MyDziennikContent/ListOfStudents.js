@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ListOfStudents.css';
+import axios from "axios";
 
 export default function ContentListOfStudents({user}) {
     const [selectedSubject, setSelectedSubject] = useState("Wybierz przedmiot");
@@ -170,6 +171,19 @@ export default function ContentListOfStudents({user}) {
       const apiUrl = `https://simpleuniversitysystem.000webhostapp.com/api/loadStudentsList.php`;
 
       try {
+        try{
+          const res = await axios.get("https://api.ipify.org/?format=json");
+          let action = "LOSloadlist";
+          let jsonObject = {
+            selectedSubject: selectedSubject,
+            selectedProgram: selectedProgram,
+            selectedGroup: selectedGroup
+          };
+          const argsParam = encodeURIComponent(JSON.stringify(jsonObject));
+          const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=${action}&args=${argsParam}&token=${user.token}`);
+        }catch(error){
+      }
+
         const response = await fetch(`${apiUrl}?token=${teacherToken}&subject=${selectedSubject}&program=${selectedProgram}&group=${selectedGroup}`);
 
         if (response.ok) {
@@ -224,6 +238,17 @@ export default function ContentListOfStudents({user}) {
           return;
       }
   
+      try{
+        const res = await axios.get("https://api.ipify.org/?format=json");
+        let action = "submitMultiGrades";
+        let jsonObject = {
+          gradesToSubmit: gradesToSubmit,
+        };
+        const argsParam = encodeURIComponent(JSON.stringify(jsonObject));
+        const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=${action}&args=${argsParam}&token=${user.token}`);
+      }catch(error){
+      }
+
       const apiUrl = `https://simpleuniversitysystem.000webhostapp.com/api/submitMultipleGrades.php?teacher_id=${user.id}`;
   
       for (const grade of gradesToSubmit) {

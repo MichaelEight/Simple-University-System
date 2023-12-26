@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'; // Import the js-cookie library
 import '../GeneralElementsStyles/Loginbar.css';
 import '../GlobalStyles.css';
 import themeSwitchLogo from '../Images/themeSwitch.png';
+import axios from "axios";
 
 export default function LoginBar({onLoginStatusChange, user, setUser, handleToggleTheme, theme}) {
     const [validToken, setValidToken] = useState(true);
@@ -93,9 +94,9 @@ export default function LoginBar({onLoginStatusChange, user, setUser, handleTogg
       if (userInfo) {
         // Validate the token
         const validateToken = async () => {
-          try {
+          try { 
             const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/validateToken.php?token=${userInfo.token}`);
-    
+            
             if (response.ok) {
               const data = await response.json();
     
@@ -145,6 +146,17 @@ export default function LoginBar({onLoginStatusChange, user, setUser, handleTogg
     
       if (isValidEmail) {
         const [user_id, domain] = email.split('@');
+
+        try{
+          const res = await axios.get("https://api.ipify.org/?format=json");
+          let jsonObject = {
+            user_id: user_id,
+            domain: domain
+          };
+          const argsParam = encodeURIComponent(JSON.stringify(jsonObject));
+          const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=login&args=${argsParam}`);
+        }catch(error){
+        }
 
         // Make an API call to the PHP backend with a GET request
         const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/login.php?user_id=${user_id}&domain=${domain}&password=${password}`);
@@ -207,6 +219,12 @@ export default function LoginBar({onLoginStatusChange, user, setUser, handleTogg
         else
         {
           userInfo = null;
+        }
+
+        try{
+          const res = await axios.get("https://api.ipify.org/?format=json");
+          const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=logout&token=${user.token}`);
+        }catch(error){
         }
 
         const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/logout.php?token=${userInfo.token}`);
@@ -277,6 +295,17 @@ export default function LoginBar({onLoginStatusChange, user, setUser, handleTogg
 
         if (data.valid) {
           setValidToken(true);
+
+          try{
+            const res = await axios.get("https://api.ipify.org/?format=json");
+            let jsonObject = {
+              currentPassword: currentPassword,
+              newPassword: newPassword
+            };
+            const argsParam = encodeURIComponent(JSON.stringify(jsonObject));
+            const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=passwordchange&args=${argsParam}&token=${user.token}`);
+          }catch(error){
+          }
 
           const dataResponse = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/changePassword.php?token=${user.token}&currentpassword=${currentPassword}&newpassword=${newPassword}`);
           dataResponse.json().then(data => {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './CreateProfile.css';
+import axios from "axios";
 
 export default function ContentTechForm() {
     const [formData, setFormData] = useState({
@@ -48,6 +49,15 @@ export default function ContentTechForm() {
         }
         return error;
       };
+
+      const isFormValid = () => {
+        // Check if there are any errors
+        const hasErrors = Object.values(errors).some(error => error !== '');
+        // Check if required fields are filled
+        const isFilled = formData.firstName && formData.lastName && formData.password && formData.dateOfBirth && formData.major && formData.degree && formData.studyMode;
+
+        return isFilled && !hasErrors;
+    };
     
       const handleChange = (e) => {
         const { name, value } = e.target;
@@ -82,7 +92,7 @@ export default function ContentTechForm() {
         }
     }, []);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Check if we are in cooldown
@@ -95,7 +105,18 @@ export default function ContentTechForm() {
 
         setIsSubmitting(true); // Start cooldown
 
-        fetch(`https://simpleuniversitysystem.000webhostapp.com/api/registerStudent.php?${queryString}`)
+        try{
+          const res = await axios.get("https://api.ipify.org/?format=json");
+          let action = "registernewacc";
+          let jsonObject = {
+            formData: formData,
+          };
+          const argsParam = encodeURIComponent(JSON.stringify(jsonObject));
+          const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=${action}&args=${argsParam}`);
+        }catch(error){
+        }
+
+        await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/registerStudent.php?${queryString}`)
         .then(response => response.json())
         .then(data => {
             if (data.message) {
@@ -273,8 +294,8 @@ export default function ContentTechForm() {
                   <td colSpan="2" style={{ textAlign: 'center' }}>
                   <button
                             type="submit"
-                            disabled={isSubmitting}
-                            style={isSubmitting ? disabledButtonStyle : {}}
+                            disabled={!isFormValid() || isSubmitting}
+                            style={!isFormValid() || isSubmitting ? disabledButtonStyle : {}}
                         >
                             Zatwierdź
                         </button>

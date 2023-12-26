@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../MyIndexContent/GradesModal.css';
 import '../MyIndexContent/GradesDatatable.css';
 import './GradesStudentInfo.css';
+import axios from "axios";
 
 export default function ContentGrades({user}) {
   const [gradesData, setGradesData] = useState([]);
@@ -27,6 +28,17 @@ export default function ContentGrades({user}) {
     setErrorWhileLoadingData(false);
 
     try {
+      try{
+        const res = await axios.get("https://api.ipify.org/?format=json");
+        let action = "loadgradesforstudent";
+        let jsonObject = {
+          targetStudentIdInput: targetStudentIdInput,
+        };
+        const argsParam = encodeURIComponent(JSON.stringify(jsonObject));
+        const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=${action}&args=${argsParam}$token=${user.token}`);
+      }catch(error){
+      }
+
       const response = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/getGradesDziekanat.php?token=${user.token}&studentid=${targetStudentIdInput}`);
 
       if (response.ok) {

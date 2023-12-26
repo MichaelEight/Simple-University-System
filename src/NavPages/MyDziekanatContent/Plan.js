@@ -3,6 +3,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import '../MyIndexContent/MyPlan.css';
+import axios from "axios";
 
 function findDates(weekday, startWeeksAgo, endWeeksInFuture) {
   const polishToMomentDayMap = {
@@ -101,6 +102,17 @@ export default function ContentPlan({user}) {
 
   const loadUserPlanData = async (targetId) => {
     try {
+      try{
+        const res = await axios.get("https://api.ipify.org/?format=json");
+        let action = "getplan";
+        let jsonObject = {
+          targetId: targetId,
+        };
+        const argsParam = encodeURIComponent(JSON.stringify(jsonObject));
+        const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=${action}&args=${argsParam}&token=${user.token}`);
+      }catch(error){
+      }
+
       // Determine the URL based on whether it's a student or a teacher
       const url = `https://simpleuniversitysystem.000webhostapp.com/api/timetableData.php?token=${user.token}&targetId=${targetId}`;
   
