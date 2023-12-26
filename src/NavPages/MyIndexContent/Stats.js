@@ -6,6 +6,8 @@ export default function ContentStats({user}) {
     const [percentile, setPercentile] = useState(null);
     const [totalStudents, setTotalStudents] = useState(null);
 
+    const isNullOrUndefined = (value) => value === null || value === undefined;
+
     useEffect(() => {
         const fetchStudentRank = async () => {
             try {
@@ -44,7 +46,7 @@ export default function ContentStats({user}) {
                     {position !== null ? 
                         <p>Jesteś w top {position} studentów na podstawie ocen, z {totalStudents} studentów w sumie.</p> : 
                         <p>Pozycja w rankingu niedostępna!</p>}
-                    <p>Twoje oceny są lepsze niż {percentile.toFixed(2)}% innych studentów.</p>
+                    <p>Twoje oceny są lepsze niż {!isNaN(percentile) && !isNullOrUndefined(percentile) ? percentile.toFixed(2) : "n/a"}% innych studentów.</p>
                 </div>
             </div>
         </main>
