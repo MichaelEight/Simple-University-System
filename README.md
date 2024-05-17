@@ -15,3 +15,11 @@ Make sure you have <code>npm</code> installed! Check it by opening console (cmd)
 7. Type <code>npm start</code>
 
 Powered by **Pierwsze Pietro ©**
+
+![image](https://github.com/MichaelEight/Simple-University-System/assets/56772277/06940fe2-80f1-4375-98be-796be5b0e5f9)
+
+![image](https://github.com/MichaelEight/Simple-University-System/assets/56772277/3e301efb-fb14-4ba8-9b2b-27a3c4bff01f)
+
+![image](https://github.com/MichaelEight/Simple-University-System/assets/56772277/46a8755c-8cb2-4436-b11e-aa7e1f21452a)
+
+![image](https://github.com/MichaelEight/Simple-University-System/assets/56772277/63482d71-63e1-44f0-9758-a5276cacb3f2)
